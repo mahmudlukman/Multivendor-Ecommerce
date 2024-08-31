@@ -5,7 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { errorMiddleware } from './middleware/error';
 import authRouter from './routes/auth.route';
-// import userRouter from './routes/user.route';
+import userRouter from './routes/user.route';
 // import courseRouter from './routes/course.route';
 // import orderRouter from './routes/order.route';
 // import notificationRouter from './routes/notification.route';
@@ -30,7 +30,7 @@ app.use(
 app.use(
   '/api/v1',
   authRouter,
-  // userRouter,
+  userRouter,
   // courseRouter,
   // orderRouter,
   // notificationRouter,

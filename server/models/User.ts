@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 interface Address {
+  [x: string]: any;
   country?: string;
   city?: string;
   address1?: string;

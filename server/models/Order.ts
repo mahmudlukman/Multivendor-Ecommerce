@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model} from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface PaymentInfo {
   id?: string;
@@ -61,6 +61,7 @@ const OrderSchema: Schema<IOrder> = new Schema(
   },
   { timestamps: true }
 );
+
 
 const Order: Model<IOrder> = mongoose.model('Order', OrderSchema);
 export default Order;
