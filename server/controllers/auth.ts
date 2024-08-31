@@ -158,14 +158,6 @@ export const logoutUser = catchAsyncError(
   }
 );
 
-// social auth
-interface ISocialAuthBody {
-  email: string;
-  name: string;
-  avatar: string;
-}
-
-
 // forgot password
 export const forgotPassword = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -22,7 +22,7 @@ export interface IShop extends Document {
     url: string;
   };
   zipCode: number;
-  withdrawMethod?: object;
+  withdrawMethod?: object | null;
   availableBalance: number;
   transactions: Transaction[];
   resetPasswordToken?: string;
