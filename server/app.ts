@@ -4,6 +4,7 @@ export const app = express();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { errorMiddleware } from './middleware/error';
+import authRouter from './routes/auth.route';
 // import userRouter from './routes/user.route';
 // import courseRouter from './routes/course.route';
 // import orderRouter from './routes/order.route';
@@ -26,15 +27,16 @@ app.use(
 );
 
 // routes
-// app.use(
-//   '/api/v1',
-//   userRouter,
-//   courseRouter,
-//   orderRouter,
-//   notificationRouter,
-//   analyticsRouter,
-//   layoutRouter
-// );
+app.use(
+  '/api/v1',
+  authRouter,
+  // userRouter,
+  // courseRouter,
+  // orderRouter,
+  // notificationRouter,
+  // analyticsRouter,
+  // layoutRouter
+);
 
 // testing API
 app.get('/test', (req: Request, res: Response, next: NextFunction) => {

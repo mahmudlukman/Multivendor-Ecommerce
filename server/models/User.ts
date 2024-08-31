@@ -11,7 +11,7 @@ interface Address {
   addressType?: string;
 }
 
-interface IUser extends Document {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
@@ -37,6 +37,7 @@ const UserSchema: Schema<IUser> = new Schema(
     email: {
       type: String,
       required: [true, 'Please enter your email!'],
+      unique: true
     },
     password: {
       type: String,
@@ -76,11 +77,9 @@ const UserSchema: Schema<IUser> = new Schema(
     avatar: {
       public_id: {
         type: String,
-        required: true,
       },
       url: {
         type: String,
-        required: true,
       },
     },
     resetPasswordToken: String,

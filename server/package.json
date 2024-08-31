@@ -33,5 +33,9 @@
     "paystack": "^2.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/nodemailer": "^6.4.15"
   }
 }

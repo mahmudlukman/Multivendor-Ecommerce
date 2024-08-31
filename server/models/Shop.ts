@@ -9,7 +9,7 @@ interface Transaction {
   updatedAt?: Date;
 }
 
-interface IShop extends Document {
+export interface IShop extends Document {
   name: string;
   email: string;
   password: string;
