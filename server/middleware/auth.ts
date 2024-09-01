@@ -56,7 +56,7 @@ export const isAdmin = (...roles: string[]) => {
     if (!roles.includes(req.user?.role || '')) {
       return next(
         new ErrorHandler(
-          `Role: ${req.user?.role} is not allowed to access this resources`,
+          'You are not allowed to access this resources',
           403
         )
       );
@@ -64,3 +64,18 @@ export const isAdmin = (...roles: string[]) => {
     next();
   };
 };
+
+// export const isAdmin = () => {
+//   return (req: Request, res: Response, next: NextFunction) => {
+//     if (req.user?.role !== 'admin') {
+//       return next(
+//         new ErrorHandler(
+//           'You are not allowed to access this resource',
+//           403
+//         )
+//       );
+//     }
+//     next();
+//   };
+// };
+

@@ -6,6 +6,7 @@ import {
   deleteShop,
   deleteWithdrawMethod,
   getAllShops,
+  getShopById,
   getShopInfo,
   loginShop,
   logoutShop,
@@ -20,9 +21,9 @@ const shopRouter = express.Router();
 shopRouter.post('/create-shop', createShop);
 shopRouter.post('/activate-shop', activateShop);
 shopRouter.post('/login-shop', loginShop);
-shopRouter.get('/seller', isSeller, getShopInfo);
-shopRouter.get('/logout-shop', isAuthenticated, logoutShop);
-shopRouter.get('/shop-info/:id', getShopInfo);
+shopRouter.get('/my-shop', isSeller, getShopInfo);
+shopRouter.get('/logout-shop', isSeller, logoutShop);
+shopRouter.get('/shop-info/:id', getShopById);
 shopRouter.put('/update-shop-info', isSeller, updateShopInfo);
 shopRouter.put('/update-shop-password', isSeller, updateShopPassword);
 

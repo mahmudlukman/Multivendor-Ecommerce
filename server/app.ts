@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import { errorMiddleware } from './middleware/error';
 import authRouter from './routes/auth.route';
 import userRouter from './routes/user.route';
-// import courseRouter from './routes/course.route';
+import shopRouter from './routes/shop.route';
 // import orderRouter from './routes/order.route';
 // import notificationRouter from './routes/notification.route';
 // import analyticsRouter from './routes/analytics.route';
@@ -31,7 +31,7 @@ app.use(
   '/api/v1',
   authRouter,
   userRouter,
-  // courseRouter,
+  shopRouter,
   // orderRouter,
   // notificationRouter,
   // analyticsRouter,

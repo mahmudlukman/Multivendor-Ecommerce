@@ -459,6 +459,34 @@ export const getAllShops = catchAsyncError(
     }
   }
 );
+// export const getAllShops = catchAsyncError(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+      
+//       let shops;
+
+//       if (req.user?.role === 'admin') {
+//         // Admins can see all shops
+//         shops = await Shop.find().sort({ createdAt: -1 });
+//       } else if (req.user?.role === 'seller') {
+//         // Sellers can only see their own shop
+//         shops = await Shop.find({ _id: req.seller?._id });
+//       } else {
+//         return next(
+//           new ErrorHandler('You are not allowed to access this resource', 403)
+//         );
+//       }
+
+//       res.status(200).json({
+//         success: true,
+//         shops,
+//       });
+//     } catch (error: any) {
+//       return next(new ErrorHandler(error.message, 400));
+//     }
+//   }
+// );
+
 
 // Delete user --- only for admin
 export const deleteShop = catchAsyncError(
