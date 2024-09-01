@@ -8,7 +8,7 @@ import authRouter from './routes/auth.route';
 import userRouter from './routes/user.route';
 import shopRouter from './routes/shop.route';
 import productRouter from './routes/product.route';
-// import notificationRouter from './routes/notification.route';
+import orderRouter from './routes/order.route';
 // import analyticsRouter from './routes/analytics.route';
 // import layoutRouter from './routes/layout.route';
 
@@ -33,7 +33,7 @@ app.use(
   userRouter,
   shopRouter,
   productRouter,
-  // notificationRouter,
+  orderRouter,
   // analyticsRouter,
   // layoutRouter
 );
