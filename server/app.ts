@@ -9,7 +9,7 @@ import userRouter from './routes/user.route';
 import shopRouter from './routes/shop.route';
 import productRouter from './routes/product.route';
 import orderRouter from './routes/order.route';
-// import analyticsRouter from './routes/analytics.route';
+import eventRouter from './routes/event.route';
 // import layoutRouter from './routes/layout.route';
 
 // body parser
@@ -34,7 +34,7 @@ app.use(
   shopRouter,
   productRouter,
   orderRouter,
-  // analyticsRouter,
+  eventRouter,
   // layoutRouter
 );
 
