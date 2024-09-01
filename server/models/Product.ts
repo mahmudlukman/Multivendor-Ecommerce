@@ -6,7 +6,7 @@ interface Image {
 }
 
 interface Review {
-  user: object;
+  user: { _id: mongoose.Types.ObjectId };
   rating: number;
   comment: string;
   productId: string;
@@ -74,15 +74,19 @@ const ProductSchema: Schema<IProduct> = new Schema(
       {
         user: {
           type: Object,
+          required: true,
         },
         rating: {
           type: Number,
+          required: true,
         },
         comment: {
           type: String,
+          required: true,
         },
         productId: {
           type: String,
+          required: true,
         },
         createdAt: {
           type: Date,
