@@ -11,6 +11,7 @@ import productRouter from './routes/product.route';
 import orderRouter from './routes/order.route';
 import eventRouter from './routes/event.route';
 import couponCodeRouter from './routes/couponCode.route';
+import conversationRouter from './routes/conversation.route';
 
 // body parser
 app.use(express.json({ limit: '50mb' }));
@@ -35,7 +36,8 @@ app.use(
   productRouter,
   orderRouter,
   eventRouter,
-  couponCodeRouter
+  couponCodeRouter,
+  conversationRouter
 );
 
 // testing API

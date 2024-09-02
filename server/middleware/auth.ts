@@ -51,12 +51,16 @@ export const isSeller = catchAsyncError(
 );
 
 // validate user role
-export const isAdmin = (...roles: string[]) => {
+export const authorizeRoles = (...roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(new ErrorHandler('User not authenticated', 401));
+    }
+    
     if (!roles.includes(req.user?.role || '')) {
       return next(
         new ErrorHandler(
-          'You are not allowed to access this resources',
+          `Role (${req.user?.role}) is not allowed to access this resource`,
           403
         )
       );
@@ -78,4 +82,3 @@ export const isAdmin = (...roles: string[]) => {
 //     next();
 //   };
 // };
-

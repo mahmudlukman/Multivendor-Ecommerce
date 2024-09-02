@@ -6,7 +6,7 @@ import {
   getEvents,
   getShopEvents,
 } from '../controllers/event';
-import { isAdmin, isAuthenticated } from '../middleware/auth';
+import { authorizeRoles, isAuthenticated } from '../middleware/auth';
 
 const eventRouter = express.Router();
 
@@ -16,8 +16,8 @@ eventRouter.get('/shop-events/:id', getShopEvents);
 eventRouter.delete('/delete-shop-event/:id', deleteShopEvent);
 eventRouter.get(
   '/all-events',
-  // isAuthenticated,
-  // isAdmin('admin'),
+  isAuthenticated,
+  authorizeRoles('admin'),
   getAllEvents
 );
 

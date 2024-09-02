@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAdmin, isAuthenticated, isSeller } from '../middleware/auth';
+import { authorizeRoles, isAuthenticated, isSeller } from '../middleware/auth';
 import {
   activateShop,
   createShop,
@@ -29,12 +29,12 @@ shopRouter.put('/update-shop-password', isSeller, updateShopPassword);
 
 shopRouter.put('/update-shop-avatar', isSeller, updateShopAvatar);
 
-shopRouter.get('/get-shops', isAuthenticated, isAdmin('admin'), getAllShops);
+shopRouter.get('/get-shops', isAuthenticated, authorizeRoles('admin'), getAllShops);
 
 shopRouter.delete(
   '/delete-shop/:id',
   isAuthenticated,
-  isAdmin('admin'),
+  authorizeRoles('admin'),
   deleteShop
 );
 
