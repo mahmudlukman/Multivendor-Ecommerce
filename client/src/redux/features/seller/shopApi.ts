@@ -72,14 +72,15 @@ export const shopApi = apiSlice.injectEndpoints({
         credentials: 'include' as const,
       }),
     }),
-    updateUserAddress: builder.mutation({
-      query: () => ({
-        url: 'update-user-address',
-        method: 'PUT',
-        credentials: 'include' as const,
-      }),
-    }),
   }),
 });
 
-export const {} = shopApi;
+export const {
+  useDeleteShopMutation,
+  useDeleteWithdrawMethodMutation,
+  useGetAllShopsQuery,
+  useGetShopQuery,
+  useUpdateShopAvatarMutation,
+  useUpdateShopInfoMutation, useUpdateShopPasswordMutation,
+  useUpdateWithdrawMethodMutation
+} = shopApi;
