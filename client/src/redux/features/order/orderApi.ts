@@ -70,5 +70,5 @@ export const {
   useGetAllUserOrdersQuery,
   useOrderRefundRequestMutation,
   useOrderRefundSuccessMutation,
-  useUpdateOrderStatusMutation
+  useUpdateOrderStatusMutation,
 } = orderApi;
