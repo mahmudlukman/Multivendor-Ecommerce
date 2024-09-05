@@ -443,6 +443,7 @@ export const getShopById = catchAsyncError(
     }
   }
 );
+
 // get all users --- only for admin
 export const getAllShops = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {

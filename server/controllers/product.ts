@@ -103,6 +103,21 @@ export const getAllProducts = catchAsyncError(
   }
 );
 
+// get product by Id
+export const getProduct = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const product = await Product.findById(req.params.id);
+      res.status(201).json({
+        success: true,
+        product,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
 // Review product
 interface ReviewProductBody {
   user: object;
