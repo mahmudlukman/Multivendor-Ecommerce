@@ -1,6 +1,13 @@
 import './App.css'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  LoginPage,
+  SignupPage,
+  ActivationPage,
+  HomePage,
+  SellerActivationPage,
+} from "./routes/Routes";
 
 const App = () => {
   const { user } = useSelector((state: any) => state.auth);
