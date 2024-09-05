@@ -5,7 +5,7 @@ import { sellerLoggedIn } from '../sellerAuth/sellerAuthSlice';
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.NEXT_PUBLIC_SERVER_URI,
+    baseUrl: import.meta.env.VITE_PUBLIC_SERVER_URI,
   }),
   endpoints: (builder) => ({
     loadUser: builder.query({

@@ -2,11 +2,11 @@ import './App.css'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  LoginPage,
-  SignupPage,
-  ActivationPage,
+  // LoginPage,
+  // SignupPage,
+  // ActivationPage,
   HomePage,
-  SellerActivationPage,
+  // SellerActivationPage,
 } from "./routes/Routes";
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
       <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route
           path="/activation/:activation_token"
@@ -26,7 +26,7 @@ const App = () => {
         <Route
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   )
