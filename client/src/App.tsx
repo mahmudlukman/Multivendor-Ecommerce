@@ -8,6 +8,7 @@ import {
   HomePage,
   // SellerActivationPage,
 } from "./routes/Routes";
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const { user } = useSelector((state: any) => state.auth);
@@ -31,6 +32,7 @@ const App = () => {
           element={<SellerActivationPage />}
         /> */}
       </Routes>
+      <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>
   )
 }
