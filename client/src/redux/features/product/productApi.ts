@@ -18,15 +18,15 @@ export const productApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllProducts: builder.query({
-      query: (id) => ({
-        url: `all-products/${id}`,
+      query: () => ({
+        url: 'all-products',
         method: 'GET',
         credentials: 'include' as const,
       }),
     }),
     getProduct: builder.query({
-      query: () => ({
-        url: 'all-orders',
+      query: (id) => ({
+        url: `product/${id}`,
         method: 'GET',
         credentials: 'include' as const,
       }),
