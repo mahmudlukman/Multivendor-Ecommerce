@@ -1,4 +1,4 @@
-import './App.css'
+// import './App.css'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
@@ -11,6 +11,9 @@ import {
 
 const App = () => {
   const { user } = useSelector((state: any) => state.auth);
+  // const { isSeller } = useSelector((state: any) => state.seller);
+
+  // console.log(user, isSeller)
 
 
   return (
