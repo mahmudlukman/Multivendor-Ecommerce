@@ -1,7 +1,7 @@
-import React from "react";
-import { useGetAllProductsQuery } from "../../../redux/features/product/productApi";
-import styles from "../../../styles/styles";
-import ProductCard from "../ProductCard/ProductCard";
+import { FC } from 'react';
+import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
+import styles from '../../../styles/styles';
+import ProductCard from '../ProductCard/ProductCard';
 
 // Define the shape of a product
 interface Shop {
@@ -21,7 +21,7 @@ interface Product {
   ratings: number;
 }
 
-const FeaturedProduct: React.FC = () => {
+const FeaturedProduct: FC = () => {
   const { data: allProducts, isLoading, isError } = useGetAllProductsQuery({});
 
   if (isLoading) {

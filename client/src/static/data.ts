@@ -115,7 +115,7 @@ export const categoriesData = [
     id: 7,
     title: 'Pet Care',
     subTitle: '',
-    image_Url: 'https://cdn.openpr.com/T/c/Tc15444071_g.jpg',
+    image_Url: 'https://images-platform.99static.com/xR0nNxTixk8vp66Tog0m4WygnzQ=/142x160:1276x1294/500x500/top/smart/99designs-contests-attachments/102/102381/attachment_102381648',
   },
   {
     id: 8,
