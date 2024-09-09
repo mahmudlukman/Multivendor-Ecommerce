@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   LoginPage,
-  // SignupPage,
+  SignupPage,
   // ActivationPage,
   HomePage,
   // SellerActivationPage,
@@ -21,7 +21,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/sign-up" element={<SignupPage />} /> */}
+        <Route path="/sign-up" element={<SignupPage />} />
         {/* <Route
           path="/activation/:activation_token"
           element={<ActivationPage />}

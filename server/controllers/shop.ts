@@ -43,7 +43,7 @@ export const createShop = catchAsyncError(
 
       const data = { shop: { name: shop.name }, activationUrl };
       const html = await ejs.renderFile(
-        path.join(__dirname, '../mails/activation-mail.ejs'),
+        path.join(__dirname, '../mails/shop-activation-mail.ejs'),
         data
       );
 
@@ -463,7 +463,7 @@ export const getAllShops = catchAsyncError(
 // export const getAllShops = catchAsyncError(
 //   async (req: Request, res: Response, next: NextFunction) => {
 //     try {
-      
+
 //       let shops;
 
 //       if (req.user?.role === 'admin') {
@@ -487,7 +487,6 @@ export const getAllShops = catchAsyncError(
 //     }
 //   }
 // );
-
 
 // Delete user --- only for admin
 export const deleteShop = catchAsyncError(

@@ -14,7 +14,6 @@ interface ICreateUser {
   name: string;
   email: string;
   password: string;
-  avatar?: string;
 }
 
 export const createUser = catchAsyncError(
@@ -34,7 +33,7 @@ export const createUser = catchAsyncError(
       };
       const activationToken = createActivationToken(user);
 
-      const activationUrl = `http://localhost:3000/new-verification?token=${activationToken}`;
+      const activationUrl = `http://localhost:5173/activation?token=${activationToken}`;
 
       const data = { user: { name: user.name }, activationUrl };
       const html = await ejs.renderFile(
