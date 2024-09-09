@@ -1,13 +1,13 @@
 // import './App.css'
-import { useSelector } from 'react-redux'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
-  // LoginPage,
+  LoginPage,
   // SignupPage,
   // ActivationPage,
   HomePage,
   // SellerActivationPage,
-} from "./routes/Routes";
+} from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
 
 const App = () => {
@@ -16,25 +16,24 @@ const App = () => {
 
   // console.log(user, isSeller)
 
-
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<HomePage />} />
-        {/* <Route path="/login" element={<LoginPage />} />
-        <Route path="/sign-up" element={<SignupPage />} />
-        <Route
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/sign-up" element={<SignupPage />} /> */}
+        {/* <Route
           path="/activation/:activation_token"
           element={<ActivationPage />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         /> */}
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;
