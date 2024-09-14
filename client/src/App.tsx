@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   LoginPage,
   SignupPage,
-  // ActivationPage,
+  ActivationPage,
   HomePage,
   // SellerActivationPage,
 } from './routes/Routes';
@@ -22,10 +22,10 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
-        {/* <Route
-          path="/activation/:activation_token"
+        <Route
+          path="/activation"
           element={<ActivationPage />}
-        /> */}
+        />
         {/* <Route
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
