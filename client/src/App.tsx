@@ -9,6 +9,7 @@ import {
   // SellerActivationPage,
 } from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 const App = () => {
   const { user } = useSelector((state: any) => state.auth);
@@ -25,6 +26,10 @@ const App = () => {
         <Route
           path="/activation"
           element={<ActivationPage />}
+        />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPasswordPage />}
         />
         {/* <Route
           path="/seller/activation/:activation_token"

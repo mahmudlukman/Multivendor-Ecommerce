@@ -105,4 +105,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useActivationMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation
 } = authApi;
