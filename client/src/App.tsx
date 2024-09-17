@@ -1,18 +1,19 @@
 // import './App.css'
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   LoginPage,
   SignupPage,
   ActivationPage,
   HomePage,
+  ForgotPasswordPage,
+  ResetPasswordPage
   // SellerActivationPage,
 } from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 const App = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  // const { user } = useSelector((state: any) => state.auth);
   // const { isSeller } = useSelector((state: any) => state.seller);
 
   // console.log(user, isSeller)
@@ -30,6 +31,10 @@ const App = () => {
         <Route
           path="/forgot-password"
           element={<ForgotPasswordPage />}
+        />
+        <Route
+          path="/reset-password"
+          element={<ResetPasswordPage />}
         />
         {/* <Route
           path="/seller/activation/:activation_token"

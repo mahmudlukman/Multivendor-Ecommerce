@@ -174,7 +174,7 @@ export const forgotPassword = catchAsyncError(
 
       const resetToken = createActivationToken(user);
 
-      const resetUrl = `http://localhost:3000/new-password?token=${resetToken}&id=${user._id}`;
+      const resetUrl = `http://localhost:5173/reset-password?token=${resetToken}&id=${user._id}`;
 
       const data = { user: { name: user.name }, resetUrl };
       const html = await ejs.renderFile(
@@ -213,7 +213,7 @@ export const resetPassword = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { newPassword } = req.body as IResetPassword;
-      const { id } = req.params;
+      const { id } = req.query;
 
       if (!id) {
         return next(new ErrorHandler('No user ID provided!', 400));

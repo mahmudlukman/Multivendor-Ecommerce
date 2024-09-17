@@ -15,6 +15,6 @@ authRouter.post('/activate-user', activateUser);
 authRouter.post('/login', loginUser);
 authRouter.get('/logout', isAuthenticated, logoutUser);
 authRouter.post('/forgot-password', forgotPassword);
-authRouter.post('/reset-password/:id', resetPassword);
+authRouter.post('/reset-password/', resetPassword);
 
 export default authRouter;

@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useState } from 'react';
 import styles from '../styles/styles';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForgotPasswordMutation } from '../redux/features/auth/authApi';
 import { toast } from 'react-hot-toast';
 import { BeatLoader } from 'react-spinners';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
-  const [forgotPassword, { isLoading, isSuccess }] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -23,20 +22,6 @@ const ForgotPasswordPage = () => {
     }
     await forgotPassword(data);
   };
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     const message = data?.message || 'Welcome';
-  //     toast.success(message);
-  //     navigate('/');
-  //   }
-  //   if (error) {
-  //     if ('data' in error) {
-  //       const errorData = error as any;
-  //       toast.error(errorData.data.message);
-  //     }
-  //   }
-  // }, [isSuccess, error]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -67,30 +52,6 @@ const ForgotPasswordPage = () => {
                 />
               </div>
             </div>
-            {/* <div className={`${styles.noramlFlex} justify-between`}>
-              <div className={`${styles.noramlFlex}`}>
-                <input
-                  type="checkbox"
-                  name="remember-me"
-                  id="remember-me"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-              <div className="text-sm">
-                <a
-                  href=".forgot-password"
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  Go back to login
-                </a>
-              </div>
-            </div> */}
             <div>
               <button
                 type="submit"
