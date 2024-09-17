@@ -7,7 +7,8 @@ import {
   ActivationPage,
   HomePage,
   ForgotPasswordPage,
-  ResetPasswordPage
+  ResetPasswordPage,
+  ProductsPage
   // SellerActivationPage,
 } from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
@@ -40,6 +41,11 @@ const App = () => {
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         /> */}
+        <Route path="/products" element={<ProductsPage />} />
+        {/* <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/best-selling" element={<BestSellingPage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/faq" element={<FAQPage />} /> */}
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>

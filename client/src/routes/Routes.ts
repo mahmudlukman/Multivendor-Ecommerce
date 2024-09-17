@@ -4,7 +4,7 @@ import ActivationPage from "../pages/ActivationPage";
 import HomePage from "../pages/HomePage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
-// import ProductsPage from "../pages/ProductsPage";
+import ProductsPage from "../pages/ProductsPage";
 // import BestSellingPage from "../pages/BestSellingPage";
 // import EventsPage from "../pages/EventsPage";
 // import FAQPage from "../pages/FAQPage";
@@ -27,7 +27,7 @@ export {
     ForgotPasswordPage,
     ResetPasswordPage,
     HomePage,
-    // ProductsPage,
+    ProductsPage,
     // BestSellingPage,
     // EventsPage,
     // FAQPage,
