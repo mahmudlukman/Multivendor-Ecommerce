@@ -8,7 +8,8 @@ import {
   HomePage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  ProductsPage
+  ProductsPage,
+  BestSellingPage
   // SellerActivationPage,
 } from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
@@ -42,10 +43,10 @@ const App = () => {
           element={<SellerActivationPage />}
         /> */}
         <Route path="/products" element={<ProductsPage />} />
-        {/* <Route path="/product/:id" element={<ProductDetailsPage />} />
+        {/* <Route path="/product/:id" element={<ProductDetailsPage />} /> */}
         <Route path="/best-selling" element={<BestSellingPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/faq" element={<FAQPage />} /> */}
+        {/* <Route path="/events" element={<EventsPage />} /> */}
+        {/* <Route path="/faq" element={<FAQPage />} /> */}
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>
