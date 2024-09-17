@@ -10,7 +10,8 @@ import {
   ResetPasswordPage,
   ProductsPage,
   BestSellingPage,
-  EventsPage
+  EventsPage,
+  FAQPage
   // SellerActivationPage,
 } from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
@@ -47,7 +48,7 @@ const App = () => {
         {/* <Route path="/product/:id" element={<ProductDetailsPage />} /> */}
         <Route path="/best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
-        {/* <Route path="/faq" element={<FAQPage />} /> */}
+        <Route path="/faq" element={<FAQPage />} />
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>
