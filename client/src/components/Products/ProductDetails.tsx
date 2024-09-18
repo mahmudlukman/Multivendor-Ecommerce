@@ -1,42 +1,94 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 import {
   AiFillHeart,
   AiOutlineHeart,
   AiOutlineMessage,
   AiOutlineShoppingCart,
-} from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getAllProductsShop } from "../../redux/actions/product";
-import { server } from "../../server";
-import styles from "../../styles/styles";
+} from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
+import { useGetAllProductsInShopQuery } from '../../redux/features/product/productApi';
+import styles from '../../styles/styles';
 import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../../redux/actions/wishlist";
-import { addTocart } from "../../redux/actions/cart";
-import { toast } from "react-hot-toast";
-import Ratings from "./Ratings";
-import axios from "axios";
+  useAddToWhishListMutation,
+  useRemoveWhishListMutation,
+} from '../../redux/features/wishlist/wishlistApi';
+import { useAddToCartMutation } from '../../redux/features/cart/cartApi';
+import { useCreateConversationMutation } from '../../redux/features/conversation/conversationApi';
+import { toast } from 'react-hot-toast';
+import Ratings from './Ratings';
+import { useSelector } from 'react-redux';
 
-const ProductDetails = ({ data }) => {
-  const { wishlist } = useSelector((state) => state.wishlist);
-  const { cart } = useSelector((state) => state.cart);
-  const { user, isAuthenticated } = useSelector((state) => state.user);
-  const { products } = useSelector((state) => state.products);
+interface Image {
+  url: string;
+}
+
+interface Shop {
+  _id: string;
+  name: string;
+  avatar: Image;
+  description: string;
+  createdAt: string;
+}
+
+interface Review {
+  user: {
+    name: string;
+    avatar: Image;
+  };
+  rating: number;
+  comment: string;
+}
+
+interface WishlistItem {
+  _id: string;
+}
+
+interface ProductData {
+  _id: string;
+  name: string;
+  description: string;
+  images: Image[];
+  shop: Shop;
+  discountPrice: number;
+  originalPrice?: number;
+  stock: number;
+  reviews: Review[];
+  ratings: number;
+  wishlist: WishlistItem[];
+}
+
+interface ProductDetailsProps {
+  data: ProductData;
+}
+
+const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { user } = useSelector((state: any) => state.auth);
+
+  const { data: shopProducts } = useGetAllProductsInShopQuery(data?.shop._id);
+  const [addToWishList] = useAddToWhishListMutation();
+  const [removeFromWishList] = useRemoveWhishListMutation();
+  const [addToCart] = useAddToCartMutation();
+  const [createNewConversation] = useCreateConversationMutation();
+
+  // useEffect(() => {
+  //   if (data && data.wishlist && data.wishlist.find((i: any) => i._id === data._id)) {
+  //     setClick(true);
+  //   } else {
+  //     setClick(false);
+  //   }
+  // }, [data]);
+
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
-    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
+    if (data && data.wishlist.some((item) => item._id === data._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [data, wishlist]);
+  }, [data]);
 
   const incrementCount = () => {
     setCount(count + 1);
@@ -48,67 +100,68 @@ const ProductDetails = ({ data }) => {
     }
   };
 
-  const removeFromWishlistHandler = (data) => {
+  const removeFromWishlistHandler = (data: any) => {
     setClick(!click);
-    dispatch(removeFromWishlist(data));
+    removeFromWishList(data);
   };
 
-  const addToWishlistHandler = (data) => {
+  const addToWishlistHandler = (data: any) => {
     setClick(!click);
-    dispatch(addToWishlist(data));
+    addToWishList(data);
   };
 
-  const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
-    if (isItemExists) {
-      toast.error("Item already in cart!");
+  const addToCartHandler = (id: string) => {
+    if (data.stock < 1) {
+      toast.error('Product stock limited!');
     } else {
-      if (data.stock < 1) {
-        toast.error("Product stock limited!");
-      } else {
-        const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
-      }
+      const cartData = { ...data, qty: count };
+      addToCart(cartData)
+        .unwrap()
+        .then(() => toast.success('Item added to cart successfully!'))
+        .catch(() => toast.error('Failed to add item to cart'));
     }
   };
 
-  const totalReviewsLength =
-    products &&
-    products.reduce((acc, product) => acc + product.reviews.length, 0);
+  const totalReviewsLength = useMemo(() => {
+    return (
+      shopProducts?.reduce(
+        (acc: number, product: ProductData) => acc + product.reviews.length,
+        0
+      ) || 0
+    );
+  }, [shopProducts]);
 
-  const totalRatings =
-    products &&
-    products.reduce(
-      (acc, product) =>
-        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+  const averageRating = useMemo(() => {
+    if (!shopProducts || shopProducts.length === 0) return 0;
+    const totalRating = shopProducts.reduce(
+      (acc: number, product: ProductData) =>
+        acc +
+        product.reviews.reduce(
+          (sum: number, review: Review) => sum + review.rating,
+          0
+        ),
       0
     );
-
-  const avg =  totalRatings / totalReviewsLength || 0;
-
-  const averageRating = avg.toFixed(2);
-
+    return totalRating / totalReviewsLength;
+  }, [shopProducts, totalReviewsLength]);
 
   const handleMessageSubmit = async () => {
-    if (isAuthenticated) {
+    if (user) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
       const sellerId = data.shop._id;
-      await axios
-        .post(`${server}/conversation/create-new-conversation`, {
+      try {
+        const res = await createNewConversation({
           groupTitle,
           userId,
           sellerId,
-        })
-        .then((res) => {
-          navigate(`/inbox?${res.data.conversation._id}`);
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
+        }).unwrap();
+        navigate(`/inbox?${res.conversation._id}`);
+      } catch (error: any) {
+        toast.error(error.data?.message || 'An error occurred');
+      }
     } else {
-      toast.error("Please login to create a conversation");
+      toast.error('Please login to create a conversation');
     }
   };
 
@@ -129,7 +182,7 @@ const ProductDetails = ({ data }) => {
                     data.images.map((i, index) => (
                       <div
                         className={`${
-                          select === 0 ? "border" : "null"
+                          select === 0 ? 'border' : 'null'
                         } cursor-pointer`}
                       >
                         <img
@@ -142,7 +195,7 @@ const ProductDetails = ({ data }) => {
                     ))}
                   <div
                     className={`${
-                      select === 1 ? "border" : "null"
+                      select === 1 ? 'border' : 'null'
                     } cursor-pointer`}
                   ></div>
                 </div>
@@ -155,7 +208,7 @@ const ProductDetails = ({ data }) => {
                     {data.discountPrice}$
                   </h4>
                   <h3 className={`${styles.price}`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
+                    {data.originalPrice ? data.originalPrice + '$' : null}
                   </h3>
                 </div>
 
@@ -183,7 +236,7 @@ const ProductDetails = ({ data }) => {
                         size={30}
                         className="cursor-pointer"
                         onClick={() => removeFromWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
+                        color={click ? 'red' : '#333'}
                         title="Remove from wishlist"
                       />
                     ) : (
@@ -191,7 +244,7 @@ const ProductDetails = ({ data }) => {
                         size={30}
                         className="cursor-pointer"
                         onClick={() => addToWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
+                        color={click ? 'red' : '#333'}
                         title="Add to wishlist"
                       />
                     )}
@@ -237,7 +290,7 @@ const ProductDetails = ({ data }) => {
           </div>
           <ProductDetailsInfo
             data={data}
-            products={products}
+            shopProducts={shopProducts || []}
             totalReviewsLength={totalReviewsLength}
             averageRating={averageRating}
           />
@@ -249,9 +302,16 @@ const ProductDetails = ({ data }) => {
   );
 };
 
-const ProductDetailsInfo = ({
+interface ProductDetailsInfoProps {
+  data: ProductData;
+  shopProducts: ProductData[];
+  totalReviewsLength: number;
+  averageRating: number;
+}
+
+const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
   data,
-  products,
+  shopProducts,
   totalReviewsLength,
   averageRating,
 }) => {
@@ -263,7 +323,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
             }
             onClick={() => setActive(1)}
           >
@@ -276,7 +336,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
             }
             onClick={() => setActive(2)}
           >
@@ -289,7 +349,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
             }
             onClick={() => setActive(3)}
           >
@@ -359,19 +419,17 @@ const ProductDetailsInfo = ({
           <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
             <div className="text-left">
               <h5 className="font-[600]">
-                Joined on:{" "}
+                Joined on:{' '}
                 <span className="font-[500]">
                   {data.shop?.createdAt?.slice(0, 10)}
                 </span>
               </h5>
               <h5 className="font-[600] pt-3">
-                Total Products:{" "}
-                <span className="font-[500]">
-                  {products && products.length}
-                </span>
+                Total Products:{' '}
+                <span className="font-[500]">{shopProducts.length}</span>
               </h5>
               <h5 className="font-[600] pt-3">
-                Total Reviews:{" "}
+                Total Reviews:{' '}
                 <span className="font-[500]">{totalReviewsLength}</span>
               </h5>
               <Link to="/">

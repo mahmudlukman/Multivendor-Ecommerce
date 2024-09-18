@@ -34,4 +34,9 @@ export const conversationApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const {} = conversationApi;
+export const {
+  useAllUserConversationsQuery,
+  useCreateConversationMutation,
+  useGetAllConversationsQuery,
+  useUpdateLastMessageMutation,
+} = conversationApi;

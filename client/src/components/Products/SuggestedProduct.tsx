@@ -19,7 +19,6 @@ interface Product {
   images: { url: string }[];
   shop: Shop;
   ratings: number;
-  // Add other product properties here
 }
 
 interface SuggestedProductProps {
