@@ -11,7 +11,7 @@ import {
   ProductsPage,
   BestSellingPage,
   EventsPage,
-  FAQPage
+  FAQPage,
   ProductDetailsPage
   // SellerActivationPage,
 } from './routes/Routes';

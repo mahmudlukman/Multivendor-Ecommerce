@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { productData } from '../../static/data';
+import { useEffect, useState } from 'react';
 import styles from '../../styles/styles';
 import ProductCard from '../Route/ProductCard/ProductCard';
+import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
 
 const SuggestedProduct = ({ data }) => {
-  const { allProducts } = useSelector((state) => state.products);
+  const { data: allProducts } = useGetAllProductsQuery({});
   const [productData, setProductData] = useState();
 
   useEffect(() => {

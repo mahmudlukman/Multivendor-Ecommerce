@@ -1,6 +1,8 @@
 import { apiSlice } from '../api/apiSlice';
 
 interface CartItem {
+  qty: any;
+  discountPrice: any;
   _id: string;
   // Add other properties of your cart item
 }
