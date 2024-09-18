@@ -1,17 +1,41 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from '../../styles/styles';
 import ProductCard from '../Route/ProductCard/ProductCard';
 import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
 
-const SuggestedProduct = ({ data }) => {
+interface Shop {
+  _id: string;
+  name: string;
+}
+
+interface Product {
+  category: string;
+  _id: string;
+  name: string;
+  description: string;
+  discountPrice: number;
+  originalPrice: number;
+  stock: number;
+  images: { url: string }[];
+  shop: Shop;
+  ratings: number;
+  // Add other product properties here
+}
+
+interface SuggestedProductProps {
+  data: {
+    category: string;
+  };
+}
+
+const SuggestedProduct: FC<SuggestedProductProps> = ({ data }) => {
   const { data: allProducts } = useGetAllProductsQuery({});
-  const [productData, setProductData] = useState();
+  const [productData, setProductData] = useState<Product[] | undefined>();
 
   useEffect(() => {
-    const d =
-      allProducts && allProducts.filter((i) => i.category === data.category);
+    const d = allProducts && allProducts.filter((i: Product) => i.category === data.category);
     setProductData(d);
-  }, []);
+  }, [allProducts, data.category]);
 
   return (
     <div>
