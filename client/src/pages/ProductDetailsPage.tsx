@@ -15,6 +15,8 @@ interface Shop {
   _id: string;
   name: string;
   avatar: Image;
+  description: string;
+  createdAt: string;
 }
 
 interface Review {
@@ -26,6 +28,9 @@ interface Review {
   comment: string;
 }
 
+interface WishlistItem {
+  _id: string;
+}
 
 interface ProductData {
   _id: string;
@@ -33,12 +38,15 @@ interface ProductData {
   description: string;
   images: Image[];
   shop: Shop;
-  price: number;
-  discountPrice?: number;
+  discountPrice: number;
+  originalPrice?: number;
   stock: number;
   reviews: Review[];
   ratings: number;
+  wishlist: WishlistItem[];
+  category: string; // Add this line
 }
+
 
 interface EventData {
   _id: string;
@@ -46,10 +54,14 @@ interface EventData {
   description: string;
   images: Image[];
   shop: Shop;
+  reviews: Review[];
+  ratings: number;
   price: number;
   stock: number;
+  discountPrice: number;
   start_Date: string;
   Finish_Date: string;
+  wishlist: WishlistItem[];
 }
 
 type DetailData = ProductData | EventData;

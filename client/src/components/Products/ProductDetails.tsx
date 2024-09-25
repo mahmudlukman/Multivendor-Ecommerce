@@ -100,12 +100,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
     }
   };
 
-  const removeFromWishlistHandler = (data: any) => {
+  const removeFromWishlistHandler = (data: ProductData) => {
     setClick(!click);
     removeFromWishList(data);
   };
 
-  const addToWishlistHandler = (data: any) => {
+  const addToWishlistHandler = (data: ProductData) => {
     setClick(!click);
     addToWishList(data);
   };
