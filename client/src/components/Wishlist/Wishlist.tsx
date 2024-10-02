@@ -4,14 +4,15 @@ import { BsCartPlus } from "react-icons/bs";
 import styles from "../../styles/styles";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useAddToCartMutation } from "../../redux/features/cart/cartApi";
-import { useGetWhishListQuery, useRemoveWhishListMutation } from "../../redux/features/wishlist/wishlistApi";
+import { useGetWishListQuery, useRemoveFromWishListMutation } from "../../redux/features/wishlist/wishlistApi";
 
 interface WishlistItem {
-  images: any;
   _id: string;
   name: string;
+  images: { url: string }[];
   discountPrice: number;
-  // Add other properties as needed
+  qty: number;
+  stock: number;
 }
 
 interface WishlistProps {
@@ -19,8 +20,8 @@ interface WishlistProps {
 }
 
 const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
-  const { data: wishlist, isLoading, isError } = useGetWhishListQuery({});
-  const [removeFromWishlist] = useRemoveWhishListMutation();
+  const { data: wishlist, isLoading, isError } = useGetWishListQuery();
+  const [removeFromWishlist] = useRemoveFromWishListMutation();
   const [addToCart] = useAddToCartMutation();
 
   const removeFromWishlistHandler = (id: string) => {

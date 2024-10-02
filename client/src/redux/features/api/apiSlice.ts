@@ -7,7 +7,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_PUBLIC_SERVER_URI,
   }),
-  tagTypes: ['User', 'Seller', 'Product', 'Order', 'Cart', 'Conversation', 'CouponCode', 'Message', 'Event', 'Wishlist'],
+  tagTypes: ['User', 'Seller', 'Product', 'Order', 'Cart', 'Conversation', 'CouponCode', 'Message', 'Event', 'WishList'],
   endpoints: (builder) => ({
     loadUser: builder.query({
       query: () => ({

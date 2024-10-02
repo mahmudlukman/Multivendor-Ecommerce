@@ -9,8 +9,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useGetAllProductsInShopQuery } from '../../redux/features/product/productApi';
 import styles from '../../styles/styles';
 import {
-  useAddToWhishListMutation,
-  useRemoveWhishListMutation,
+  useAddToWishListMutation,
+  useRemoveFromWishListMutation,
 } from '../../redux/features/wishlist/wishlistApi';
 import { useAddToCartMutation } from '../../redux/features/cart/cartApi';
 import { useCreateConversationMutation } from '../../redux/features/conversation/conversationApi';
@@ -81,8 +81,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const { data: shopProducts } = useGetAllProductsInShopQuery(data?.shop._id);
-  const [addToWishList] = useAddToWhishListMutation();
-  const [removeFromWishList] = useRemoveWhishListMutation();
+  const [addToWishList] = useAddToWishListMutation();
+  const [removeFromWishList] = useRemoveFromWishListMutation();
   const [addToCart] = useAddToCartMutation();
   const [createNewConversation] = useCreateConversationMutation();
 
