@@ -32,7 +32,7 @@ const SuggestedProduct: FC<SuggestedProductProps> = ({ data }) => {
   const [productData, setProductData] = useState<Product[] | undefined>();
 
   useEffect(() => {
-    const d = allProducts && allProducts.filter((i: Product) => i.category === data.category);
+    const d = allProducts && allProducts?.products.filter((i: Product) => i.category === data.category);
     setProductData(d);
   }, [allProducts, data.category]);
 

@@ -74,12 +74,15 @@ const ProductDetailsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get('isEvent');
 
+  console.log(allProducts.products)
+  console.log(allEvents)
+
   useEffect(() => {
     if (eventData !== null) {
       const eventItem = allEvents?.find((i: EventData) => i._id === id);
       setData(eventItem || null);
     } else {
-      const productItem = allProducts?.find((i: ProductData) => i._id === id);
+      const productItem = allProducts?.products?.find((i: ProductData) => i._id === id);
       setData(productItem || null);
     }
   }, [allProducts, allEvents, id, eventData]);

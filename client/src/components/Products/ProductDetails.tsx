@@ -61,12 +61,24 @@ interface ProductDetailsProps {
   data: ProductData;
 }
 
+interface RootState {
+  auth: {
+    user: {
+      _id: string;
+      id: string; // Adjust according to your user properties
+      name: string;
+      // Add other user properties as needed
+    } | null; // If user can be null
+    // Add other properties of auth if any
+  };
+}
+
 const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
-  const { user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const { data: shopProducts } = useGetAllProductsInShopQuery(data?.shop._id);
   const [addToWishList] = useAddToWhishListMutation();
@@ -83,10 +95,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   // }, [data]);
 
   useEffect(() => {
-    if (data && data.wishlist.some((item) => item._id === data._id)) {
-      setClick(true);
+    if (data && data.wishlist && Array.isArray(data.wishlist)) {
+      if (data.wishlist.some((item) => item._id === data._id)) {
+        setClick(true);
+      } else {
+        setClick(false);
+      }
     } else {
-      setClick(false);
+      setClick(false);  // Default state when data is not available
     }
   }, [data]);
 
@@ -114,7 +130,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
     if (data.stock < 1) {
       toast.error('Product stock limited!');
     } else {
-      const cartData = { ...data, qty: count };
+      const cartData = { ...data, id, qty: count };
       addToCart(cartData)
         .unwrap()
         .then(() => toast.success('Item added to cart successfully!'))
@@ -124,7 +140,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
 
   const totalReviewsLength = useMemo(() => {
     return (
-      shopProducts?.reduce(
+      shopProducts?.products?.reduce(
         (acc: number, product: ProductData) => acc + product.reviews.length,
         0
       ) || 0
@@ -132,8 +148,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   }, [shopProducts]);
 
   const averageRating = useMemo(() => {
-    if (!shopProducts || shopProducts.length === 0) return 0;
-    const totalRating = shopProducts.reduce(
+    if (!shopProducts || shopProducts.products.length === 0) return 0;
+    const totalRating = shopProducts.products.reduce(
       (acc: number, product: ProductData) =>
         acc +
         product.reviews.reduce(
@@ -157,8 +173,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
           sellerId,
         }).unwrap();
         navigate(`/inbox?${res.conversation._id}`);
-      } catch (error: any) {
-        toast.error(error.data?.message || 'An error occurred');
+      } catch (error) {
+        const errorMessage = (error as { data?: { message?: string } })?.data?.message || 'An error occurred';
+        toast.error(errorMessage);
       }
     } else {
       toast.error('Please login to create a conversation');
@@ -181,8 +198,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
                   {data &&
                     data.images.map((i, index) => (
                       <div
+                      key={index}
                         className={`${
-                          select === 0 ? 'border' : 'null'
+                          select === index ? 'border' : 'null'
                         } cursor-pointer`}
                       >
                         <img
@@ -371,7 +389,7 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
       {active === 2 ? (
         <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
           {data &&
-            data.reviews.map((item, index) => (
+            data.reviews.map((item) => (
               <div className="w-full flex my-2">
                 <img
                   src={`${item.user.avatar?.url}`}
