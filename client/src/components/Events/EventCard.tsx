@@ -23,7 +23,6 @@ interface Props {
 const EventCard: FC<Props> = ({ active, data }) => {
   const { data: cartItems } = useGetCartQuery();
   const [addToCart] = useAddToCartMutation();
-
   const addToCartHandler = async (item: Props['data']) => {
     const isItemExists = cartItems?.find((i) => i._id === item._id);
     if (isItemExists) {
@@ -36,6 +35,7 @@ const EventCard: FC<Props> = ({ active, data }) => {
         try {
           await addToCart(cartData).unwrap();
           toast.success("Item added to cart successfully!");
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           toast.error("Failed to add item to cart");
         }

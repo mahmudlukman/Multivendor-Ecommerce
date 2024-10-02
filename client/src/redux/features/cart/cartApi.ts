@@ -1,10 +1,12 @@
 import { apiSlice } from '../api/apiSlice';
 
 interface CartItem {
-  qty: any;
-  discountPrice: any;
   _id: string;
-  // Add other properties of your cart item
+  name: string;
+  images: { url: string }[];
+  discountPrice: number;
+  qty: number;
+  stock: number;
 }
 
 const getLocalCart = (): CartItem[] => {
@@ -18,62 +20,57 @@ const setLocalCart = (cart: CartItem[]) => {
 export const cartApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCart: builder.query<CartItem[], void>({
-      query: () => 'cart',
-      async onQueryStarted(arg, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          setLocalCart(data);
-        } catch (error) {
-          console.error('Failed to fetch cart:', error);
-        }
+      queryFn: () => {
+        const cart = getLocalCart();
+        return { data: cart };
       },
+      providesTags: ['Cart'],
     }),
     addToCart: builder.mutation<CartItem[], CartItem>({
-      query: (item) => ({
-        url: 'cart',
-        method: 'POST',
-        body: item,
-      }),
-      async onQueryStarted(item, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          cartApi.util.updateQueryData('getCart', undefined, (draft) => {
-            draft.push(item);
-          })
-        );
-        try {
-          const { data } = await queryFulfilled;
-          setLocalCart(data);
-        } catch (error) {
-          patchResult.undo();
-          console.error('Failed to add item to cart:', error);
+      queryFn: (newItem) => {
+        const cart = getLocalCart();
+        const existingItemIndex = cart.findIndex(item => item._id === newItem._id);
+        
+        if (existingItemIndex !== -1) {
+          // Item exists, update quantity
+          cart[existingItemIndex].qty += newItem.qty;
+        } else {
+          // New item, add to cart
+          cart.push(newItem);
         }
+        
+        setLocalCart(cart);
+        return { data: cart };
       },
+      invalidatesTags: ['Cart'],
     }),
     removeFromCart: builder.mutation<CartItem[], string>({
-      query: (id) => ({
-        url: `cart/${id}`,
-        method: 'DELETE',
-      }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          cartApi.util.updateQueryData('getCart', undefined, (draft) => {
-            return draft.filter((item) => item._id !== id);
-          })
-        );
-        try {
-          const { data } = await queryFulfilled;
-          setLocalCart(data);
-        } catch (error) {
-          patchResult.undo();
-          console.error('Failed to remove item from cart:', error);
-        }
+      queryFn: (id) => {
+        let cart = getLocalCart();
+        cart = cart.filter(item => item._id !== id);
+        setLocalCart(cart);
+        return { data: cart };
       },
+      invalidatesTags: ['Cart'],
+    }),
+    updateCartItemQuantity: builder.mutation<CartItem[], { id: string, qty: number }>({
+      queryFn: ({ id, qty }) => {
+        const cart = getLocalCart();
+        const itemIndex = cart.findIndex(item => item._id === id);
+        if (itemIndex !== -1) {
+          cart[itemIndex].qty = qty;
+          setLocalCart(cart);
+        }
+        return { data: cart };
+      },
+      invalidatesTags: ['Cart'],
     }),
   }),
 });
 
 export const {
-  useAddToCartMutation,
   useGetCartQuery,
+  useAddToCartMutation,
   useRemoveFromCartMutation,
+  useUpdateCartItemQuantityMutation,
 } = cartApi;
