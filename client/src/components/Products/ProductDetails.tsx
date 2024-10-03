@@ -17,61 +17,12 @@ import { useCreateConversationMutation } from '../../redux/features/conversation
 import { toast } from 'react-hot-toast';
 import Ratings from './Ratings';
 import { useSelector } from 'react-redux';
-
-interface Image {
-  url: string;
-}
-
-interface Shop {
-  _id: string;
-  name: string;
-  avatar: Image;
-  description: string;
-  createdAt: string;
-}
-
-interface Review {
-  user: {
-    name: string;
-    avatar: Image;
-  };
-  rating: number;
-  comment: string;
-}
-
-interface WishlistItem {
-  _id: string;
-}
-
-interface ProductData {
-  _id: string;
-  name: string;
-  description: string;
-  images: Image[];
-  shop: Shop;
-  discountPrice: number;
-  originalPrice?: number;
-  stock: number;
-  reviews: Review[];
-  ratings: number;
-  wishlist: WishlistItem[];
-}
+import { ProductData, RootState } from '../../types';
 
 interface ProductDetailsProps {
   data: ProductData;
 }
 
-interface RootState {
-  auth: {
-    user: {
-      _id: string;
-      id: string; // Adjust according to your user properties
-      name: string;
-      // Add other user properties as needed
-    } | null; // If user can be null
-    // Add other properties of auth if any
-  };
-}
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   const [count, setCount] = useState(1);
@@ -86,13 +37,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
   const [addToCart] = useAddToCartMutation();
   const [createNewConversation] = useCreateConversationMutation();
 
-  // useEffect(() => {
-  //   if (data && data.wishlist && data.wishlist.find((i: any) => i._id === data._id)) {
-  //     setClick(true);
-  //   } else {
-  //     setClick(false);
-  //   }
-  // }, [data]);
 
   useEffect(() => {
     if (data && data.wishlist && Array.isArray(data.wishlist)) {
@@ -102,7 +46,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
         setClick(false);
       }
     } else {
-      setClick(false);  // Default state when data is not available
+      setClick(false); 
     }
   }, [data]);
 

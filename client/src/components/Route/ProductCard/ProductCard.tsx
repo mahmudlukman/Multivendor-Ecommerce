@@ -2,23 +2,7 @@ import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/styles';
 import ProductDetailsCard from '../ProductDetailsCard/ProductDetailsCard';
-
-interface Shop {
-  _id: string;
-  name: string;
-}
-
-interface ProductData {
-  _id: string;
-  name: string;
-  description: string;
-  discountPrice: number;
-  originalPrice: number;
-  stock: number;
-  images: { url: string }[];
-  shop: Shop;
-  ratings: number;
-}
+import { ProductData } from '../../../types';
 
 interface Props {
   data: ProductData;

@@ -1,6 +1,7 @@
 import { apiSlice } from '../api/apiSlice';
 
 interface WishListItem {
+  productId: string;
   _id: string;
   name: string;
   images: { url: string }[];

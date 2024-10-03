@@ -11,27 +11,12 @@ import styles from '../../../styles/styles';
 import { toast } from 'react-hot-toast';
 import { useAddToCartMutation, useGetCartQuery } from '../../../redux/features/cart/cartApi';
 import {
-  useAddToWhishListMutation,
-  useRemoveWhishListMutation,
-  useGetWhishListQuery,
+  useAddToWishListMutation,
+  useRemoveFromWishListMutation,
+  useGetWishListQuery
 } from '../../../redux/features/wishlist/wishlistApi';
+import { ProductData } from '../../../types';
 
-interface Shop {
-  _id: string;
-  name: string;
-}
-
-interface ProductData {
-  _id: string;
-  name: string;
-  description: string;
-  discountPrice: number;
-  originalPrice: number;
-  stock: number;
-  images: { url: string }[];
-  shop: Shop;
-  ratings: number;
-}
 
 interface Props {
   data: ProductData;
@@ -44,10 +29,10 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
   const [click, setClick] = useState(false);
 
   const { data: cartData } = useGetCartQuery();
-  const { data: wishlistData } = useGetWhishListQuery({});
+  const { data: wishlistData } = useGetWishListQuery();
   const [addToCart] = useAddToCartMutation();
-  const [addToWishlist] = useAddToWhishListMutation();
-  const [removeFromWishlist] = useRemoveWhishListMutation();
+  const [addToWishlist] = useAddToWishListMutation();
+  const [removeFromWishlist] = useRemoveFromWishListMutation();
 
   const handleMessageSubmit = () => {
     // Implement message submission logic
@@ -75,6 +60,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
         try {
           await addToCart(cartData).unwrap();
           toast.success('Item added to cart successfully!');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           toast.error('Failed to add item to cart');
         }
@@ -83,7 +69,8 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
   };
 
   useEffect(() => {
-    if (wishlistData && wishlistData.find((i: ProductData) => i._id === data._id)) {
+    if (wishlistData && wishlistData.some((item) => item.productId === data._id)) {
+    // if (wishlistData && wishlistData.find((i) => 'productId' in i && i.productId === data._id)) {
       setClick(true);
     } else {
       setClick(false);
@@ -94,6 +81,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
     setClick(!click);
     try {
       await removeFromWishlist(data._id).unwrap();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error('Failed to remove from wishlist');
     }
@@ -102,7 +90,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
   const addToWishlistHandler = async (data: ProductData) => {
     setClick(!click);
     try {
-      await addToWishlist(data).unwrap();
+      await addToWishlist(data._id).unwrap();
     } catch (error) {
       toast.error('Failed to add to wishlist');
     }
