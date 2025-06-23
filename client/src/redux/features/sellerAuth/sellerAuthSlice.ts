@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: '',
-  seller: '',
+  token: "",
+  seller: "",
 };
 
 const sellerAuthSlice = createSlice({
-  name: 'sellerAuth',
+  name: "sellerAuth",
   initialState,
   reducers: {
     sellerRegistration: (state, action: PayloadAction<{ token: string }>) => {
@@ -20,7 +20,8 @@ const sellerAuthSlice = createSlice({
       state.seller = action.payload.seller;
     },
     sellerLoggedOut: (state) => {
-      (state.token = ''), (state.seller = '');
+      state.token = "";
+      state.seller = "";
     },
   },
 });

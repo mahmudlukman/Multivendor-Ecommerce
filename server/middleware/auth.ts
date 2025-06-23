@@ -69,16 +69,3 @@ export const authorizeRoles = (...roles: string[]) => {
   };
 };
 
-// export const isAdmin = () => {
-//   return (req: Request, res: Response, next: NextFunction) => {
-//     if (req.user?.role !== 'admin') {
-//       return next(
-//         new ErrorHandler(
-//           'You are not allowed to access this resource',
-//           403
-//         )
-//       );
-//     }
-//     next();
-//   };
-// };

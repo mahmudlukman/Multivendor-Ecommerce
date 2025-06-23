@@ -6,7 +6,7 @@ type RegistrationResponse = {
   activationToken: string;
 };
 
-type RegistrationData = {};
+type RegistrationData = object;
 
 export const sellerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,7 +17,7 @@ export const sellerApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           dispatch(
@@ -25,7 +25,7 @@ export const sellerApi = apiSlice.injectEndpoints({
               token: result.data.activationToken,
             })
           );
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.log(error);
         }
       },
@@ -49,7 +49,7 @@ export const sellerApi = apiSlice.injectEndpoints({
         },
         credentials: 'include' as const,
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           dispatch(
@@ -58,7 +58,7 @@ export const sellerApi = apiSlice.injectEndpoints({
               seller: result.data.seller,
             })
           );
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.log(error);
         }
       },
@@ -69,10 +69,11 @@ export const sellerApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
+          await queryFulfilled;
           dispatch(sellerLoggedOut());
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.log(error);
         }
       },

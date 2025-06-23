@@ -4,6 +4,7 @@ import ErrorHandler from '../utils/errorHandler';
 import { catchAsyncError } from '../middleware/catchAsyncErrors';
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
+import cloudinary from "cloudinary";
 import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
@@ -14,12 +15,16 @@ interface ICreateUser {
   name: string;
   email: string;
   password: string;
+  avatar?: {
+    public_id: string;
+    url: string;
+  };
 }
 
 export const createUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, avatar } = req.body;
 
       const isEmailExist = await User.findOne({ email });
       if (isEmailExist) {
@@ -31,9 +36,22 @@ export const createUser = catchAsyncError(
         email,
         password,
       };
+
+       // Only handle avatar if it's provided
+      if (avatar) {
+        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+          folder: "avatars",
+        });
+
+        // Add avatar details to user data
+        user.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
       const activationToken = createActivationToken(user);
 
-      const activationUrl = `http://localhost:5173/activation?token=${activationToken}`;
+      const activationUrl = `${process.env.ORIGIN}/activation?token=${activationToken}`;
 
       const data = { user: { name: user.name }, activationUrl };
       const html = await ejs.renderFile(
@@ -88,7 +106,7 @@ export const activateUser = catchAsyncError(
       if (!newUser) {
         return next(new ErrorHandler('Invalid token', 400));
       }
-      const { name, email, password } = newUser.user;
+      const { name, email, password, avatar } = newUser.user;
 
       let user = await User.findOne({ email });
 
@@ -100,6 +118,7 @@ export const activateUser = catchAsyncError(
         name,
         email,
         password,
+        avatar
       });
       res
         .status(201)
@@ -174,7 +193,7 @@ export const forgotPassword = catchAsyncError(
 
       const resetToken = createActivationToken(user);
 
-      const resetUrl = `http://localhost:5173/reset-password?token=${resetToken}&id=${user._id}`;
+      const resetUrl = `${process.env.ORIGIN}/reset-password?token=${resetToken}&id=${user._id}`;
 
       const data = { user: { name: user.name }, resetUrl };
       const html = await ejs.renderFile(
