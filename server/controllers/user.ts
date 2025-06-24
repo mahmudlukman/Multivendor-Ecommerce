@@ -67,6 +67,7 @@ interface IUpdatePassword {
   oldPassword?: string;
   newPassword?: string;
 }
+
 export const updatePassword = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -82,31 +83,38 @@ export const updatePassword = catchAsyncError(
         return next(new ErrorHandler('Invalid user', 400));
       }
 
+      // Verify the old password is correct
+      const isOldPasswordValid = await user.comparePassword(oldPassword);
+      if (!isOldPasswordValid) {
+        return next(new ErrorHandler('Old password is incorrect', 400));
+      }
+
+      // Check if new password is different from current password
       const isSamePassword = await user.comparePassword(newPassword);
-      if (isSamePassword)
+      if (isSamePassword) {
         return next(
           new ErrorHandler(
             'New password must be different from the previous one!',
             400
           )
         );
+      }
 
       if (newPassword.trim().length < 6 || newPassword.trim().length > 20) {
         return next(
           new ErrorHandler(
-            'Password must be between at least 6 characters!',
+            'Password must be at least 6 characters and no more than 20 characters!',
             400
           )
         );
       }
 
       user.password = newPassword.trim();
-
       await user.save();
 
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        message: `Password Updated Successfully'!`,
+        message: 'Password updated successfully!',
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
@@ -279,9 +287,9 @@ export const deleteUser = catchAsyncError(
         );
       }
 
-      const imageId = user.avatar.public_id;
+      const avatarId = user.avatar.public_id;
 
-      await cloudinary.v2.uploader.destroy(imageId);
+      await cloudinary.v2.uploader.destroy(avatarId);
 
       await User.findByIdAndDelete(req.params.id);
 
