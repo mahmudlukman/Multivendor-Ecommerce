@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middleware/error";
 import compression from "compression";
 import helmet from "helmet";
+import limiter from "./utils/rateLimiter";
 import authRouter from "./routes/auth.route";
 import userRouter from "./routes/user.route";
 import shopRouter from "./routes/shop.route";
@@ -13,7 +14,7 @@ import orderRouter from "./routes/order.route";
 import eventRouter from "./routes/event.route";
 import couponCodeRouter from "./routes/couponCode.route";
 import conversationRouter from "./routes/conversation.route";
-import limiter from "./utils/rateLimiter";
+import withdrawRouter from "./routes/withdraw.route";
 
 export const app = express();
 // Load environment variables from .env file
@@ -55,7 +56,8 @@ app.use(
   orderRouter,
   eventRouter,
   couponCodeRouter,
-  conversationRouter
+  conversationRouter,
+  withdrawRouter
 );
 
 // testing API

@@ -3,7 +3,7 @@ import { catchAsyncError } from '../middleware/catchAsyncErrors';
 import Shop, { IShop } from '../models/Shop';
 import ErrorHandler from '../utils/errorHandler';
 import cloudinary from 'cloudinary';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
