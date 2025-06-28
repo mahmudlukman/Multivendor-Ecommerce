@@ -1,22 +1,24 @@
-import { Request, Response, NextFunction } from 'express';
-import { catchAsyncError } from '../middleware/catchAsyncErrors';
-import Shop from '../models/Shop';
-import Event from '../models/Event';
-import ErrorHandler from '../utils/errorHandler';
-import cloudinary from 'cloudinary';
+import { Request, Response, NextFunction } from "express";
+import { catchAsyncError } from "../middleware/catchAsyncErrors";
+import Shop from "../models/Shop";
+import Event from "../models/Event";
+import ErrorHandler from "../utils/errorHandler";
+import cloudinary from "cloudinary";
+import mongoose from "mongoose";
 
 // Create event
 export const createEvent = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { shopId, images: reqImages } = req.body;
+      const shopId = req.seller?._id;
+      const { images: reqImages } = req.body;
       const shop = await Shop.findById(shopId);
 
       if (!shop) {
-        return next(new ErrorHandler('Shop Id is invalid!', 400));
+        return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
         let images: string[] = [];
-        if (typeof reqImages === 'string') {
+        if (typeof reqImages === "string") {
           images.push(reqImages);
         } else {
           images = reqImages;
@@ -26,7 +28,7 @@ export const createEvent = catchAsyncError(
 
         for (let i = 0; i < images.length; i++) {
           const result = await cloudinary.v2.uploader.upload(images[i], {
-            folder: 'products',
+            folder: "events",
           });
           imagesLinks.push({
             public_id: result.public_id,
@@ -69,11 +71,36 @@ export const getEvents = catchAsyncError(
 );
 
 // Get all events of a shop
+// export const getShopEvents = catchAsyncError(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const events = await Event.find({ shopId: req.params.id });
+//       res.status(201).json({
+//         success: true,
+//         events,
+//       });
+//     } catch (error: any) {
+//       return next(new ErrorHandler(error.message, 400));
+//     }
+//   }
+// );
+
+// Option 1: Get events by shop ID as a route parameter
 export const getShopEvents = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const events = await Event.find({ shopId: req.params.id });
-      res.status(201).json({
+      const { shopId } = req.params;
+
+      if (!shopId) {
+        return next(new ErrorHandler("Shop ID is required", 400));
+      }
+
+      // Convert string to ObjectId for comparison
+      const events = await Event.find({
+        "shop._id": new mongoose.Types.ObjectId(shopId),
+      });
+
+      res.status(200).json({
         success: true,
         events,
       });
@@ -90,7 +117,7 @@ export const deleteShopEvent = catchAsyncError(
       const event = await Event.findById(req.params.id);
 
       if (!event) {
-        return next(new ErrorHandler('Event is not found with this id', 404));
+        return next(new ErrorHandler("Event is not found with this id", 404));
       }
 
       // Delete images from Cloudinary
@@ -98,11 +125,11 @@ export const deleteShopEvent = catchAsyncError(
         await cloudinary.v2.uploader.destroy(event.images[i].public_id);
       }
 
-      await Event.findByIdAndDelete(req.params.id);;
+      await Event.findByIdAndDelete(req.params.id);
 
       res.status(201).json({
         success: true,
-        message: 'Event Deleted successfully!',
+        message: "Event Deleted successfully!",
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

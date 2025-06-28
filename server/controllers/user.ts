@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
-import { catchAsyncError } from '../middleware/catchAsyncErrors';
-import User from '../models/User';
-import ErrorHandler from '../utils/errorHandler';
-import cloudinary from 'cloudinary';
+import { NextFunction, Request, Response } from "express";
+import { catchAsyncError } from "../middleware/catchAsyncErrors";
+import User from "../models/User";
+import ErrorHandler from "../utils/errorHandler";
+import cloudinary from "cloudinary";
 
 // get user info
 export const getUserInfo = catchAsyncError(
@@ -40,7 +40,7 @@ export const updateUserInfo = catchAsyncError(
       if (email && user) {
         const isEmailExist = await User.findOne({ email });
         if (isEmailExist) {
-          return next(new ErrorHandler('Email already exist', 400));
+          return next(new ErrorHandler("Email already exist", 400));
         }
         user.email = email;
       }
@@ -74,19 +74,19 @@ export const updatePassword = catchAsyncError(
       const { oldPassword, newPassword } = req.body as IUpdatePassword;
 
       if (!oldPassword || !newPassword) {
-        return next(new ErrorHandler('Please enter old and new password', 400));
+        return next(new ErrorHandler("Please enter old and new password", 400));
       }
 
-      const user = await User.findById(req.user?._id).select('+password');
+      const user = await User.findById(req.user?._id).select("+password");
 
       if (user?.password === undefined) {
-        return next(new ErrorHandler('Invalid user', 400));
+        return next(new ErrorHandler("Invalid user", 400));
       }
 
       // Verify the old password is correct
       const isOldPasswordValid = await user.comparePassword(oldPassword);
       if (!isOldPasswordValid) {
-        return next(new ErrorHandler('Old password is incorrect', 400));
+        return next(new ErrorHandler("Old password is incorrect", 400));
       }
 
       // Check if new password is different from current password
@@ -94,7 +94,7 @@ export const updatePassword = catchAsyncError(
       if (isSamePassword) {
         return next(
           new ErrorHandler(
-            'New password must be different from the previous one!',
+            "New password must be different from the previous one!",
             400
           )
         );
@@ -103,7 +103,7 @@ export const updatePassword = catchAsyncError(
       if (newPassword.trim().length < 6 || newPassword.trim().length > 20) {
         return next(
           new ErrorHandler(
-            'Password must be at least 6 characters and no more than 20 characters!',
+            "Password must be at least 6 characters and no more than 20 characters!",
             400
           )
         );
@@ -114,7 +114,7 @@ export const updatePassword = catchAsyncError(
 
       res.status(200).json({
         success: true,
-        message: 'Password updated successfully!',
+        message: "Password updated successfully!",
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
@@ -138,7 +138,7 @@ export const updateUserAvatar = catchAsyncError(
           await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
 
           const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: 'avatars',
+            folder: "avatars",
             width: 150,
           });
           user.avatar = {
@@ -147,7 +147,7 @@ export const updateUserAvatar = catchAsyncError(
           };
         } else {
           const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: 'avatars',
+            folder: "avatars",
             width: 150,
           });
           user.avatar = {
@@ -283,19 +283,28 @@ export const deleteUser = catchAsyncError(
 
       if (!user) {
         return next(
-          new ErrorHandler('User is not available with this id', 404)
+          new ErrorHandler("User is not available with this id", 404)
         );
       }
 
-      const avatarId = user.avatar.public_id;
-
-      await cloudinary.v2.uploader.destroy(avatarId);
+      // Only delete avatar from cloudinary if it exists
+      if (user.avatar && user.avatar.public_id) {
+        try {
+          await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+        } catch (cloudinaryError) {
+          console.log(
+            "Failed to delete avatar from cloudinary:",
+            cloudinaryError
+          );
+          // Continue with shop deletion even if avatar deletion fails
+        }
+      }
 
       await User.findByIdAndDelete(req.params.id);
 
       res.status(201).json({
         success: true,
-        message: 'User deleted successfully!',
+        message: "User deleted successfully!",
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

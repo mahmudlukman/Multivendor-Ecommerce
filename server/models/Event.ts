@@ -76,7 +76,6 @@ const EventSchema: Schema<IEvent> = new Schema(
     ],
     shopId: {
       type: String,
-      required: true,
     },
     shop: {
       type: Object,
