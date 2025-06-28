@@ -3,14 +3,14 @@ import { isAuthenticated, isSeller } from '../middleware/auth';
 import {
   allUserConversations,
   createConversation,
-  getAllConversations,
+  allSellerConversations,
   updateLastMessage,
 } from '../controllers/conversation';
 
 const conversationRouter = express.Router();
 
 conversationRouter.post('/create-conversation', createConversation);
-conversationRouter.get('/conversations/:id', isSeller, getAllConversations);
+conversationRouter.get('/seller-conversations/:id', isSeller, allSellerConversations);
 conversationRouter.get(
   '/user-conversations/:id',
   isAuthenticated,

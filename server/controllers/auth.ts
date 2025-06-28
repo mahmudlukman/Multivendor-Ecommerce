@@ -1,4 +1,4 @@
-require('dotenv').config();
+import dotenv from "dotenv";
 import User, { IUser } from '../models/User';
 import ErrorHandler from '../utils/errorHandler';
 import { catchAsyncError } from '../middleware/catchAsyncErrors';
@@ -9,7 +9,7 @@ import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
 import { sendToken } from '../utils/jwtToken';
-
+dotenv.config();
 // register user
 interface ICreateUser {
   name: string;
@@ -51,7 +51,7 @@ export const createUser = catchAsyncError(
       }
       const activationToken = createActivationToken(user);
 
-      const activationUrl = `${process.env.ORIGIN}/activation?token=${activationToken}`;
+      const activationUrl = `http://localhost:5173/activation?token=${activationToken}`;
 
       const data = { user: { name: user.name }, activationUrl };
       const html = await ejs.renderFile(
@@ -193,7 +193,7 @@ export const forgotPassword = catchAsyncError(
 
       const resetToken = createActivationToken(user);
 
-      const resetUrl = `${process.env.ORIGIN}/reset-password?token=${resetToken}&id=${user._id}`;
+      const resetUrl = `http://localhost:5173/reset-password?token=${resetToken}&id=${user._id}`;
 
       const data = { user: { name: user.name }, resetUrl };
       const html = await ejs.renderFile(

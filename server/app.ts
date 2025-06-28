@@ -14,6 +14,7 @@ import orderRouter from "./routes/order.route";
 import eventRouter from "./routes/event.route";
 import couponCodeRouter from "./routes/couponCode.route";
 import conversationRouter from "./routes/conversation.route";
+import messageRouter from "./routes/message.route";
 import withdrawRouter from "./routes/withdraw.route";
 
 export const app = express();
@@ -57,6 +58,7 @@ app.use(
   eventRouter,
   couponCodeRouter,
   conversationRouter,
+  messageRouter,
   withdrawRouter
 );
 

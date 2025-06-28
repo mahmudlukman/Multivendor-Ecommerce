@@ -58,7 +58,7 @@ export const createShop = catchAsyncError(
 
       const activationToken = createActivationToken(shop);
 
-      const activationUrl = `${process.env.ORIGIN}/new-verification?token=${activationToken}`;
+      const activationUrl = `http://localhost:5173/new-verification?token=${activationToken}`;
 
       const data = { shop: { name: shop.name }, activationUrl };
       const html = await ejs.renderFile(
@@ -202,7 +202,7 @@ export const forgotPassword = catchAsyncError(
 
       const resetToken = createActivationToken(shop);
 
-      const resetUrl = `${process.env.ORIGIN}/new-password?token=${resetToken}&id=${shop._id}`;
+      const resetUrl = `http://localhost:5173/new-password?token=${resetToken}&id=${shop._id}`;
 
       const data = { shop: { name: shop.name }, resetUrl };
       const html = await ejs.renderFile(

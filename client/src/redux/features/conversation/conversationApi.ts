@@ -12,7 +12,7 @@ export const conversationApi = apiSlice.injectEndpoints({
     }),
     getAllConversations: builder.query({
       query: (id) => ({
-        url: `conversations/${id}`,
+        url: `seller-conversations/${id}`,
         method: 'GET',
         credentials: 'include' as const,
       }),

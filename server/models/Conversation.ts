@@ -1,9 +1,9 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Document, Schema, Model, Types } from "mongoose";
 
 // Define an interface for the Conversation document
 export interface IConversation extends Document {
   groupTitle?: string;
-  members: string[];
+  members: Types.ObjectId[];
   lastMessage?: string;
   lastMessageId?: string;
 }
@@ -14,10 +14,13 @@ const ConversationSchema: Schema<IConversation> = new Schema(
     groupTitle: {
       type: String,
     },
-    members: {
-      type: [String],
-      required: true,
-    },
+    members: [
+      {
+        type: Types.ObjectId,
+        required: true,
+        ref: "User",
+      },
+    ], // Optional: Reference to a User model if you plan to populate
     lastMessage: {
       type: String,
     },
@@ -29,7 +32,7 @@ const ConversationSchema: Schema<IConversation> = new Schema(
 );
 
 const Conversation: Model<IConversation> = mongoose.model(
-  'Conversation',
+  "Conversation",
   ConversationSchema
 );
 export default Conversation;

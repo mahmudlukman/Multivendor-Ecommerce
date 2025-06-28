@@ -1,38 +1,55 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import styles from '../../styles/styles';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import { useRegisterMutation } from '../../redux/features/auth/authApi';
-import { BeatLoader } from 'react-spinners';
+import { useEffect, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import styles from "../../styles/styles";
+import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { RxAvatar } from "react-icons/rx";
+import { useRegisterMutation } from "../../redux/features/auth/authApi";
+import { BeatLoader } from "react-spinners";
 
 const Singup = () => {
   // const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null);
   const [register, { data, isLoading, isSuccess, error }] =
     useRegisterMutation();
 
-  const handleSubmit = async (e: any) => {
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const data = {
       name,
       email,
       password,
+      avatar,
     };
     await register(data);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      const message = data?.message || 'Registration successful';
+      const message = data?.message || "Registration successful";
       toast.success(message);
     }
     if (error) {
-      if ('data' in error) {
-        const errorData = error as any;
+      if ("data" in error) {
+        const errorData = error as { data: { message: string } };
         toast.error(errorData.data.message);
       }
     }
@@ -97,7 +114,7 @@ const Singup = () => {
               </label>
               <div className="mt-1 relative">
                 <input
-                  type={visible ? 'text' : 'password'}
+                  type={visible ? "text" : "password"}
                   name="password"
                   autoComplete="current-password"
                   required
@@ -119,13 +136,46 @@ const Singup = () => {
                   />
                 )}
               </div>
+              <div>
+                <label
+                  htmlFor="avatar"
+                  className="block text-sm font-medium text-gray-700"
+                ></label>
+                <div className="mt-2 flex items-center">
+                  <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
+                    {avatar ? (
+                      <img
+                        src={typeof avatar === "string" ? avatar : undefined}
+                        alt="avatar"
+                        className="h-full w-full object-cover rounded-full"
+                      />
+                    ) : (
+                      <RxAvatar className="h-8 w-8" />
+                    )}
+                  </span>
+                  <label
+                    htmlFor="file-input"
+                    className="ml-5 flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                  >
+                    <span>Upload a file</span>
+                    <input
+                      type="file"
+                      name="avatar"
+                      id="file-input"
+                      accept=".jpg,.jpeg,.png"
+                      onChange={handleFileInputChange}
+                      className="sr-only"
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
             <div>
               <button
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                {isLoading ? <BeatLoader color="white" /> : 'Submit'}
+                {isLoading ? <BeatLoader color="white" /> : "Submit"}
               </button>
             </div>
             <div className={`${styles.noramlFlex} w-full`}>

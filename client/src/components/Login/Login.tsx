@@ -30,7 +30,7 @@ const Login = () => {
     }
     if (error) {
       if ('data' in error) {
-        const errorData = error as any;
+        const errorData = error as { data: { message: string } };
         toast.error(errorData.data.message);
       }
     }
