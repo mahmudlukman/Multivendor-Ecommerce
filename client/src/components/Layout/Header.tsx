@@ -10,16 +10,19 @@ import {
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
+import { RxCross1 } from 'react-icons/rx';
 import DropDown from './DropDown';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
-import { RxCross1 } from 'react-icons/rx';
 import {
   useAddToCartMutation,
   useGetCartQuery,
   useRemoveFromCartMutation,
 } from '../../redux/features/cart/cartApi';
 import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
+import { RootState, SellerState } from '../../types';
+import Wishlist from '../Wishlist/Wishlist';
+import Cart from '../Cart/Cart';
 
 interface Props {
   activeHeading: number;
@@ -32,22 +35,10 @@ interface Product {
   image_Url: { url: string }[];
 }
 
-interface State {
-  auth: {
-    user: {
-      avatar: { url: string };
-    };
-  };
-  seller: {
-    isSeller: boolean;
-  };
-  wishlist: Product[];
-  cart: Product[];
-}
 
 const Header: FC<Props> = ({ activeHeading }) => {
-  const { user } = useSelector((state: State) => state.auth);
-  // const { isSeller } = useSelector((state: State) => state.seller);
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { seller } = useSelector((state: SellerState) => state.auth);
   const { data: cart } = useGetCartQuery();
   const [addToCart] = useAddToCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
@@ -79,6 +70,21 @@ const Header: FC<Props> = ({ activeHeading }) => {
       setActive(false);
     }
   });
+
+  // Determine the profile redirect path based on user role
+  const getProfileRedirectPath = () => {
+    if (!user) return '/login';
+    switch (user.role) {
+      case 'admin':
+        return '/admin/dashboard';
+      case 'seller':
+        return '/seller/dashboard';
+      case 'user':
+        return '/user/profile';
+      default:
+        return '/login';
+    }
+  };
 
   return (
     <>
@@ -125,16 +131,12 @@ const Header: FC<Props> = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to="/shop-create">
+            <Link to={seller ? '/seller/dashboard' : '/create-shop'}>
               <h1 className="text-[#fff] flex items-center">
-                Become Seller <IoIosArrowForward className="ml-1" />
+                {seller ? 'Go Dashboard' : 'Become Seller'}
+                <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
-            {/* <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
-              <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Go Dashboard" : "Become Seller"} <IoIosArrowForward className="ml-1" />
-              </h1>
-            </Link> */}
           </div>
         </div>
       </div>
@@ -203,27 +205,25 @@ const Header: FC<Props> = ({ activeHeading }) => {
 
             <div className={`${styles.noramlFlex}`}>
               <div className="relative cursor-pointer mr-[15px]">
-                {user ? (
-                  <Link to="/profile">
+                <Link to={getProfileRedirectPath()}>
+                  {user && user.avatar?.url ? (
                     <img
-                      src={`${user?.avatar?.url}`}
+                      src={`${user.avatar.url}`}
                       className="w-[35px] h-[35px] rounded-full"
                       alt=""
                     />
-                  </Link>
-                ) : (
-                  <Link to="/login">
+                  ) : (
                     <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                  </Link>
-                )}
+                  )}
+                </Link>
               </div>
             </div>
 
             {/* cart popup */}
-            {/* {openCart && <Cart setOpenCart={setOpenCart} />}
+            {openCart && <Cart setOpenCart={setOpenCart} />}
 
             {/* wishlist popup */}
-            {/* {openWishlist && <Wishlist setOpenWishlist={setOpenWishlist} />} */}
+            {openWishlist && <Wishlist setOpenWishlist={setOpenWishlist} />}
           </div>
         </div>
       </div>
@@ -314,32 +314,25 @@ const Header: FC<Props> = ({ activeHeading }) => {
               </div>
               <Navbar active={activeHeading} />
               <div className={`${styles.button} ml-4 !rounded-[4px]`}>
-                <Link to="/shop-create">
+                <Link to={seller ? '/seller/dashboard' : '/shop-create'}>
                   <h1 className="text-[#fff] flex items-center">
-                    Become Seller <IoIosArrowForward className="ml-1" />
-                  </h1>
-                </Link>
-                {/* <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
-                  <h1 className="text-[#fff] flex items-center">
-                    {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
+                    {seller ? 'Go Dashboard' : 'Become Seller'}
                     <IoIosArrowForward className="ml-1" />
                   </h1>
-                </Link> */}
+                </Link>
               </div>
               <div className="flex w-full justify-center">
-                {user ? (
-                  <Link to="/profile">
+                <Link to={getProfileRedirectPath()}>
+                  {user && user.avatar?.url ? (
                     <img
-                      src={`${user?.avatar?.url}`}
+                      src={`${user.avatar.url}`}
                       className="w-[60px] h-[60px] rounded-full border-[3px] border-[#3957db]"
                       alt=""
                     />
-                  </Link>
-                ) : (
-                  <Link to="/login">
+                  ) : (
                     <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                  </Link>
-                )}
+                  )}
+                </Link>
               </div>
             </div>
           </div>

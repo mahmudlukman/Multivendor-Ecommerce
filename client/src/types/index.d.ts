@@ -3,6 +3,30 @@ export interface RootState {
       user: User | null;
     };
   }
+
+export interface SellerState {
+    auth: {
+      seller: Seller | null;
+    };
+  }
+
+  interface ISeller {
+  name: string;
+  email: string;
+  password: string;
+  description?: string;
+  address: string;
+  phoneNumber: number;
+  role: string;
+  avatar: {
+    public_id: string;
+    url: string;
+  };
+  zipCode: number;
+  withdrawMethod?: object | null;
+  availableBalance: number;
+  transactions: Transaction[];
+}
   
   export interface User {
     _id: string;

@@ -60,7 +60,7 @@ const ShopSchema: Schema<IShop> = new Schema(
     },
     role: {
       type: String,
-      default: 'Seller',
+      default: 'seller',
     },
     avatar: {
       public_id: {
