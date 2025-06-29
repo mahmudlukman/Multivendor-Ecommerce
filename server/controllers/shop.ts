@@ -58,7 +58,7 @@ export const createShop = catchAsyncError(
 
       const activationToken = createActivationToken(shop);
 
-      const activationUrl = `http://localhost:5173/new-verification?token=${activationToken}`;
+      const activationUrl = `http://localhost:5173/seller/activation/${activationToken}`;
 
       const data = { shop: { name: shop.name }, activationUrl };
       const html = await ejs.renderFile(

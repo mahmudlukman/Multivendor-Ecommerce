@@ -15,9 +15,9 @@ import DropDown from './DropDown';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
 import {
-  useAddToCartMutation,
+  // useAddToCartMutation,
   useGetCartQuery,
-  useRemoveFromCartMutation,
+  // useRemoveFromCartMutation,
 } from '../../redux/features/cart/cartApi';
 import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
 import { RootState, SellerState } from '../../types';
@@ -40,8 +40,8 @@ const Header: FC<Props> = ({ activeHeading }) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { seller } = useSelector((state: SellerState) => state.auth);
   const { data: cart } = useGetCartQuery();
-  const [addToCart] = useAddToCartMutation();
-  const [removeFromCart] = useRemoveFromCartMutation();
+  // const [addToCart] = useAddToCartMutation();
+  // const [removeFromCart] = useRemoveFromCartMutation();
   const { data: allProducts } = useGetAllProductsQuery({});
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [searchData, setSearchData] = useState<Product[] | null>(null);

@@ -18,8 +18,9 @@ const ActivationPage: React.FC = () => {
     try {
       const result = await activateUser({ activation_token: token }).unwrap();
       toast.success(result.message || 'Account activated successfully');
-    } catch (error: any) {
-      toast.error(error.data?.message || 'Something went wrong!');
+    } catch (error) {
+      console.log(error)
+      toast.error('Something went wrong!');
     }
   }, [token, activateUser]);
 

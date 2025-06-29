@@ -1,9 +1,23 @@
-import React from 'react'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import ShopCreate from "../components/Shop/ShopCreate";
+import { SellerState } from '../types';
 
-const ShopCreate = () => {
+const ShopCreatePage = () => {
+  const navigate = useNavigate();
+  const { seller } = useSelector((state: SellerState) => state.auth);
+
+  useEffect(() => {
+    if(seller === true){
+      navigate(`/shop/${seller._id}`);
+    }
+  }, [])
   return (
-    <div>ShopCreate</div>
+    <div>
+        <ShopCreate />
+    </div>
   )
 }
 
-export default ShopCreate
+export default ShopCreatePage

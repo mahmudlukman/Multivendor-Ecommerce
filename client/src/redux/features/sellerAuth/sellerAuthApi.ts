@@ -1,5 +1,9 @@
-import { apiSlice } from '../api/apiSlice';
-import {  sellerRegistration, sellerLoggedIn, sellerLoggedOut } from './sellerAuthSlice';
+import { apiSlice } from "../api/apiSlice";
+import {
+  sellerRegistration,
+  sellerLoggedIn,
+  sellerLoggedOut,
+} from "./sellerAuthSlice";
 
 type RegistrationResponse = {
   message: string;
@@ -10,12 +14,12 @@ type RegistrationData = object;
 
 export const sellerApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    sellerRegister: builder.mutation<RegistrationResponse, RegistrationData>({
+    registerSeller: builder.mutation<RegistrationResponse, RegistrationData>({
       query: (data) => ({
-        url: 'create-shop',
-        method: 'POST',
+        url: "create-shop",
+        method: "POST",
         body: data,
-        credentials: 'include' as const,
+        credentials: "include" as const,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
@@ -30,10 +34,10 @@ export const sellerApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    sellerActivation: builder.mutation({
+    activateSeller: builder.mutation({
       query: ({ activation_token }) => ({
-        url: 'activate-shop',
-        method: 'POST',
+        url: "activate-shop",
+        method: "POST",
         body: {
           activation_token,
         },
@@ -41,13 +45,13 @@ export const sellerApi = apiSlice.injectEndpoints({
     }),
     sellerLogin: builder.mutation({
       query: ({ email, password }) => ({
-        url: 'login-shop',
-        method: 'POST',
+        url: "login-shop",
+        method: "POST",
         body: {
           email,
           password,
         },
-        credentials: 'include' as const,
+        credentials: "include" as const,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
@@ -65,9 +69,9 @@ export const sellerApi = apiSlice.injectEndpoints({
     }),
     sellerLogOut: builder.query({
       query: () => ({
-        url: 'logout-shop',
-        method: 'GET',
-        credentials: 'include' as const,
+        url: "logout-shop",
+        method: "GET",
+        credentials: "include" as const,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
@@ -80,30 +84,30 @@ export const sellerApi = apiSlice.injectEndpoints({
     }),
     sellerForgotPassword: builder.mutation({
       query: ({ email }) => ({
-        url: 'forgot-password',
-        method: 'POST',
+        url: "forgot-password",
+        method: "POST",
         body: {
           email,
         },
-        credentials: 'include',
+        credentials: "include",
       }),
     }),
     sellerResetPassword: builder.mutation({
       query: ({ userId, token, newPassword }) => ({
         url: `reset-password?token=${token}&id=${userId}`,
-        method: 'POST',
+        method: "POST",
         body: {
           newPassword,
         },
-        credentials: 'include',
+        credentials: "include",
       }),
     }),
   }),
 });
 
 export const {
-  useSellerRegisterMutation,
-  useSellerActivationMutation,
+  useRegisterSellerMutation,
+  useActivateSellerMutation,
   useSellerLoginMutation,
   useSellerLogOutQuery,
 } = sellerApi;

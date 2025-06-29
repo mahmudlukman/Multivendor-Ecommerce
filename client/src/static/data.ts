@@ -326,7 +326,7 @@ export const footerProductLinks = [
   },
 ];
 
-export const footercompanyLinks = [
+export const footerCompanyLinks = [
   {
     name: 'Game & Video',
     link: '/products/game-video',
