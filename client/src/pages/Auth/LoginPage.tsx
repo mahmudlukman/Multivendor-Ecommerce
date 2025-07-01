@@ -7,12 +7,12 @@ import { RootState } from "../../types";
 const LoginPage = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
-  console.log(user);
 
   useEffect(() => {
     if (user?.role === "admin") {
       navigate("/admin/dashboard");
-    } else {
+    }
+    if (user?.role === "user") {
       navigate("/user/profile");
     }
   }, [user, navigate]);

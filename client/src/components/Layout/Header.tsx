@@ -38,7 +38,7 @@ interface Product {
 
 const Header: FC<Props> = ({ activeHeading }) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { seller } = useSelector((state: SellerState) => state.auth);
+  const { seller } = useSelector((state: SellerState) => state.sellerAuth);
   const { data: cart } = useGetCartQuery();
   // const [addToCart] = useAddToCartMutation();
   // const [removeFromCart] = useRemoveFromCartMutation();
