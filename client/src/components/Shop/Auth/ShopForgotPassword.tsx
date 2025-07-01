@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import styles from '../styles/styles';
-import { Link } from 'react-router-dom';
-import { useForgotPasswordMutation } from '../redux/features/auth/authApi';
-import { toast } from 'react-hot-toast';
-import { BeatLoader } from 'react-spinners';
+import { useState } from "react";
+import styles from "../../../styles/styles";
+import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
+import { ServerError } from "../../../types";
+import { useSellerForgotPasswordMutation } from "../../../redux/features/sellerAuth/sellerAuthApi";
 
-const ForgotPasswordPage = () => {
-  const [email, setEmail] = useState('');
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+const ShopForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const [sellerForgotPassword, { isLoading }] = useSellerForgotPasswordMutation();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -15,12 +16,16 @@ const ForgotPasswordPage = () => {
       email,
     };
     try {
-      const result = await forgotPassword(data).unwrap();
-      toast.success(result.message || 'Password reset email sent successfully');
-    } catch (error: any) {
-      toast.error(error.data?.message || 'Something went wrong!');
+      const result = await sellerForgotPassword(data).unwrap();
+      toast.success(result.message || "Password reset email sent successfully");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to send reset link";
+      toast.error(errorMessage);
     }
-    await forgotPassword(data);
   };
 
   return (
@@ -57,12 +62,12 @@ const ForgotPasswordPage = () => {
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                {isLoading ? <BeatLoader color="white" /> : 'Send Reset Link'}
+                {isLoading ? <BeatLoader color="white" /> : "Send Reset Link"}
               </button>
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Go back to login</h4>
-              <Link to="/login" className="text-blue-600 pl-2">
+              <Link to="/login-shop" className="text-blue-600 pl-2">
                 Login
               </Link>
             </div>
@@ -73,4 +78,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ShopForgotPassword;

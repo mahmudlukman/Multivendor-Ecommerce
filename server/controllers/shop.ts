@@ -58,7 +58,7 @@ export const createShop = catchAsyncError(
 
       const activationToken = createActivationToken(shop);
 
-      const activationUrl = `http://localhost:5173/seller/activation/${activationToken}`;
+      const activationUrl = `http://localhost:5173/shop/activation/${activationToken}`;
 
       const data = { shop: { name: shop.name }, activationUrl };
       const html = await ejs.renderFile(
@@ -186,7 +186,7 @@ export const logoutShop = catchAsyncError(
 );
 
 // forgot password
-export const forgotPassword = catchAsyncError(
+export const forgotShopPassword = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email } = req.body;
@@ -202,11 +202,11 @@ export const forgotPassword = catchAsyncError(
 
       const resetToken = createActivationToken(shop);
 
-      const resetUrl = `http://localhost:5173/new-password?token=${resetToken}&id=${shop._id}`;
+      const resetUrl = `http://localhost:5173/shop-reset-password?token=${resetToken}&id=${shop._id}`;
 
       const data = { shop: { name: shop.name }, resetUrl };
       const html = await ejs.renderFile(
-        path.join(__dirname, "../mails/forgot-password-mail.ejs"),
+        path.join(__dirname, "../mails/shop-forgot-password-mail.ejs"),
         data
       );
 
@@ -214,7 +214,7 @@ export const forgotPassword = catchAsyncError(
         await sendMail({
           email: shop.email,
           subject: "Reset your password",
-          template: "forgot-password-mail.ejs",
+          template: "shop-forgot-password-mail.ejs",
           data,
         });
         res.status(201).json({
@@ -237,20 +237,20 @@ interface IResetPassword {
 }
 
 // reset password
-export const resetPassword = catchAsyncError(
+export const resetShopPassword = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { newPassword } = req.body as IResetPassword;
-      const { id } = req.params;
+      const { id } = req.query;
 
       if (!id) {
-        return next(new ErrorHandler("No user ID provided!", 400));
+        return next(new ErrorHandler("No shop ID provided!", 400));
       }
 
       const shop = await Shop.findById(id).select("+password");
 
       if (!shop) {
-        return next(new ErrorHandler("user not found!", 400));
+        return next(new ErrorHandler("Shop not found!", 400));
       }
 
       const isSamePassword = await shop.comparePassword(newPassword);

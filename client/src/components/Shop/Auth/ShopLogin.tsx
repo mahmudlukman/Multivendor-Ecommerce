@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import styles from '../../styles/styles';
-import { Link, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '../../redux/features/auth/authApi';
-import { toast } from 'react-hot-toast';
-import { BeatLoader } from 'react-spinners';
+import { useEffect, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import styles from "../../../styles/styles";
+import { Link, useNavigate } from "react-router-dom";
+import { useSellerLoginMutation } from "../../../redux/features/sellerAuth/sellerAuthApi";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
-const Login = () => {
+const ShopLogin = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const [login, { isSuccess, data, isLoading, error }] = useLoginMutation();
+  const [sellerLogin, { isSuccess, data, isLoading, error }] =
+    useSellerLoginMutation();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -19,28 +20,29 @@ const Login = () => {
       email,
       password,
     };
-    await login(data);
+    await sellerLogin(data);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      const message = data?.message || 'Welcome';
+      const message = data?.message || "Welcome";
       toast.success(message);
-      navigate('/');
+      navigate("/shop/dashboard");
     }
     if (error) {
-      if ('data' in error) {
+      if ("data" in error) {
         const errorData = error as { data: { message: string } };
         toast.error(errorData.data.message);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, error]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Login to your account
+          Login to your shop
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -74,7 +76,7 @@ const Login = () => {
               </label>
               <div className="mt-1 relative">
                 <input
-                  type={visible ? 'text' : 'password'}
+                  type={visible ? "text" : "password"}
                   name="password"
                   autoComplete="current-password"
                   required
@@ -114,7 +116,7 @@ const Login = () => {
               </div>
               <div className="text-sm">
                 <Link
-                  to="/forgot-password"
+                  to="/shop-forgot-password"
                   className="font-medium text-blue-600 hover:text-blue-500"
                 >
                   Forgot your password?
@@ -126,12 +128,12 @@ const Login = () => {
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                {isLoading ? <BeatLoader color="white" /> : 'Submit'}
+                {isLoading ? <BeatLoader color="white" /> : "Submit"}
               </button>
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Not have any account?</h4>
-              <Link to="/sign-up" className="text-blue-600 pl-2">
+              <Link to="/shop-create" className="text-blue-600 pl-2">
                 Sign Up
               </Link>
             </div>
@@ -142,4 +144,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ShopLogin;

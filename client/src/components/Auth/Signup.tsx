@@ -8,7 +8,6 @@ import { useRegisterMutation } from "../../redux/features/auth/authApi";
 import { BeatLoader } from "react-spinners";
 
 const SingUp = () => {
-  // const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -53,6 +52,7 @@ const SingUp = () => {
         toast.error(errorData.data.message);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, error]);
 
   return (

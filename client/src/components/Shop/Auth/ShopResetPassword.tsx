@@ -1,50 +1,54 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import styles from '../styles/styles';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import { useResetPasswordMutation } from '../redux/features/auth/authApi';
-import { BeatLoader } from 'react-spinners';
+import { useEffect, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import styles from "../../../styles/styles";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
+import { ServerError } from "../../../types";
+import { useSellerResetPasswordMutation } from "../../../redux/features/sellerAuth/sellerAuthApi";
 
-
-const ResetPasswordPage = () => {
-  const navigate = useNavigate()
-  const [password, setPassword] = useState('');
+const ShopResetPassword = () => {
+  const navigate = useNavigate();
+  const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const [resetPassword, { isLoading }] =
-    useResetPasswordMutation();
+  const [sellerResetPassword, { isLoading }] = useSellerResetPasswordMutation();
 
   const [searchParams] = useSearchParams();
-  const token = searchParams?.get('token');
-  const userId = searchParams?.get('id');
+  const token = searchParams?.get("token");
+  const shopId = searchParams?.get("id");
 
   useEffect(() => {
-    if (!userId) {
-      toast.error('Invalid reset password link!');
-      navigate('/');
+    if (!shopId) {
+      toast.error("Invalid reset password link!");
+      navigate("/");
     }
-  }, [userId]);
+  }, [shopId, navigate]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!token) {
-      toast.error('Missing reset token');
+      toast.error("Missing reset token");
       return;
     }
-    if (!userId) {
-      toast.error('Missing User Id');
+    if (!shopId) {
+      toast.error("Missing User Id");
       return;
     }
-  
+
     try {
-      const result = await resetPassword({
-        userId,
+      const result = await sellerResetPassword({
+        shopId,
         token,
-        newPassword: password
+        newPassword: password,
       }).unwrap();
-      toast.success(result.message || 'Password reset successful');
-    } catch (error: any) {
-      toast.error(error.data?.message || 'Something went wrong!');
+      toast.success(result.message || "Password reset successful");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to reset password";
+      toast.error(errorMessage);
     }
   };
 
@@ -67,7 +71,7 @@ const ResetPasswordPage = () => {
               </label>
               <div className="mt-1 relative">
                 <input
-                  type={visible ? 'text' : 'password'}
+                  type={visible ? "text" : "password"}
                   name="password"
                   autoComplete="current-password"
                   required
@@ -95,12 +99,12 @@ const ResetPasswordPage = () => {
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                {isLoading ? <BeatLoader color="white" /> : 'Submit'}
+                {isLoading ? <BeatLoader color="white" /> : "Submit"}
               </button>
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Go back to login</h4>
-              <Link to="/login" className="text-blue-600 pl-2">
+              <Link to="/login-shop" className="text-blue-600 pl-2">
                 Login
               </Link>
             </div>
@@ -111,4 +115,4 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default ShopResetPassword;

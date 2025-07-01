@@ -10,21 +10,22 @@ import { useGetAllProductsInShopQuery } from "../../redux/features/product/produ
 import { SellerState } from "../../types";
 
 const DashboardHero = () => {
-  const { seller } = useSelector((state: SellerState) => state.auth);
+  const { seller } = useSelector((state: SellerState) => state.sellerAuth);
 
   // Fetch orders and products using RTK Query
-  const {
-    data: orders,
-    isLoading: ordersLoading,
-  } = useGetAllSellerOrdersQuery(seller?._id, {
-    skip: !seller?._id, // Skip query if seller._id is not available
-  });
-  const {
-    data: products,
-    isLoading: productsLoading,
-  } = useGetAllProductsInShopQuery(seller?._id, {
-    skip: !seller?._id, // Skip query if seller._id is not available
-  });
+  const { data: ordersData, isLoading: ordersLoading } = useGetAllSellerOrdersQuery(
+    seller?._id,
+    {
+      skip: !seller?._id, // Skip query if seller._id is not available
+    }
+  );
+  const { data: productsData, isLoading: productsLoading } =
+    useGetAllProductsInShopQuery(seller?._id, {
+      skip: !seller?._id, // Skip query if seller._id is not available
+    });
+
+  const orders = ordersData?.orders || [];
+  const products = productsData?.products || [];
 
   // Format available balance
   const availableBalance = seller?.availableBalance?.toFixed(2);
@@ -37,9 +38,7 @@ const DashboardHero = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params: import("@mui/x-data-grid").GridCellParams) => {
-        return params.value === "Delivered"
-          ? "greenColor"
-          : "redColor";
+        return params.value === "Delivered" ? "greenColor" : "redColor";
       },
     },
     {
@@ -92,7 +91,7 @@ const DashboardHero = () => {
           (acc: number, cartItem: OrderCartItem) => acc + cartItem.qty,
           0
         ),
-        total: `US$ ${item.totalPrice}`,
+        total: `NGN₦ ${item.totalPrice}`,
         status: item.status,
       }))
     : [];
@@ -167,7 +166,7 @@ const DashboardHero = () => {
         <DataGrid
           rows={rows}
           columns={columns}
-          paginationModel={{ pageSize: 10, page: 0 }}
+          paginationModel={{ pageSize: 100, page: 0 }}
           disableRowSelectionOnClick
           // autoHeight
           loading={ordersLoading}

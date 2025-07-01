@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../../styles/styles";
+import styles from "../../../styles/styles";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { RxAvatar } from "react-icons/rx";
-import { useRegisterSellerMutation } from "../../redux/features/sellerAuth/sellerAuthApi";
+import { useRegisterSellerMutation } from "../../../redux/features/sellerAuth/sellerAuthApi";
 import { BeatLoader } from "react-spinners";
 
 const ShopCreate = () => {
@@ -17,7 +17,7 @@ const ShopCreate = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [registerSeller, { data, isLoading, isSuccess, error }] =
-      useRegisterSellerMutation();
+    useRegisterSellerMutation();
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
@@ -48,17 +48,17 @@ const ShopCreate = () => {
   };
 
   useEffect(() => {
-      if (isSuccess) {
-        const message = data?.message || "Registration successful";
-        toast.success(message);
+    if (isSuccess) {
+      const message = data?.message || "Registration successful";
+      toast.success(message);
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as { data: { message: string } };
+        toast.error(errorData.data.message);
       }
-      if (error) {
-        if ("data" in error) {
-          const errorData = error as { data: { message: string } };
-          toast.error(errorData.data.message);
-        }
-      }
-    }, [isSuccess, error]);
+    }
+  }, [isSuccess, error, data?.message]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

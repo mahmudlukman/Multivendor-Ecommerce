@@ -1,46 +1,51 @@
 import React, { useCallback, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useActivationMutation } from "../redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
+import { ServerError } from "../types";
 
 const ActivationPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const { activation_token } = useParams<{ activation_token: string }>();
   const navigate = useNavigate();
-  const [activateUser, { isLoading, isSuccess, isError }] = useActivationMutation();
-  const token = searchParams?.get('token');
+  const [activateUser, { isLoading, isSuccess, isError }] =
+    useActivationMutation();
 
   const onSubmit = useCallback(async () => {
-    if (!token) {
-      toast.error('Missing token');
+    if (!activation_token) {
+      toast.error("Missing token");
       return;
     }
 
     try {
-      const result = await activateUser({ activation_token: token }).unwrap();
-      toast.success(result.message || 'Account activated successfully');
-    } catch (error) {
-      console.log(error)
-      toast.error('Something went wrong!');
+      const result = await activateUser({ activation_token }).unwrap();
+      toast.success(result.message || "Account activated successfully");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message || serverError.message || "Activation failed";
+      toast.error(errorMessage);
     }
-  }, [token, activateUser]);
+  }, [activation_token, activateUser]);
 
   useEffect(() => {
     onSubmit();
   }, [onSubmit]);
 
   const handleRedirect = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
-    <div style={{
-      width: "100%",
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    }}>
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {isLoading ? (
         <p>Activating your account...</p>
       ) : isError ? (

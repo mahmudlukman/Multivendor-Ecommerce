@@ -1,21 +1,32 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { userLoggedIn } from '../auth/authSlice';
-import { sellerLoggedIn } from '../sellerAuth/sellerAuthSlice';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { userLoggedIn } from "../auth/authSlice";
+import { sellerLoggedIn } from "../sellerAuth/sellerAuthSlice";
 
 export const apiSlice = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_PUBLIC_SERVER_URI,
   }),
-  tagTypes: ['User', 'Seller', 'Product', 'Order', 'Cart', 'Conversation', 'CouponCode', 'Message', 'Event', 'WishList'],
+  tagTypes: [
+    "User",
+    "Seller",
+    "Product",
+    "Order",
+    "Cart",
+    "Conversation",
+    "CouponCode",
+    "Message",
+    "Event",
+    "WishList",
+  ],
   endpoints: (builder) => ({
     loadUser: builder.query({
       query: () => ({
-        url: 'me',
-        method: 'GET',
-        credentials: 'include' as const,
+        url: "me",
+        method: "GET",
+        credentials: "include" as const,
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           dispatch(
@@ -31,17 +42,17 @@ export const apiSlice = createApi({
     }),
     loadSeller: builder.query({
       query: () => ({
-        url: 'my-shop',
-        method: 'GET',
-        credentials: 'include' as const,
+        url: "my-shop",
+        method: "GET",
+        credentials: "include" as const,
       }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           dispatch(
             sellerLoggedIn({
-              sellerToken: result.data.accessToken,
-              seller: result.data.seller,
+              sellerToken: result.data.sellerToken,
+              seller: result.data.shop,
             })
           );
         } catch (error) {
@@ -52,4 +63,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useLoadUserQuery } = apiSlice;
+export const { useLoadUserQuery, useLoadSellerQuery } = apiSlice;

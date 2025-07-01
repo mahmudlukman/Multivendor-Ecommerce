@@ -3,7 +3,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { SellerState } from "../types";
 
 const PrivateShopRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
-  const { seller } = useSelector((state: SellerState) => state.auth);
+  const { seller } = useSelector((state: SellerState) => state.sellerAuth);
 
   if (!seller) {
     return <Navigate to="/login-shop" />;
@@ -12,7 +12,7 @@ const PrivateShopRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   if (!allowedRoles.includes(seller.role)) {
     return (
       <Navigate
-        to={seller.role === "seller" ? "/seller/dashboard" : "/user/dashboard"}
+        to={seller.role === "seller" ? "/shop/dashboard" : "/user/dashboard"}
       />
     );
   }

@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useActivateSellerMutation } from "../redux/features/sellerAuth/sellerAuthApi";
+import { useActivateSellerMutation } from "../../../redux/features/sellerAuth/sellerAuthApi";
+import { ServerError } from "../../../types";
 
-const SellerActivationPage: React.FC = () => {
+const ShopActivation = () => {
   const { activation_token } = useParams<{ activation_token: string }>();
   const navigate = useNavigate();
   const [activateSeller, { isLoading, isSuccess, isError }] =
@@ -18,9 +19,11 @@ const SellerActivationPage: React.FC = () => {
     try {
       const result = await activateSeller({ activation_token }).unwrap();
       toast.success(result.message || "Account activated successfully");
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong!");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message || serverError.message || "Activation failed";
+      toast.error(errorMessage);
     }
   }, [activation_token, activateSeller]);
 
@@ -73,4 +76,4 @@ const SellerActivationPage: React.FC = () => {
   );
 };
 
-export default SellerActivationPage;
+export default ShopActivation;

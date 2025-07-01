@@ -24,8 +24,8 @@ const sellerTokenExpire = parseInt(
   sameSite: "lax",
 };
 
-export const sendShopToken = (user: IShop, statusCode: number, res: Response) => {
-  const sellerToken = user.getJwtToken();
+export const sendShopToken = (seller: IShop, statusCode: number, res: Response) => {
+  const sellerToken = seller.getJwtToken();
 
   // Only set secure to true in production
   if (process.env.NODE_ENV === "production") {
@@ -36,7 +36,7 @@ export const sendShopToken = (user: IShop, statusCode: number, res: Response) =>
 
   res.status(statusCode).json({
     success: true,
-    user,
+    seller,
     sellerToken,
   });
 };

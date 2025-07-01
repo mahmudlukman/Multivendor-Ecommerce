@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
@@ -22,6 +19,8 @@ import {
   OrderDetailsPage,
   TrackOrderPage,
   UserInbox,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from "./routes/Routes";
 import {
   AdminDashboardPage,
@@ -46,6 +45,8 @@ import {
   ShopSettingsPage,
   ShopWithDrawMoneyPage,
   ShopInboxPage,
+  ShopForgotPasswordPage,
+  ShopResetPasswordPage,
 } from "./routes/ShopRoutes";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./routes/ProtectedAdminRoute";
@@ -62,12 +63,20 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/signUp",
+    path: "/sign-up",
     element: <SignupPage />,
   },
   {
     path: "/activation/:activation_token",
     element: <ActivationPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPasswordPage />,
   },
   {
     path: "/login-shop",
@@ -78,8 +87,16 @@ const router = createBrowserRouter([
     element: <ShopCreatePage />,
   },
   {
-    path: "/seller/activation/:activation_token",
+    path: "/shop/activation/:activation_token",
     element: <SellerActivationPage />,
+  },
+  {
+    path: "/shop-forgot-password",
+    element: <ShopForgotPasswordPage />,
+  },
+  {
+    path: "/shop-reset-password",
+    element: <ShopResetPasswordPage />,
   },
   {
     path: "/products",
@@ -146,7 +163,7 @@ const router = createBrowserRouter([
   },
   // Seller Routes (Protected)
   {
-    path: "/seller",
+    path: "/shop",
     element: <PrivateShopRoute allowedRoles={["seller"]} />,
     children: [
       {

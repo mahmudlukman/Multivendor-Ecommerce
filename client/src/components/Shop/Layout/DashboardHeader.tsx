@@ -7,7 +7,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { SellerState } from "../../../types";
 
 const DashboardHeader = () => {
-  const { seller } = useSelector((state: SellerState) => state.auth);
+  const { seller } = useSelector((state: SellerState) => state.sellerAuth);
 
   return (
     <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
@@ -52,9 +52,9 @@ const DashboardHeader = () => {
               className="mx-5 cursor-pointer"
             />
           </Link>
-          <Link to={`/shop/${seller._id}`}>
+          <Link to={`/shop/${seller?._id}`}>
             <img
-              src={`${seller.avatar?.url}`}
+              src={`${seller?.avatar?.url}`}
               alt=""
               className="w-[50px] h-[50px] rounded-full object-cover"
             />

@@ -84,7 +84,7 @@ export const sellerApi = apiSlice.injectEndpoints({
     }),
     sellerForgotPassword: builder.mutation({
       query: ({ email }) => ({
-        url: "forgot-password",
+        url: "forgot-shop-password",
         method: "POST",
         body: {
           email,
@@ -93,8 +93,8 @@ export const sellerApi = apiSlice.injectEndpoints({
       }),
     }),
     sellerResetPassword: builder.mutation({
-      query: ({ userId, token, newPassword }) => ({
-        url: `reset-password?token=${token}&id=${userId}`,
+      query: ({ shopId, token, newPassword }) => ({
+        url: `reset-shop-password?token=${token}&id=${shopId}`,
         method: "POST",
         body: {
           newPassword,
@@ -110,4 +110,6 @@ export const {
   useActivateSellerMutation,
   useSellerLoginMutation,
   useSellerLogOutQuery,
+  useSellerForgotPasswordMutation,
+  useSellerResetPasswordMutation,
 } = sellerApi;
