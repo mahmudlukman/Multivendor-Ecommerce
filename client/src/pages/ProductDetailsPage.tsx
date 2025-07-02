@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
-import Footer from '../components/Layout/Footer';
-import Header from '../components/Layout/Header';
-import ProductDetails from '../components/Products/ProductDetails';
-import SuggestedProduct from '../components/Products/SuggestedProduct';
-import { useGetEventsQuery } from '../redux/features/event/eventApi';
-import { useGetAllProductsQuery } from '../redux/features/product/productApi';
+import React, { useEffect, useState, useMemo } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import Footer from "../components/Layout/Footer";
+import Header from "../components/Layout/Header";
+import ProductDetails from "../components/Products/ProductDetails";
+import SuggestedProduct from "../components/Products/SuggestedProduct";
+import { useGetEventsQuery } from "../redux/features/event/eventApi";
+import { useGetAllProductsQuery } from "../redux/features/product/productApi";
 
 interface Image {
+  public_id: string;
   url: string;
 }
 
@@ -47,7 +48,6 @@ interface ProductData {
   category: string; // Add this line
 }
 
-
 interface EventData {
   _id: string;
   name: string;
@@ -72,20 +72,20 @@ const ProductDetailsPage: React.FC = () => {
   const { id } = useParams();
   const [data, setData] = useState<DetailData | null>(null);
   const [searchParams] = useSearchParams();
-  const eventData = searchParams.get('isEvent');
+  const eventData = searchParams.get("isEvent");
 
-  console.log(allProducts.products)
-  console.log(allEvents)
+  const products = useMemo(() => allProducts?.products || [], [allProducts]);
+  const events = useMemo(() => allEvents?.events || [], [allEvents]);
 
   useEffect(() => {
     if (eventData !== null) {
-      const eventItem = allEvents?.find((i: EventData) => i._id === id);
+      const eventItem = events?.find((i: EventData) => i._id === id);
       setData(eventItem || null);
     } else {
-      const productItem = allProducts?.products?.find((i: ProductData) => i._id === id);
+      const productItem = products?.find((i: ProductData) => i._id === id);
       setData(productItem || null);
     }
-  }, [allProducts, allEvents, id, eventData]);
+  }, [id, eventData, products, events]);
 
   return (
     <div>

@@ -7,7 +7,6 @@ import { SellerState } from "../../../types";
 const ShopLoginPage = () => {
   const navigate = useNavigate();
   const { seller } = useSelector((state: SellerState) => state.sellerAuth);
-  console.log(seller)
 
   useEffect(() => {
     if (seller) {

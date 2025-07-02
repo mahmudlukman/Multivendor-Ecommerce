@@ -61,7 +61,7 @@ const DashboardHero = () => {
       sortable: false,
       renderCell: (params: import("@mui/x-data-grid").GridRenderCellParams) => {
         return (
-          <Link to={`/dashboard/order/${params.id}`}>
+          <Link to={`/shop/order/${params.id}`}>
             <Button>
               <AiOutlineArrowRight size={20} />
             </Button>
@@ -117,7 +117,7 @@ const DashboardHero = () => {
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
             ${availableBalance || "0.00"}
           </h5>
-          <Link to="/dashboard-withdraw-money">
+          <Link to="/shop/withdraw-money">
             <h5 className="pt-4 pl-[2] text-[#077f9c]">Withdraw Money</h5>
           </Link>
         </div>
@@ -134,7 +134,7 @@ const DashboardHero = () => {
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
             {ordersLoading ? "Loading..." : orders?.length || 0}
           </h5>
-          <Link to="/dashboard-orders">
+          <Link to="/shop/orders">
             <h5 className="pt-4 pl-2 text-[#077f9c]">View Orders</h5>
           </Link>
         </div>
@@ -155,7 +155,7 @@ const DashboardHero = () => {
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
             {productsLoading ? "Loading..." : products?.length || 0}
           </h5>
-          <Link to="/dashboard-products">
+          <Link to="/shop/products">
             <h5 className="pt-4 pl-2 text-[#077f9c]">View Products</h5>
           </Link>
         </div>

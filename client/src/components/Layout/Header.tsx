@@ -131,7 +131,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to={seller ? '/seller/dashboard' : '/create-shop'}>
+            <Link to={seller ? '/shop/dashboard' : '/create-shop'}>
               <h1 className="text-[#fff] flex items-center">
                 {seller ? 'Go Dashboard' : 'Become Seller'}
                 <IoIosArrowForward className="ml-1" />
