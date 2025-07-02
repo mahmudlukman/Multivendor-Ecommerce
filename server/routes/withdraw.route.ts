@@ -26,5 +26,11 @@ withdrawRouter.put(
   authorizeRoles("admin"),
   updateWithdrawRequest
 );
+withdrawRouter.delete(
+  "/delete-withdraw-request/:id",
+  isAuthenticated,
+  isSeller,
+  updateWithdrawRequest
+);
 
 export default withdrawRouter;

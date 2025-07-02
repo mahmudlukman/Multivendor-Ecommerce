@@ -1,21 +1,21 @@
-import { apiSlice } from '../api/apiSlice';
+import { apiSlice } from "../api/apiSlice";
 
 export const shopApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateShopAvatar: builder.mutation({
       query: (avatar) => ({
-        url: 'update-shop-avatar',
-        method: 'PUT',
+        url: "update-shop-avatar",
+        method: "PUT",
         body: {
           avatar,
         },
-        credentials: 'include' as const,
+        credentials: "include" as const,
       }),
     }),
     updateShopInfo: builder.mutation({
       query: ({ name, email, phoneNumber, address, zipCode }) => ({
-        url: 'update-shop-info',
-        method: 'PUT',
+        url: "update-shop-info",
+        method: "PUT",
         body: {
           name,
           email,
@@ -23,53 +23,53 @@ export const shopApi = apiSlice.injectEndpoints({
           address,
           zipCode,
         },
-        credentials: 'include' as const,
+        credentials: "include" as const,
       }),
     }),
     updateShopPassword: builder.mutation({
       query: ({ oldPassword, newPassword }) => ({
-        url: 'update-shop-password',
-        method: 'PUT',
+        url: "update-shop-password",
+        method: "PUT",
         body: {
           oldPassword,
           newPassword,
         },
-        credentials: 'include' as const,
+        credentials: "include" as const,
       }),
     }),
     getAllShops: builder.query({
       query: () => ({
-        url: 'get-shops',
-        method: 'GET',
-        credentials: 'include' as const,
+        url: "get-shops",
+        method: "GET",
+        credentials: "include" as const,
       }),
     }),
     getShop: builder.query({
       query: (id) => ({
         url: `shop-info${id}`,
-        method: 'GET',
-        credentials: 'include' as const,
+        method: "GET",
+        credentials: "include" as const,
       }),
     }),
     deleteShop: builder.mutation({
       query: (id) => ({
         url: `delete-shop/${id}`,
-        method: 'DELETE',
-        credentials: 'include' as const,
+        method: "DELETE",
+        credentials: "include" as const,
       }),
     }),
     deleteWithdrawMethod: builder.mutation({
       query: () => ({
-        url: 'delete-withdraw-method',
-        method: 'DELETE',
-        credentials: 'include' as const,
+        url: "delete-withdraw-method",
+        method: "DELETE",
+        credentials: "include" as const,
       }),
     }),
     updateWithdrawMethod: builder.mutation({
       query: () => ({
-        url: 'update-payment-methods',
-        method: 'PUT',
-        credentials: 'include' as const,
+        url: "update-payment-methods",
+        method: "PUT",
+        credentials: "include" as const,
       }),
     }),
   }),
@@ -81,6 +81,7 @@ export const {
   useGetAllShopsQuery,
   useGetShopQuery,
   useUpdateShopAvatarMutation,
-  useUpdateShopInfoMutation, useUpdateShopPasswordMutation,
-  useUpdateWithdrawMethodMutation
+  useUpdateShopInfoMutation,
+  useUpdateShopPasswordMutation,
+  useUpdateWithdrawMethodMutation,
 } = shopApi;

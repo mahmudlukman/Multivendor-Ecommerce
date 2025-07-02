@@ -20,6 +20,16 @@ export interface SellerState {
   };
 }
 
+export interface WithdrawMethod {
+  _id: string;
+  bankName: string;
+  bankCountry: string;
+  bankSwiftCode: string;
+  bankAccountNumber: string;
+  bankHolderName: string;
+  bankAddress: string;
+}
+
 interface Seller {
   _id: string;
   name: string;
@@ -34,9 +44,10 @@ interface Seller {
     url: string;
   };
   zipCode: number;
-  withdrawMethod?: object | null;
-  availableBalance: number;
+  withdrawMethod?: WithdrawMethod;
+  availableBalance?: number;
   transactions: Transaction[];
+  withdrawMethod?: WithdrawMethod;
 }
 
 export interface ServerError {
