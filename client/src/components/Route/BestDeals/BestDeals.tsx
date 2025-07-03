@@ -2,22 +2,9 @@ import { useEffect, useState, FC } from 'react';
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
 import styles from '../../../styles/styles';
 import ProductCard from '../ProductCard/ProductCard';
+import { ProductData } from '../../../types';
 
-interface ProductData {
-  _id: string;
-  name: string;
-  description: string;
-  discountPrice: number;
-  originalPrice: number;
-  stock: number;
-  images: { url: string }[];
-  shop: {
-    _id: string;
-    name: string;
-  };
-  ratings: number;
-  sold_out: number;
-}
+// Remove Props interface as it's not used here
 
 const BestDeals: FC = () => {
   const [data, setData] = useState<ProductData[]>([]);

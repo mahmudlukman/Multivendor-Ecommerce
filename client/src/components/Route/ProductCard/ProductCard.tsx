@@ -6,7 +6,10 @@ import { ProductData } from '../../../types';
 
 interface Props {
   data: ProductData;
+  open: boolean;
+  setOpen: (isOpen: boolean) => void;
 }
+
 
 const ProductCard: FC<Props> = ({ data }) => {
   const [open, setOpen] = useState(false);

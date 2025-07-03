@@ -1,21 +1,13 @@
 import { apiSlice } from '../api/apiSlice';
-
-interface WishListItem {
-  productId: string;
-  _id: string;
-  name: string;
-  images: { url: string }[];
-  discountPrice: number;
-  qty: number;
-  stock: number;
-}
+import { WishListItem } from '../../../types';
 
 const getLocalWishList = (): WishListItem[] => {
-  return JSON.parse(localStorage.getItem('wishListItems') || '[]');
+  const rawData = localStorage.getItem('wishListItems');
+  return JSON.parse(rawData || '[]');
 };
 
 const setLocalWishList = (wishList: WishListItem[]) => {
-  localStorage.setItem('WishListItems', JSON.stringify(wishList));
+  localStorage.setItem('wishListItems', JSON.stringify(wishList));
 };
 
 export const WishListApi = apiSlice.injectEndpoints({
@@ -33,10 +25,8 @@ export const WishListApi = apiSlice.injectEndpoints({
         const existingItemIndex = wishList.findIndex(item => item._id === newItem._id);
         
         if (existingItemIndex !== -1) {
-          // Item exists, update quantity
           wishList[existingItemIndex].qty += newItem.qty;
         } else {
-          // New item, add to wishList
           wishList.push(newItem);
         }
         

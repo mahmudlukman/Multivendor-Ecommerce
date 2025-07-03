@@ -324,7 +324,6 @@ const AllRefundOrders = () => {
     {
       field: "itemsQty",
       headerName: "Items Qty",
-      type: "number",
       minWidth: 130,
       flex: 0.7,
     },
@@ -396,28 +395,26 @@ const TrackOrder = () => {
     }
   }, [error]);
 
-  const columns = [
+  const columns: GridColDef[] = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
     {
       field: "status",
       headerName: "Status",
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params: import("@mui/x-data-grid").GridCellParams) => {
+      cellClassName: (params) => {
         return params.value === "Delivered" ? "greenColor" : "redColor";
       },
     },
     {
       field: "itemsQty",
       headerName: "Items Qty",
-      type: "number",
       minWidth: 130,
       flex: 0.7,
     },
     {
       field: "total",
       headerName: "Total",
-      type: "number",
       minWidth: 130,
       flex: 0.8,
     },
@@ -426,9 +423,8 @@ const TrackOrder = () => {
       flex: 1,
       minWidth: 150,
       headerName: "",
-      type: "number",
       sortable: false,
-      renderCell: (params: import("@mui/x-data-grid").GridRenderCellParams) => {
+      renderCell: (params) => {
         return (
           <Link to={`/user/track/order/${params.id}`}>
             <Button>
@@ -439,7 +435,6 @@ const TrackOrder = () => {
       },
     },
   ];
-
   interface OrderItem {
     _id: string;
     cart?: { [key: string]: unknown }[];
@@ -461,11 +456,14 @@ const TrackOrder = () => {
 
   return (
     <div className="pl-8 pt-1">
-      <DataGrid
+        <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
-        disableSelectionOnClick
+        pageSizeOptions={[10]}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10, page: 0 } },
+        }}
+        disableRowSelectionOnClick
         autoHeight
       />
     </div>
@@ -622,15 +620,14 @@ const Address = () => {
     setAddressType("");
   };
 
-  interface AddressItem {
+  type Address = {
     _id: string;
     addressType?: string;
     address1?: string;
     address2?: string;
-    [key: string]: unknown;
-  }
+  };
 
-  const handleDelete = async (item: AddressItem) => {
+  const handleDelete = async (item: Address) => {
     try {
       await deleteUserAddress(item._id).unwrap();
       toast.success("Address deleted successfully!");
@@ -776,7 +773,7 @@ const Address = () => {
       </div>
       <br />
 
-      {user?.addresses?.map((item: any, index: number) => (
+      {user?.addresses?.map((item, index) => (
         <div
           className="w-full bg-white h-min 800px:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
           key={index}

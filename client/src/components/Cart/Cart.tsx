@@ -4,8 +4,13 @@ import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
-import { useGetCartQuery, useAddToCartMutation, useRemoveFromCartMutation } from "../../redux/features/cart/cartApi";
+import {
+  useGetCartQuery,
+  useAddToCartMutation,
+  useRemoveFromCartMutation,
+} from "../../redux/features/cart/cartApi";
 import { toast } from "react-hot-toast";
+import { ServerError } from "../../types";
 
 interface CartItem {
   _id: string;
@@ -33,18 +38,26 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
   const quantityChangeHandler = async (item: CartItem) => {
     try {
       await addToCart(item).unwrap();
-    } catch (error) {
-      console.error("Failed to update cart item:", error);
-      toast.error("Failed to update cart item");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to update cart item!";
+      toast.error(errorMessage);
     }
   };
 
   const removeFromCartHandler = async (id: string) => {
     try {
       await removeFromCart(id).unwrap();
-    } catch (error) {
-      console.error("Failed to remove item from cart:", error);
-      toast.error("Failed to remove item from cart");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to remove item from cart!";
+      toast.error(errorMessage);
     }
   };
 
@@ -116,7 +129,11 @@ interface CartSingleProps {
   removeFromCartHandler: (id: string) => void;
 }
 
-const CartSingle: FC<CartSingleProps> = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
+const CartSingle: FC<CartSingleProps> = ({
+  data,
+  quantityChangeHandler,
+  removeFromCartHandler,
+}) => {
   const [value, setValue] = useState(data.qty);
   const totalPrice = data.discountPrice * value;
 
@@ -164,7 +181,7 @@ const CartSingle: FC<CartSingleProps> = ({ data, quantityChangeHandler, removeFr
         <div className="pl-[5px]">
           <h1>{data.name}</h1>
           <h4 className="font-[400] text-[15px] text-[#00000082]">
-             ₦{data.discountPrice.toFixed(2)} * {value}
+            ₦{data.discountPrice.toFixed(2)} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
             NGN₦{totalPrice.toFixed(2)}

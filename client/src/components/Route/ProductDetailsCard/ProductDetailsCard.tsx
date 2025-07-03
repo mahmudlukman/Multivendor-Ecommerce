@@ -1,22 +1,24 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from "react";
 import {
   AiFillHeart,
   AiOutlineHeart,
   AiOutlineMessage,
   AiOutlineShoppingCart,
-} from 'react-icons/ai';
-import { RxCross1 } from 'react-icons/rx';
-import { Link } from 'react-router-dom';
-import styles from '../../../styles/styles';
-import { toast } from 'react-hot-toast';
-import { useAddToCartMutation, useGetCartQuery } from '../../../redux/features/cart/cartApi';
+} from "react-icons/ai";
+import { RxCross1 } from "react-icons/rx";
+import { Link } from "react-router-dom";
+import styles from "../../../styles/styles";
+import { toast } from "react-hot-toast";
+import {
+  useAddToCartMutation,
+  useGetCartQuery,
+} from "../../../redux/features/cart/cartApi";
 import {
   useAddToWishListMutation,
   useRemoveFromWishListMutation,
-  useGetWishListQuery
-} from '../../../redux/features/wishlist/wishlistApi';
-import { ProductData } from '../../../types';
-
+  useGetWishListQuery,
+} from "../../../redux/features/wishlist/wishlistApi";
+import { ProductData, ServerError, WishListItem } from "../../../types";
 
 interface Props {
   data: ProductData;
@@ -51,26 +53,33 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
   const addToCartHandler = async (id: string) => {
     const isItemExists = cartData && cartData.find((i) => i._id === id);
     if (isItemExists) {
-      toast.error('Item already in cart!');
+      toast.error("Item already in cart!");
     } else {
       if (data.stock < count) {
-        toast.error('Product stock limited!');
+        toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: count };
         try {
           await addToCart(cartData).unwrap();
-          toast.success('Item added to cart successfully!');
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-          toast.error('Failed to add item to cart');
+          toast.success("Item added to cart successfully!");
+        } catch (err: unknown) {
+          const serverError = err as ServerError;
+          const errorMessage =
+            serverError.data?.message ||
+            serverError.message ||
+            "Failed to add item to cart!";
+          toast.error(errorMessage);
         }
       }
     }
   };
 
   useEffect(() => {
-    if (wishlistData && wishlistData.some((item) => item.productId === data._id)) {
-    // if (wishlistData && wishlistData.find((i) => 'productId' in i && i.productId === data._id)) {
+    if (
+      wishlistData &&
+      wishlistData.some((item) => item.productId === data._id)
+    ) {
+      // if (wishlistData && wishlistData.find((i) => 'productId' in i && i.productId === data._id)) {
       setClick(true);
     } else {
       setClick(false);
@@ -81,18 +90,37 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
     setClick(!click);
     try {
       await removeFromWishlist(data._id).unwrap();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error('Failed to remove from wishlist');
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to remove item from wishlist!";
+      toast.error(errorMessage);
     }
   };
 
   const addToWishlistHandler = async (data: ProductData) => {
     setClick(!click);
     try {
-      await addToWishlist(data._id).unwrap();
-    } catch (error) {
-      toast.error('Failed to add to wishlist');
+      const wishListItem: WishListItem = {
+        productId: data._id,
+        _id: data._id, // Assuming _id is the same as productId for simplicity
+        name: data.name,
+        images: data.images,
+        discountPrice: data.discountPrice,
+        qty: 1, // Default quantity
+        stock: data.stock,
+      };
+      await addToWishlist(wishListItem).unwrap();
+      toast.success("Item added to wishlist successfully!");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to add to wishlist!";
+      toast.error(errorMessage);
     }
   };
 
@@ -118,12 +146,8 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
                   className="w-[50px] h-[50px] rounded-full mr-2"
                 />
                 <div>
-                  <h3 className={`${styles.shop_name}`}>
-                    {data.shop.name}
-                  </h3>
-                  <h5 className="pb-3 text-[15px]">
-                    {data.ratings} Ratings
-                  </h5>
+                  <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
+                  <h5 className="pb-3 text-[15px]">{data.ratings} Ratings</h5>
                 </div>
               </Link>
             </div>
@@ -149,7 +173,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
                 {data.discountPrice}₦
               </h4>
               <h3 className={`${styles.price}`}>
-                {data.originalPrice ? data.originalPrice + '₦' : null}
+                {data.originalPrice ? data.originalPrice + "₦" : null}
               </h3>
             </div>
             <div className="flex items-center mt-12 justify-between pr-3">
@@ -176,7 +200,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
                     size={30}
                     className="cursor-pointer"
                     onClick={() => removeFromWishlistHandler(data)}
-                    color={click ? 'red' : '#333'}
+                    color={click ? "red" : "#333"}
                     title="Remove from wishlist"
                   />
                 ) : (

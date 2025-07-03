@@ -1,28 +1,29 @@
-import { useState, ChangeEvent, FC } from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../../styles/styles';
-import { categoriesData } from '../../static/data';
+import { useState, ChangeEvent, FC } from "react";
+import { Link } from "react-router-dom";
+import styles from "../../styles/styles";
+import { categoriesData } from "../../static/data";
 import {
   AiOutlineHeart,
   AiOutlineSearch,
   AiOutlineShoppingCart,
-} from 'react-icons/ai';
-import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
-import { BiMenuAltLeft } from 'react-icons/bi';
-import { CgProfile } from 'react-icons/cg';
-import { RxCross1 } from 'react-icons/rx';
-import DropDown from './DropDown';
-import Navbar from './Navbar';
-import { useSelector } from 'react-redux';
+} from "react-icons/ai";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { BiMenuAltLeft } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
+import { RxCross1 } from "react-icons/rx";
+import DropDown from "./DropDown";
+import Navbar from "./Navbar";
+import { useSelector } from "react-redux";
 import {
   // useAddToCartMutation,
   useGetCartQuery,
   // useRemoveFromCartMutation,
-} from '../../redux/features/cart/cartApi';
-import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
-import { RootState, SellerState } from '../../types';
-import Wishlist from '../Wishlist/Wishlist';
-import Cart from '../Cart/Cart';
+} from "../../redux/features/cart/cartApi";
+import { useGetAllProductsQuery } from "../../redux/features/product/productApi";
+import { RootState, SellerState } from "../../types";
+import Wishlist from "../Wishlist/Wishlist";
+import Cart from "../Cart/Cart";
+import { useGetWishListQuery } from "../../redux/features/wishlist/wishlistApi";
 
 interface Props {
   activeHeading: number;
@@ -35,22 +36,21 @@ interface Product {
   image_Url: { url: string }[];
 }
 
-
 const Header: FC<Props> = ({ activeHeading }) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { seller } = useSelector((state: SellerState) => state.sellerAuth);
   const { data: cart } = useGetCartQuery();
+  const { data: wishList } = useGetWishListQuery();
   // const [addToCart] = useAddToCartMutation();
   // const [removeFromCart] = useRemoveFromCartMutation();
   const { data: allProducts } = useGetAllProductsQuery({});
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchData, setSearchData] = useState<Product[] | null>(null);
   const [active, setActive] = useState<boolean>(false);
   const [dropDown, setDropDown] = useState<boolean>(false);
   const [openCart, setOpenCart] = useState<boolean>(false);
   const [openWishlist, setOpenWishlist] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -63,7 +63,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
     setSearchData(filteredProducts);
   };
 
-  window.addEventListener('scroll', () => {
+  window.addEventListener("scroll", () => {
     if (window.scrollY > 70) {
       setActive(true);
     } else {
@@ -73,16 +73,16 @@ const Header: FC<Props> = ({ activeHeading }) => {
 
   // Determine the profile redirect path based on user role
   const getProfileRedirectPath = () => {
-    if (!user) return '/login';
+    if (!user) return "/login";
     switch (user.role) {
-      case 'admin':
-        return '/admin/dashboard';
-      case 'seller':
-        return '/seller/dashboard';
-      case 'user':
-        return '/user/profile';
+      case "admin":
+        return "/admin/dashboard";
+      case "seller":
+        return "/seller/dashboard";
+      case "user":
+        return "/user/profile";
       default:
-        return '/login';
+        return "/login";
     }
   };
 
@@ -131,9 +131,9 @@ const Header: FC<Props> = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to={seller ? '/shop/dashboard' : '/create-shop'}>
+            <Link to={seller ? "/shop/dashboard" : "/create-shop"}>
               <h1 className="text-[#fff] flex items-center">
-                {seller ? 'Go Dashboard' : 'Become Seller'}
+                {seller ? "Go Dashboard" : "Become Seller"}
                 <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
@@ -142,7 +142,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
       </div>
       <div
         className={`${
-          active ? 'shadow-sm fixed top-0 left-0 z-10' : ''
+          active ? "shadow-sm fixed top-0 left-0 z-10" : ""
         } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
       >
         <div
@@ -170,7 +170,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
               ) : null}
             </div>
           </div>
-          {/* navitems */}
+          {/* navItems */}
           <div className={`${styles.noramlFlex}`}>
             <Navbar active={activeHeading} />
           </div>
@@ -183,7 +183,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
               >
                 <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  {cart && cart.length}
+                  {wishList && wishList.length}
                 </span>
               </div>
             </div>
@@ -231,7 +231,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
       {/* mobile header */}
       <div
         className={`${
-          active ? 'shadow-sm fixed top-0 left-0 z-10' : ''
+          active ? "shadow-sm fixed top-0 left-0 z-10" : ""
         } w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
       >
         <div className="w-full flex items-center justify-between">
@@ -254,7 +254,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
           <div className="relative mr-[20px]">
             <AiOutlineShoppingCart size={30} />
             <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-              {cart && cart.length}
+              {wishList && wishList.length}
             </span>
           </div>
         </div>
@@ -314,9 +314,9 @@ const Header: FC<Props> = ({ activeHeading }) => {
               </div>
               <Navbar active={activeHeading} />
               <div className={`${styles.button} ml-4 !rounded-[4px]`}>
-                <Link to={seller ? '/seller/dashboard' : '/shop-create'}>
+                <Link to={seller ? "/seller/dashboard" : "/shop-create"}>
                   <h1 className="text-[#fff] flex items-center">
-                    {seller ? 'Go Dashboard' : 'Become Seller'}
+                    {seller ? "Go Dashboard" : "Become Seller"}
                     <IoIosArrowForward className="ml-1" />
                   </h1>
                 </Link>

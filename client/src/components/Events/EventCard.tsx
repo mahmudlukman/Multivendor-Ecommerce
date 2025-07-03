@@ -1,9 +1,13 @@
-import {FC} from "react";
+import { FC } from "react";
 import styles from "../../styles/styles";
 import CountDown from "./CountDown";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useAddToCartMutation, useGetCartQuery } from "../../redux/features/cart/cartApi";
+import {
+  useAddToCartMutation,
+  useGetCartQuery,
+} from "../../redux/features/cart/cartApi";
+import { ServerError } from "../../types";
 
 interface Props {
   active: boolean;
@@ -23,7 +27,7 @@ interface Props {
 const EventCard: FC<Props> = ({ active, data }) => {
   const { data: cartItems } = useGetCartQuery();
   const [addToCart] = useAddToCartMutation();
-  const addToCartHandler = async (item: Props['data']) => {
+  const addToCartHandler = async (item: Props["data"]) => {
     const isItemExists = cartItems?.find((i) => i._id === item._id);
     if (isItemExists) {
       toast.error("Item already in cart!");
@@ -35,9 +39,13 @@ const EventCard: FC<Props> = ({ active, data }) => {
         try {
           await addToCart(cartData).unwrap();
           toast.success("Item added to cart successfully!");
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-          toast.error("Failed to add item to cart");
+        } catch (err: unknown) {
+          const serverError = err as ServerError;
+          const errorMessage =
+            serverError.data?.message ||
+            serverError.message ||
+            "Failed to add item to cart!";
+          toast.error(errorMessage);
         }
       }
     }
@@ -74,7 +82,12 @@ const EventCard: FC<Props> = ({ active, data }) => {
           <Link to={`/product/${data._id}?isEvent=true`}>
             <div className={`${styles.button} text-[#fff]`}>See Details</div>
           </Link>
-          <div className={`${styles.button} text-[#fff] ml-5`} onClick={() => addToCartHandler(data)}>Add to cart</div>
+          <div
+            className={`${styles.button} text-[#fff] ml-5`}
+            onClick={() => addToCartHandler(data)}
+          >
+            Add to cart
+          </div>
         </div>
       </div>
     </div>

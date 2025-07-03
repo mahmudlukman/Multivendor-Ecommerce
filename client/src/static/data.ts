@@ -55,7 +55,7 @@ export const brandingData: BrandingItem[] = [
   },
   {
     id: 4,
-    title: 'Affortable Prices',
+    title: 'Affordable Prices',
     description: 'Get Factory direct price',
     icon: AffordablePricesIcon,
   },
@@ -85,7 +85,7 @@ export const categoriesData = [
   },
   {
     id: 3,
-    title: 'Accesories',
+    title: 'Accessories',
     subTitle: '',
     image_Url:
       'https://img.freepik.com/free-vector/ordering-goods-online-internet-store-online-shopping-niche-e-commerce-website-mother-buying-babies-clothes-footwear-toys-infant-accessories_335657-2345.jpg?w=2000',

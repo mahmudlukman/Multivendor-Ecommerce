@@ -9,8 +9,9 @@ import { TbAddressBook } from "react-icons/tb";
 import { RxPerson } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../types";
+import { RootState, ServerError } from "../../types";
 import { useLogoutMutation } from "../../redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
 interface ProfileSidebarProps {
   setActive: (value: number) => void;
@@ -26,8 +27,13 @@ const ProfileSidebar = ({ setActive, active }: ProfileSidebarProps) => {
     try {
       await logout({}).unwrap();
       navigate("/");
-    } catch (error) {
-      console.error("Logout failed", error);
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to logout!";
+      toast.error(errorMessage);
     }
   };
   return (

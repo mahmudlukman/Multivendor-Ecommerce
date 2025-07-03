@@ -92,8 +92,13 @@ export interface Review {
 }
 
 export interface WishListItem {
+  productId: string;
   _id: string;
-  addedAt?: string;
+  name: string;
+  images: { url: string }[];
+  discountPrice: number;
+  qty: number;
+  stock: number;
 }
 
 export interface ProductData {

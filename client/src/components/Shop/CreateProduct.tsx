@@ -85,8 +85,7 @@ const CreateProduct = () => {
       toast.error("Seller information is missing. Please log in again.");
       return;
     }
-
-    // Create JSON payload instead of FormData
+    
     const productData = {
       name,
       description,
@@ -96,10 +95,8 @@ const CreateProduct = () => {
       discountPrice: Number(discountPrice),
       stock: Number(stock),
       shopId: seller._id,
-      images: images, // Base64 strings array
+      images: images,
     };
-
-    console.log("Sending product data:", productData); // Debug log
 
     try {
       await createProduct(productData).unwrap();
@@ -110,7 +107,6 @@ const CreateProduct = () => {
         serverError.message ||
         "Failed to create product!";
       toast.error(errorMessage);
-      console.error("Create product error:", err); // Debug log
     }
   };
 
