@@ -118,3 +118,20 @@ export interface ProductData {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface EventData {
+  name: string;
+  description: string;
+  category: string;
+  start_Date: Date;
+  Finish_Date: Date;
+  status?: string;
+  tags?: string;
+  originalPrice?: number;
+  discountPrice: number;
+  stock: number;
+  images:Image;
+  shopId: string;
+  shop: object;
+  sold_out?: number;
+}

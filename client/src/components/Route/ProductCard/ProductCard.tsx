@@ -1,15 +1,16 @@
-import { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../../../styles/styles';
-import ProductDetailsCard from '../ProductDetailsCard/ProductDetailsCard';
-import { ProductData } from '../../../types';
+import { FC, useState } from "react";
+import { Link } from "react-router-dom";
+import styles from "../../../styles/styles";
+import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard";
+import { ProductData } from "../../../types";
 
 interface Props {
   data: ProductData;
   open: boolean;
   setOpen: (isOpen: boolean) => void;
+  isShop?: boolean;
+  isEvent?: boolean;
 }
-
 
 const ProductCard: FC<Props> = ({ data }) => {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,7 @@ const ProductCard: FC<Props> = ({ data }) => {
         </Link>
         <Link to={`/product/${data._id}`}>
           <h4 className="pb-3 font-[500]">
-            {data.name.length > 40 ? data.name.slice(0, 40) + '...' : data.name}
+            {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
           </h4>
 
           <div className="flex">
@@ -45,7 +46,7 @@ const ProductCard: FC<Props> = ({ data }) => {
               ₦
             </h5>
             <h4 className={`${styles.price}`}>
-              {data.originalPrice ? data.originalPrice + ' ₦' : null}
+              {data.originalPrice ? data.originalPrice + " ₦" : null}
             </h4>
           </div>
         </Link>

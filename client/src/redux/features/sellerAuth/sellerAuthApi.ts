@@ -67,7 +67,7 @@ export const sellerApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    sellerLogOut: builder.query({
+    sellerLogout: builder.mutation({
       query: () => ({
         url: "logout-shop",
         method: "GET",
@@ -109,7 +109,7 @@ export const {
   useRegisterSellerMutation,
   useActivateSellerMutation,
   useSellerLoginMutation,
-  useSellerLogOutQuery,
+  useSellerLogoutMutation,
   useSellerForgotPasswordMutation,
   useSellerResetPasswordMutation,
 } = sellerApi;

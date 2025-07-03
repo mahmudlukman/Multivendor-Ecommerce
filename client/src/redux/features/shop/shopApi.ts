@@ -46,7 +46,7 @@ export const shopApi = apiSlice.injectEndpoints({
     }),
     getShop: builder.query({
       query: (id) => ({
-        url: `shop-info${id}`,
+        url: `shop-info/${id}`,
         method: "GET",
         credentials: "include" as const,
       }),
