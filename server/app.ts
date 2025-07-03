@@ -6,6 +6,7 @@ import { errorMiddleware } from "./middleware/error";
 import compression from "compression";
 import helmet from "helmet";
 import limiter from "./utils/rateLimiter";
+import type { CorsOptions } from "cors";
 import authRouter from "./routes/auth.route";
 import userRouter from "./routes/user.route";
 import shopRouter from "./routes/shop.route";
@@ -16,6 +17,7 @@ import couponCodeRouter from "./routes/couponCode.route";
 import conversationRouter from "./routes/conversation.route";
 import messageRouter from "./routes/message.route";
 import withdrawRouter from "./routes/withdraw.route";
+import config from "./config";
 
 export const app = express();
 // Load environment variables from .env file
@@ -27,12 +29,33 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 // cors => Cross Origin Resource Sharing
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    credentials: true,
-  })
-);
+// Configure CORS options
+const corsOptions: CorsOptions = {
+  origin(origin, callback) {
+    if (
+      config.NODE_ENV === "development" ||
+      !origin ||
+      config.WHITELIST_ORIGINS.includes(origin)
+    ) {
+      callback(null, true);
+    } else {
+      // Reject requests from non-whitelisted origins
+      callback(
+        new Error(`CORS error: ${origin} is not allowed by CORS`),
+        false
+      );
+    }
+  },
+};
+
+// Apply CORS middleware
+app.use(cors({ ...corsOptions, credentials: true }));
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173"],
+//     credentials: true,
+//   })
+// );
 
 // Enable response compression to reduce payload size and improve performance
 app.use(

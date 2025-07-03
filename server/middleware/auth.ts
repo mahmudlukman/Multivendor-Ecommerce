@@ -4,6 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import ErrorHandler from '../utils/errorHandler';
 import User from '../models/User';
 import Shop from '../models/Shop';
+import config from '../config';
 
 // authenticated user
 export const isAuthenticated = catchAsyncError(
@@ -18,7 +19,7 @@ export const isAuthenticated = catchAsyncError(
 
     const decoded = jwt.verify(
       access_token,
-      process.env.JWT_SECRET_KEY as string
+      config.JWT_SECRET_KEY as string
     ) as JwtPayload;
 
     if (!decoded) {
@@ -41,7 +42,7 @@ export const isSeller = catchAsyncError(
 
     const decoded = jwt.verify(
       seller_token,
-      process.env.JWT_SECRET_KEY as string
+      config.JWT_SECRET_KEY as string
     ) as JwtPayload;
 
     req.seller = await Shop.findById(decoded.id);

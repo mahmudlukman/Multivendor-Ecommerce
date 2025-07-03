@@ -71,21 +71,6 @@ export const getEvents = catchAsyncError(
 );
 
 // Get all events of a shop
-// export const getShopEvents = catchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const events = await Event.find({ shopId: req.params.id });
-//       res.status(201).json({
-//         success: true,
-//         events,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 400));
-//     }
-//   }
-// );
-
-// Option 1: Get events by shop ID as a route parameter
 export const getShopEvents = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {

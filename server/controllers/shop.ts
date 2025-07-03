@@ -8,6 +8,7 @@ import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
 import { sendShopToken } from "../utils/shopToken";
+import config from "../config";
 
 // register user
 interface ICreateShop {
@@ -58,7 +59,7 @@ export const createShop = catchAsyncError(
 
       const activationToken = createActivationToken(shop);
 
-      const activationUrl = `http://localhost:5173/shop/activation/${activationToken}`;
+      const activationUrl = `${config.WHITELIST_ORIGINS}/shop/activation/${activationToken}`;
 
       const data = { shop: { name: shop.name }, activationUrl };
       const html = await ejs.renderFile(
@@ -89,7 +90,7 @@ export const createShop = catchAsyncError(
 
 // Function to create an activation token
 export const createActivationToken = (shop: any): string => {
-  const token = jwt.sign({ shop }, process.env.ACTIVATION_SECRET as Secret, {
+  const token = jwt.sign({ shop }, config.ACTIVATION_SECRET as Secret, {
     expiresIn: "5m",
   });
   return token;
@@ -104,10 +105,12 @@ export const activateShop = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { activation_token } = req.body as IActivationRequest;
-
+      if (!activation_token) {
+        return next(new ErrorHandler("Please provide activation token", 400));
+      }
       const newShop = jwt.verify(
         activation_token,
-        process.env.ACTIVATION_SECRET as string
+        config.ACTIVATION_SECRET as string
       ) as { shop: IShop };
 
       if (!newShop) {
@@ -202,7 +205,7 @@ export const forgotShopPassword = catchAsyncError(
 
       const resetToken = createActivationToken(shop);
 
-      const resetUrl = `http://localhost:5173/shop-reset-password?token=${resetToken}&id=${shop._id}`;
+      const resetUrl = `${config.WHITELIST_ORIGINS}/shop-reset-password?token=${resetToken}&id=${shop._id}`;
 
       const data = { shop: { name: shop.name }, resetUrl };
       const html = await ejs.renderFile(
@@ -403,7 +406,7 @@ export const updateShopPassword = catchAsyncError(
 
       res.status(201).json({
         success: true,
-        message: `Password Updated Successfully'!`,
+        message: `Password Updated Successfully!`,
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

@@ -1,6 +1,6 @@
-require("dotenv").config();
 import { Response } from "express";
 import { IUser } from "../models/User";
+import config from "../config";
 
 interface ITokenOptions {
   expires: Date;
@@ -12,7 +12,7 @@ interface ITokenOptions {
 
 // parse environment variables to integrates with fallback values
 const accessTokenExpire = parseInt(
-  process.env.JWT_EXPIRES || "300",
+  config.JWT_EXPIRES || "300",
   10
 );
 
@@ -28,7 +28,7 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
   const accessToken = user.getJwtToken();
 
   // Only set secure to true in production
-  if (process.env.NODE_ENV === "production") {
+  if (config.NODE_ENV === "production") {
     accessTokenOptions.secure = true;
   }
 

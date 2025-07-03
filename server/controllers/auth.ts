@@ -9,6 +9,7 @@ import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
 import { sendToken } from '../utils/jwtToken';
+import config from "../config";
 dotenv.config();
 // register user
 interface ICreateUser {
@@ -51,7 +52,7 @@ export const createUser = catchAsyncError(
       }
       const activationToken = createActivationToken(user);
 
-      const activationUrl = `http://localhost:5173/activation/${activationToken}`;
+      const activationUrl = `${config.WHITELIST_ORIGINS}/activation/${activationToken}`;
 
       const data = { user: { name: user.name }, activationUrl };
       const html = await ejs.renderFile(
@@ -82,7 +83,7 @@ export const createUser = catchAsyncError(
 
 // Function to create an activation token
 export const createActivationToken = (user: any): string => {
-  const token = jwt.sign({ user }, process.env.ACTIVATION_SECRET as Secret, {
+  const token = jwt.sign({ user }, config.ACTIVATION_SECRET as Secret, {
     expiresIn: '5m',
   });
   return token;
@@ -97,10 +98,12 @@ export const activateUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { activation_token } = req.body as IActivationRequest;
-
+      if (!activation_token) {
+        return next(new ErrorHandler('Please provide activation token', 400));
+      }
       const newUser = jwt.verify(
         activation_token,
-        process.env.ACTIVATION_SECRET as string
+        config.ACTIVATION_SECRET as string
       ) as { user: IUser };
 
       if (!newUser) {
@@ -193,7 +196,7 @@ export const forgotPassword = catchAsyncError(
 
       const resetToken = createActivationToken(user);
 
-      const resetUrl = `http://localhost:5173/reset-password?token=${resetToken}&id=${user._id}`;
+      const resetUrl = `${config.WHITELIST_ORIGINS}/reset-password?token=${resetToken}&id=${user._id}`;
 
       const data = { user: { name: user.name }, resetUrl };
       const html = await ejs.renderFile(

@@ -3,9 +3,8 @@ import { catchAsyncError } from '../middleware/catchAsyncErrors';
 import ErrorHandler from '../utils/errorHandler';
 import Shop from '../models/Shop';
 import cloudinary from 'cloudinary';
-import Product, { IProduct } from '../models/Product';
+import Product from '../models/Product';
 import Order from '../models/Order';
-import { Types } from 'mongoose';
 
 // Create product
 interface ICreateProduct {
