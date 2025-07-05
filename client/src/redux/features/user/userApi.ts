@@ -13,12 +13,12 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     updateUserInfo: builder.mutation({
-      query: ({ name, email, phoneNumber }) => ({
+      query: ({ name, avatar, phoneNumber }) => ({
         url: 'update-user-info',
         method: 'PUT',
         body: {
           name,
-          email,
+          avatar,
           phoneNumber,
         },
         credentials: 'include' as const,
@@ -64,16 +64,18 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     updateUserRole: builder.mutation({
-      query: () => ({
+      query: ({ data }) => ({
         url: 'update-user-role',
         method: 'PUT',
+        body: data,
         credentials: 'include' as const,
       }),
     }),
     updateUserAddress: builder.mutation({
-      query: () => ({
+      query: (addressData) => ({
         url: 'update-user-address',
         method: 'PUT',
+        body: addressData,
         credentials: 'include' as const,
       }),
     }),

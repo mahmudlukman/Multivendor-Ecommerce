@@ -1,4 +1,4 @@
-import {FC} from "react";
+import { FC } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetShopQuery } from "../../redux/features/shop/shopApi";
 import { useGetAllProductsInShopQuery } from "../../redux/features/product/productApi";
@@ -17,14 +17,12 @@ const ShopInfo: FC<ShopInfoProps> = ({ isOwner, shop }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // If shop data is passed as prop (from parent component), use it
-  // Otherwise, fetch it using RTK Query
   const {
     data: shopData,
     isLoading: isShopLoading,
     error: shopError,
   } = useGetShopQuery(id, {
-    skip: !!shop, // Skip this query if shop data is already provided
+    skip: !!shop,
   });
 
   const {
@@ -95,9 +93,11 @@ const ShopInfo: FC<ShopInfoProps> = ({ isOwner, shop }) => {
           />
         </div>
         <h3 className="text-center py-2 text-[20px]">{currentShop?.name}</h3>
-        <p className="text-[16px] text-[#000000a6] p-[10px] flex items-center">
-          {currentShop?.description}
-        </p>
+      </div>
+
+      <div className="p-3">
+        <h5 className="font-[600]">Description</h5>
+        <h4 className="text-[#000000a6]">{currentShop?.description}</h4>
       </div>
 
       <div className="p-3">
@@ -131,7 +131,7 @@ const ShopInfo: FC<ShopInfoProps> = ({ isOwner, shop }) => {
 
       {isOwner && (
         <div className="py-3 px-4">
-          <Link to="/settings">
+          <Link to="/shop/settings">
             <div
               className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}
             >

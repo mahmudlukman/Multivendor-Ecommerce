@@ -1,8 +1,14 @@
-import React from 'react'
+import Footer from '../components/Layout/Footer'
+import Header from '../components/Layout/Header';
+import TrackOrder from "../components/Profile/TrackOrder";
 
 const TrackOrderPage = () => {
   return (
-    <div>TrackOrderPage</div>
+    <div>
+        <Header activeHeading={0} />
+        <TrackOrder />
+        <Footer />
+    </div>
   )
 }
 

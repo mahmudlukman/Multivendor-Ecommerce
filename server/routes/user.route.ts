@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import {
   deleteUser,
   deleteUserAddress,
@@ -7,45 +7,40 @@ import {
   getUserInfo,
   updatePassword,
   updateUserAddress,
-  updateUserAvatar,
   updateUserInfo,
   updateUserRole,
-} from '../controllers/user';
-import { authorizeRoles, isAuthenticated } from '../middleware/auth';
+} from "../controllers/user";
+import { authorizeRoles, isAuthenticated } from "../middleware/auth";
 
 const userRouter = express.Router();
 
-userRouter.get('/me', isAuthenticated, getUserInfo);
-userRouter.put('/update-user-info', isAuthenticated, updateUserInfo);
-userRouter.put('/update-user-password', isAuthenticated, updatePassword);
-userRouter.put('/update-user-avatar', isAuthenticated, updateUserAvatar);
-userRouter.put('/update-user-address', isAuthenticated, updateUserAddress);
+userRouter.get("/me", isAuthenticated, getUserInfo);
+userRouter.put("/update-user-info", isAuthenticated, updateUserInfo);
+userRouter.put("/update-user-password", isAuthenticated, updatePassword);
+userRouter.put("/update-user-address", isAuthenticated, updateUserAddress);
 userRouter.delete(
-  '/delete-user-address/:id',
+  "/delete-user-address/:id",
   isAuthenticated,
   deleteUserAddress
 );
+userRouter.get("/get-user/:id", getUserById);
 userRouter.get(
-  '/get-user/:id',
-  getUserById
-);
-userRouter.get(
-  '/get-users',
+  "/get-users",
   isAuthenticated,
-  authorizeRoles('admin'),
+  authorizeRoles("admin"),
   getAllUsers
 );
 userRouter.put(
-  '/update-user-role',
+  "/update-user-role",
   isAuthenticated,
-  authorizeRoles('admin'),
+  authorizeRoles("admin"),
   updateUserRole
 );
 
 userRouter.delete(
-  '/delete-user/:id',
+  "/delete-user/:id",
   isAuthenticated,
-  authorizeRoles('admin'),
+  authorizeRoles("admin"),
   deleteUser
 );
 

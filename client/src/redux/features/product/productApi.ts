@@ -32,9 +32,10 @@ export const productApi = apiSlice.injectEndpoints({
       }),
     }),
     reviewProduct: builder.mutation({
-      query: () => ({
-        url: 'review-product',
+      query: (data) => ({
+        url: 'create-new-review',
         method: 'PUT',
+        body: data,
         credentials: 'include' as const,
       }),
     }),

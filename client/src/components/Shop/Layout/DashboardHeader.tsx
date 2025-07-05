@@ -35,7 +35,7 @@ const DashboardHeader = () => {
               className="mx-5 cursor-pointer"
             />
           </Link>
-          <Link to="/shop/dashboard-products" className="800px:block hidden">
+          <Link to="/shop/products" className="800px:block hidden">
             <FiShoppingBag
               color="#555"
               size={30}
@@ -52,7 +52,7 @@ const DashboardHeader = () => {
               className="mx-5 cursor-pointer"
             />
           </Link>
-          <Link to={`/shop/${seller?._id}`}>
+          <Link to={`/shop/dashboard/${seller?._id}`}>
             <img
               src={`${seller?.avatar?.url}`}
               alt=""

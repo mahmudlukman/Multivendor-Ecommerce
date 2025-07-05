@@ -175,7 +175,7 @@ const router = createBrowserRouter([
         element: <ShopSettingsPage />,
       },
       {
-        path: "shop/:id",
+        path: "dashboard/:id",
         element: <ShopHomePage />,
       },
       {

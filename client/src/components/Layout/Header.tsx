@@ -41,8 +41,6 @@ const Header: FC<Props> = ({ activeHeading }) => {
   const { seller } = useSelector((state: SellerState) => state.sellerAuth);
   const { data: cart } = useGetCartQuery();
   const { data: wishList } = useGetWishListQuery();
-  // const [addToCart] = useAddToCartMutation();
-  // const [removeFromCart] = useRemoveFromCartMutation();
   const { data: allProducts } = useGetAllProductsQuery({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchData, setSearchData] = useState<Product[] | null>(null);

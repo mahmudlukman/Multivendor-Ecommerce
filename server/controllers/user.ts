@@ -25,25 +25,17 @@ export const getUserInfo = catchAsyncError(
 
 // update user info
 interface IUpdateUserInfo {
-  email?: string;
   phoneNumber?: number;
   name?: string;
+  avatar?: string;
 }
 
 export const updateUserInfo = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email, phoneNumber, name } = req.body as IUpdateUserInfo;
+      const { phoneNumber, name, avatar } = req.body as IUpdateUserInfo;
 
       const user = await User.findById(req.user?._id);
-
-      if (email && user) {
-        const isEmailExist = await User.findOne({ email });
-        if (isEmailExist) {
-          return next(new ErrorHandler("Email already exist", 400));
-        }
-        user.email = email;
-      }
 
       if (name && user) {
         user.name = name;
@@ -53,7 +45,24 @@ export const updateUserInfo = catchAsyncError(
         user.phoneNumber = phoneNumber;
       }
 
-      await user?.save();
+      if (avatar && user) {
+        if (user.avatar?.public_id) {
+          await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+        }
+
+        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+          folder: "avatar",
+          width: 150,
+        });
+        user.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+
+      if (user) {
+        await user.save();
+      }
 
       res.status(201).json({ success: true, user });
     } catch (error: any) {
@@ -122,58 +131,32 @@ export const updatePassword = catchAsyncError(
   }
 );
 
-// update user avatar
-interface IUpdateAvatar {
-  avatar: string;
-}
-export const updateUserAvatar = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { avatar } = req.body as IUpdateAvatar;
-
-      const user = await User.findById(req.user?._id);
-
-      if (avatar && user) {
-        if (user?.avatar?.public_id) {
-          await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
-
-          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: "avatars",
-            width: 150,
-          });
-          user.avatar = {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-          };
-        } else {
-          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: "avatars",
-            width: 150,
-          });
-          user.avatar = {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-          };
-        }
-      }
-
-      await user?.save();
-
-      res.status(200).json({ success: true, user });
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 400));
-    }
-  }
-);
-
 // update user address
 export const updateUserAddress = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await User.findById(req.user?._id);
 
-      const sameTypeAddress = user?.addresses.find(
-        (address) => address.addressType === req.body.addressType
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      const { country, city, address1, address2, zipCode, addressType, _id } =
+        req.body;
+
+      // Validate required fields
+      if (!country || !city || !address1 || !addressType) {
+        return next(
+          new ErrorHandler("Please provide all required address fields", 400)
+        );
+      }
+
+      // Check for duplicate addressType (excluding the address being updated)
+      const sameTypeAddress = user.addresses.find(
+        (address) =>
+          address.addressType === addressType &&
+          address._id &&
+          address._id.toString() !== _id
       );
       if (sameTypeAddress) {
         return next(
@@ -184,18 +167,30 @@ export const updateUserAddress = catchAsyncError(
         );
       }
 
-      const existsAddress = user?.addresses.find(
-        (address) => address._id === req.body._id
-      );
+      const newAddress = {
+        country,
+        city,
+        address1,
+        address2: address2 || "",
+        zipCode: zipCode || "",
+        addressType: addressType,
+      };
 
-      if (existsAddress) {
-        Object.assign(existsAddress, req.body);
+      if (_id) {
+        // Update existing address
+        const existsAddress = user.addresses.find(
+          (address) => address._id && address._id.toString() === _id
+        );
+        if (!existsAddress) {
+          return next(new ErrorHandler("Address not found", 404));
+        }
+        Object.assign(existsAddress, newAddress);
       } else {
-        // add the new address to the array
-        user?.addresses.push(req.body);
+        // Add new address
+        user.addresses.push(newAddress);
       }
 
-      await user?.save();
+      await user.save();
 
       res.status(200).json({
         success: true,

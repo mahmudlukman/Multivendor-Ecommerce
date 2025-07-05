@@ -14,7 +14,6 @@ import { RxCross1 } from "react-icons/rx";
 import { Country, State } from "country-state-city";
 import { toast } from "react-hot-toast";
 import {
-  useUpdateUserAvatarMutation,
   useUpdateUserInfoMutation,
   useUpdateUserPasswordMutation,
   useDeleteUserAddressMutation,
@@ -30,18 +29,30 @@ interface ProfileContentProps {
 const ProfileContent = ({ active }: ProfileContentProps) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [name, setName] = useState(user?.name || "");
-  const [email, setEmail] = useState(user?.email || "");
+  const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null);
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
-
-  const [updateUserAvatar] = useUpdateUserAvatarMutation();
   const [updateUserInfo] = useUpdateUserInfoMutation();
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateUserInfo({
         name,
-        email,
+        avatar,
         phoneNumber,
       }).unwrap();
       toast.success("Profile updated successfully!");
@@ -55,29 +66,6 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
     }
   };
 
-  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      if (reader.readyState === 2) {
-        try {
-          await updateUserAvatar(reader.result as string).unwrap();
-          toast.success("Avatar updated successfully!");
-        } catch (err: unknown) {
-          const serverError = err as ServerError;
-          const errorMessage =
-            serverError.data?.message ||
-            serverError.message ||
-            "Failed to update avatar";
-          toast.error(errorMessage);
-        }
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
   return (
     <div className="w-full">
       {/* profile */}
@@ -86,19 +74,22 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
           <div className="flex justify-center w-full">
             <div className="relative">
               <img
-                src={user?.avatar?.url}
+                src={
+                  typeof avatar === "string" ? avatar : `${user?.avatar?.url}`
+                }
                 className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
                 alt="Profile"
               />
               <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
                 <input
                   type="file"
-                  id="image"
+                  id="file-input"
                   className="hidden"
-                  onChange={handleImage}
-                  accept="image/*"
+                  onChange={handleFileInputChange}
+                  name="avatar"
+                  accept=".jpg,.jpeg,.png"
                 />
-                <label htmlFor="image" className="cursor-pointer">
+                <label htmlFor="file-input" className="cursor-pointer">
                   <AiOutlineCamera />
                 </label>
               </div>
@@ -120,19 +111,6 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
                   />
                 </div>
                 <div className="w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Email Address</label>
-                  <input
-                    type="email"
-                    className={`${styles.input} !w-[95%] mb-1 800px:mb-0`}
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="w-full 800px:flex block pb-3">
-                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Phone Number</label>
                   <input
                     type="tel"
@@ -143,6 +121,19 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
                   />
                 </div>
               </div>
+
+              {/* <div className="w-full 800px:flex block pb-3">
+                <div className="w-[100%] 800px:w-[50%]">
+                  <label className="block pb-2">Phone Number</label>
+                  <input
+                    type="tel"
+                    className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                    required
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </div>
+              </div> */}
               <input
                 className="w-[250px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer hover:bg-[#3a24db] hover:text-white transition-colors"
                 value="Update"
@@ -193,7 +184,11 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
 
 const AllOrders = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: ordersData, isLoading, error } = useGetAllUserOrdersQuery(user?._id, {
+  const {
+    data: ordersData,
+    isLoading,
+    error,
+  } = useGetAllUserOrdersQuery(user?._id, {
     skip: !user?._id,
   });
 
@@ -354,7 +349,7 @@ const AllRefundOrders = () => {
   const rows = eligibleOrders.map((item: OrderItem) => ({
     id: item._id,
     itemsQty: item.cart?.length || 0,
-    total: `NGN₦ ${item.totalPrice}`,
+    total: `₦ ${item.totalPrice}`,
     status: item.status,
   }));
 
@@ -426,7 +421,7 @@ const TrackOrder = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/user/track/order/${params.id}`}>
+          <Link to={`/track/order/${params.id}`}>
             <Button>
               <MdTrackChanges size={20} />
             </Button>
@@ -446,7 +441,7 @@ const TrackOrder = () => {
     orders?.map((item: OrderItem) => ({
       id: item._id,
       itemsQty: item.cart?.length || 0,
-      total: `US$ ${item.totalPrice}`,
+      total: `₦ ${item.totalPrice}`,
       status: item.status,
     })) || [];
 
@@ -456,7 +451,7 @@ const TrackOrder = () => {
 
   return (
     <div className="pl-8 pt-1">
-        <DataGrid
+      <DataGrid
         rows={rows}
         columns={columns}
         pageSizeOptions={[10]}
@@ -559,6 +554,16 @@ const ChangePassword = () => {
   );
 };
 
+interface UserAddress {
+  _id?: string;
+  country?: string;
+  city?: string;
+  zipCode?: string;
+  address1?: string;
+  address2?: string;
+  addressType?: string;
+}
+
 const Address = () => {
   const [open, setOpen] = useState(false);
   const [country, setCountry] = useState("");
@@ -567,6 +572,7 @@ const Address = () => {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
   const [addressType, setAddressType] = useState("");
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
 
   const { user } = useSelector((state: RootState) => state.auth);
   const [updateUserAddress, { isLoading: isUpdating }] =
@@ -583,22 +589,29 @@ const Address = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!addressType || !country || !city) {
-      toast.error("Please fill all the required fields!");
+    if (!addressType || !country || !city || !address1) {
+      toast.error("Please fill all required fields!");
       return;
     }
 
     try {
-      await updateUserAddress({
+      const addressData = {
         country,
         city,
         address1,
         address2,
         zipCode,
         addressType,
-      }).unwrap();
+        ...(editingAddressId && { _id: editingAddressId }),
+      };
 
-      toast.success("Address added successfully!");
+      await updateUserAddress(addressData).unwrap();
+
+      toast.success(
+        editingAddressId
+          ? "Address updated successfully!"
+          : "Address added successfully!"
+      );
       setOpen(false);
       resetForm();
     } catch (err: unknown) {
@@ -606,10 +619,11 @@ const Address = () => {
       const errorMessage =
         serverError.data?.message ||
         serverError.message ||
-        "Failed to update avatar";
+        "Failed to update address";
       toast.error(errorMessage);
     }
   };
+  
 
   const resetForm = () => {
     setCountry("");
@@ -618,16 +632,21 @@ const Address = () => {
     setAddress2("");
     setZipCode("");
     setAddressType("");
+    setEditingAddressId(null);
   };
 
-  type Address = {
-    _id: string;
-    addressType?: string;
-    address1?: string;
-    address2?: string;
+  const handleEdit = (item: UserAddress) => {
+    setCountry(item.country || "");
+    setCity(item.city || "");
+    setAddress1(item.address1 || "");
+    setAddress2(item.address2 || "");
+    setZipCode(item.zipCode || "");
+    setAddressType(item.addressType || "");
+    setEditingAddressId(item._id?.toString() || null);
+    setOpen(true);
   };
 
-  const handleDelete = async (item: Address) => {
+  const handleDelete = async (item: UserAddress) => {
     try {
       await deleteUserAddress(item._id).unwrap();
       toast.success("Address deleted successfully!");
@@ -636,7 +655,7 @@ const Address = () => {
       const errorMessage =
         serverError.data?.message ||
         serverError.message ||
-        "Failed to update avatar";
+        "Failed to delete address";
       toast.error(errorMessage);
     }
   };
@@ -654,7 +673,7 @@ const Address = () => {
               />
             </div>
             <h1 className="text-center text-[25px] font-Poppins">
-              Add New Address
+              {editingAddressId ? "Edit Address" : "Add New Address"}
             </h1>
             <div className="w-full">
               <form onSubmit={handleSubmit} className="w-full">
@@ -749,7 +768,13 @@ const Address = () => {
                       } mt-5 cursor-pointer hover:bg-[#3a24db] hover:text-white transition-colors ${
                         isUpdating ? "opacity-50 cursor-not-allowed" : ""
                       }`}
-                      value={isUpdating ? "Adding..." : "Add Address"}
+                      value={
+                        isUpdating
+                          ? "Updating..."
+                          : editingAddressId
+                          ? "Update Address"
+                          : "Add Address"
+                      }
                       disabled={isUpdating}
                     />
                   </div>
@@ -779,25 +804,51 @@ const Address = () => {
           key={index}
         >
           <div className="flex items-center">
-            <h5 className="pl-5 font-[600]">{item.addressType}</h5>
+            <h5 className="pl-5 font-[600]">{item.addressType || "N/A"}</h5>
           </div>
           <div className="pl-8 flex items-center">
             <h6 className="text-[12px] 800px:text-[unset]">
-              {item.address1} {item.address2}
+              {item.address1
+                ? `${item.address1} ${item.address2 || ""}`
+                : "N/A"}
             </h6>
           </div>
           <div className="pl-8 flex items-center">
             <h6 className="text-[12px] 800px:text-[unset]">
-              {user?.phoneNumber}
+              {user?.phoneNumber || "N/A"}
             </h6>
           </div>
           <div className="min-w-[10%] flex items-center justify-between pl-8">
+            <button
+              className="text-blue-500 mr-4"
+              onClick={() =>
+                handleEdit({
+                  ...item,
+                  zipCode:
+                    item.zipCode !== undefined && item.zipCode !== null
+                      ? String(item.zipCode)
+                      : "",
+                })
+              }
+              disabled={isDeleting}
+            >
+              Edit
+            </button>
             <AiOutlineDelete
               size={25}
               className={`cursor-pointer ${
                 isDeleting ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              onClick={() => !isDeleting && handleDelete(item)}
+              onClick={() =>
+                !isDeleting &&
+                handleDelete({
+                  ...item,
+                  zipCode:
+                    item.zipCode !== undefined && item.zipCode !== null
+                      ? String(item.zipCode)
+                      : "",
+                })
+              }
             />
           </div>
         </div>

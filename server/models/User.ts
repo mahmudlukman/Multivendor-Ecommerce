@@ -4,13 +4,13 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 
 interface Address {
-  [x: string]: any;
-  country?: string;
-  city?: string;
-  address1?: string;
+  _id?: mongoose.Types.ObjectId;
+  country: string;
+  city: string;
+  address1: string;
   address2?: string;
-  zipCode?: number;
-  addressType?: string;
+  zipCode?: string;
+  addressType: string;
 }
 
 export interface IUser extends Document {
@@ -20,7 +20,7 @@ export interface IUser extends Document {
   phoneNumber?: number;
   addresses: Address[];
   role: string;
-  avatar: {
+  avatar?: {
     public_id: string;
     url: string;
   };
@@ -54,21 +54,25 @@ const UserSchema: Schema<IUser> = new Schema(
       {
         country: {
           type: String,
+          required: [true, "Please provide a country"],
         },
         city: {
           type: String,
+          required: [true, "Please provide a city"],
         },
         address1: {
           type: String,
+          required: [true, "Please provide address line 1"],
         },
         address2: {
           type: String,
         },
         zipCode: {
-          type: Number,
+          type: String, // Changed to String to support non-numeric ZIP codes
         },
         addressType: {
           type: String,
+          required: [true, "Please provide an address type"],
         },
       },
     ],
@@ -95,7 +99,6 @@ UserSchema.pre<IUser>("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
-
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
