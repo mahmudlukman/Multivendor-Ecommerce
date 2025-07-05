@@ -311,15 +311,24 @@ interface IUpdateShopInfo {
   email?: string;
   phoneNumber?: number;
   name?: string;
+  description?: string;
   address?: string;
   zipCode?: number;
+  avatar?: string;
 }
 
 export const updateShopInfo = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email, phoneNumber, name, address, zipCode } =
-        req.body as IUpdateShopInfo;
+      const {
+        email,
+        phoneNumber,
+        description,
+        name,
+        address,
+        zipCode,
+        avatar,
+      } = req.body as IUpdateShopInfo;
 
       const shop = await Shop.findById(req.seller?._id);
 
@@ -339,6 +348,10 @@ export const updateShopInfo = catchAsyncError(
         shop.phoneNumber = phoneNumber;
       }
 
+      if (description && shop) {
+        shop.description = description;
+      }
+
       if (address && shop) {
         shop.address = address;
       }
@@ -347,7 +360,24 @@ export const updateShopInfo = catchAsyncError(
         shop.zipCode = zipCode;
       }
 
-      await shop?.save();
+      if (avatar && shop) {
+        if (shop.avatar?.public_id) {
+          await cloudinary.v2.uploader.destroy(shop.avatar.public_id);
+        }
+
+        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+          folder: "avatar",
+          width: 150,
+        });
+        shop.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+
+      if (shop) {
+        await shop.save();
+      }
 
       res.status(201).json({ success: true, shop });
     } catch (error: any) {
@@ -408,50 +438,6 @@ export const updateShopPassword = catchAsyncError(
         success: true,
         message: `Password Updated Successfully!`,
       });
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 400));
-    }
-  }
-);
-
-// update user avatar
-interface IUpdateShopAvatar {
-  avatar: string;
-}
-export const updateShopAvatar = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { avatar } = req.body as IUpdateShopAvatar;
-
-      const shop = await Shop.findById(req.seller?._id);
-
-      if (avatar && shop) {
-        if (shop?.avatar?.public_id) {
-          await cloudinary.v2.uploader.destroy(shop?.avatar?.public_id);
-
-          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: "avatars",
-            width: 150,
-          });
-          shop.avatar = {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-          };
-        } else {
-          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: "avatars",
-            width: 150,
-          });
-          shop.avatar = {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-          };
-        }
-      }
-
-      await shop?.save();
-
-      res.status(200).json({ success: true, shop });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }

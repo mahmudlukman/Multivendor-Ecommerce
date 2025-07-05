@@ -1,6 +1,7 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import mongoose, { Document, Schema, Model } from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import config from "../config";
 
 interface Address {
   [x: string]: any;
@@ -33,17 +34,17 @@ const UserSchema: Schema<IUser> = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please enter your name!'],
+      required: [true, "Please enter your name!"],
     },
     email: {
       type: String,
-      required: [true, 'Please enter your email!'],
-      unique: true
+      required: [true, "Please enter your email!"],
+      unique: true,
     },
     password: {
       type: String,
-      required: [true, 'Please enter your password'],
-      minLength: [4, 'Password should be greater than 4 characters'],
+      required: [true, "Please enter your password"],
+      minLength: [4, "Password should be greater than 4 characters"],
       select: false,
     },
     phoneNumber: {
@@ -73,7 +74,7 @@ const UserSchema: Schema<IUser> = new Schema(
     ],
     role: {
       type: String,
-      default: 'user',
+      default: "user",
     },
     avatar: {
       public_id: {
@@ -90,19 +91,19 @@ const UserSchema: Schema<IUser> = new Schema(
 );
 
 // Hash password
-UserSchema.pre<IUser>('save', async function (next) {
-  if (!this.isModified('password')) {
+UserSchema.pre<IUser>("save", async function (next) {
+  if (!this.isModified("password")) {
     next();
   }
 
   this.password = await bcrypt.hash(this.password, 10);
-  next()
+  next();
 });
 
 // JWT token
 UserSchema.methods.getJwtToken = function (): string {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY as string, {
-    expiresIn: process.env.JWT_EXPIRES,
+  return jwt.sign({ id: this._id }, config.JWT_SECRET_KEY as string, {
+    expiresIn: config.JWT_EXPIRES,
   });
 };
 
@@ -113,5 +114,5 @@ UserSchema.methods.comparePassword = async function (
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const User: Model<IUser> = mongoose.model('User', UserSchema);
+const User: Model<IUser> = mongoose.model("User", UserSchema);
 export default User;

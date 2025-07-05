@@ -1,6 +1,7 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import mongoose, { Document, Schema, Model } from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import config from "../config";
 
 interface Transaction {
   amount: number;
@@ -35,16 +36,16 @@ const ShopSchema: Schema<IShop> = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please enter your shop name!'],
+      required: [true, "Please enter your shop name!"],
     },
     email: {
       type: String,
-      required: [true, 'Please enter your shop email address'],
+      required: [true, "Please enter your shop email address"],
     },
     password: {
       type: String,
-      required: [true, 'Please enter your password'],
-      minLength: [6, 'Password should be greater than 6 characters'],
+      required: [true, "Please enter your password"],
+      minLength: [6, "Password should be greater than 6 characters"],
       select: false,
     },
     description: {
@@ -60,7 +61,7 @@ const ShopSchema: Schema<IShop> = new Schema(
     },
     role: {
       type: String,
-      default: 'seller',
+      default: "seller",
     },
     avatar: {
       public_id: {
@@ -89,7 +90,7 @@ const ShopSchema: Schema<IShop> = new Schema(
         },
         status: {
           type: String,
-          default: 'Processing',
+          default: "Processing",
         },
         createdAt: {
           type: Date,
@@ -107,8 +108,8 @@ const ShopSchema: Schema<IShop> = new Schema(
 );
 
 // Hash password
-ShopSchema.pre<IShop>('save', async function (next) {
-  if (!this.isModified('password')) {
+ShopSchema.pre<IShop>("save", async function (next) {
+  if (!this.isModified("password")) {
     next();
   }
   this.password = await bcrypt.hash(this.password, 10);
@@ -117,8 +118,8 @@ ShopSchema.pre<IShop>('save', async function (next) {
 
 // JWT token
 ShopSchema.methods.getJwtToken = function (): string {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY as string, {
-    expiresIn: process.env.JWT_EXPIRES,
+  return jwt.sign({ id: this._id }, config.JWT_SECRET_KEY as string, {
+    expiresIn: config.JWT_EXPIRES,
   });
 };
 
@@ -129,5 +130,5 @@ ShopSchema.methods.comparePassword = async function (
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const Shop: Model<IShop> = mongoose.model('Shop', ShopSchema);
+const Shop: Model<IShop> = mongoose.model("Shop", ShopSchema);
 export default Shop;

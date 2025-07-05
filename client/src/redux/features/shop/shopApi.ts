@@ -2,18 +2,16 @@ import { apiSlice } from "../api/apiSlice";
 
 export const shopApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    updateShopAvatar: builder.mutation({
-      query: (avatar) => ({
-        url: "update-shop-avatar",
-        method: "PUT",
-        body: {
-          avatar,
-        },
-        credentials: "include" as const,
-      }),
-    }),
     updateShopInfo: builder.mutation({
-      query: ({ name, email, phoneNumber, address, zipCode }) => ({
+      query: ({
+        name,
+        email,
+        phoneNumber,
+        address,
+        zipCode,
+        avatar,
+        description,
+      }) => ({
         url: "update-shop-info",
         method: "PUT",
         body: {
@@ -22,6 +20,8 @@ export const shopApi = apiSlice.injectEndpoints({
           phoneNumber,
           address,
           zipCode,
+          avatar,
+          description,
         },
         credentials: "include" as const,
       }),
@@ -80,7 +80,6 @@ export const {
   useDeleteWithdrawMethodMutation,
   useGetAllShopsQuery,
   useGetShopQuery,
-  useUpdateShopAvatarMutation,
   useUpdateShopInfoMutation,
   useUpdateShopPasswordMutation,
   useUpdateWithdrawMethodMutation,

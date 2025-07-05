@@ -12,7 +12,6 @@ import {
   loginShop,
   logoutShop,
   resetShopPassword,
-  updateShopAvatar,
   updateShopInfo,
   updateShopPassword,
   updateWithdrawMethod,
@@ -30,8 +29,6 @@ shopRouter.get("/logout-shop", isSeller, logoutShop);
 shopRouter.get("/shop-info/:id", getShopById);
 shopRouter.put("/update-shop-info", isSeller, updateShopInfo);
 shopRouter.put("/update-shop-password", isSeller, updateShopPassword);
-
-shopRouter.put("/update-shop-avatar", isSeller, updateShopAvatar);
 
 shopRouter.get(
   "/get-shops",
