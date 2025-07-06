@@ -41,6 +41,7 @@ const ShopSchema: Schema<IShop> = new Schema(
     email: {
       type: String,
       required: [true, "Please enter your shop email address"],
+       unique: true,
     },
     password: {
       type: String,

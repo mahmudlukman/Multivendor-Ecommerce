@@ -252,7 +252,7 @@ const AllOrders = () => {
     orders?.map((item: OrderItem) => ({
       id: item._id,
       itemsQty: item.cart?.length || 0,
-      total: `US$ ${item.totalPrice}`,
+      total: `₦ ${item.totalPrice}`,
       status: item.status,
     })) || [];
 
@@ -336,7 +336,7 @@ const AllRefundOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/user/order/${params.id}`}>
+          <Link to={`user/order/${params.id}`}>
             <Button>
               <AiOutlineArrowRight size={20} />
             </Button>
@@ -421,7 +421,7 @@ const TrackOrder = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/track/order/${params.id}`}>
+          <Link to={`track/order/${params.id}`}>
             <Button>
               <MdTrackChanges size={20} />
             </Button>

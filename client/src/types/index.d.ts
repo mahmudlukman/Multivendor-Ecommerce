@@ -51,11 +51,11 @@ interface Seller {
 }
 
 export interface ServerError {
-  status?: number; // HTTP status code (e.g., 400, 500)
+  status?: number;
   data?: {
-    message?: string; // Error message from the server
+    message?: string;
   };
-  message?: string; // Fallback for non-HTTP errors (e.g., network errors)
+  message?: string;
 }
 
 export interface Address {
@@ -130,8 +130,30 @@ export interface EventData {
   originalPrice?: number;
   discountPrice: number;
   stock: number;
-  images:Image;
+  images: Image;
   shopId: string;
   shop: object;
   sold_out?: number;
+}
+
+export interface CartItem {
+  _id: string;
+  name: string;
+  images: { url: string }[];
+  discountPrice: number;
+  qty: number;
+  isReviewed?: boolean;
+}
+
+export interface Order {
+  _id: string;
+  cart: CartItem[];
+  shippingAddress: object;
+  user: User;
+  totalPrice: number;
+  status?: string;
+  paymentInfo?: PaymentInfo;
+  paidAt?: Date;
+  deliveredAt?: Date;
+  createdAt: string;
 }
