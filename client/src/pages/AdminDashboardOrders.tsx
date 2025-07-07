@@ -6,6 +6,8 @@ import { useGetAllOrdersQuery } from "../redux/features/order/orderApi";
 const AdminDashboardOrders = () => {
   const { data: adminOrders, isLoading: adminOrderLoading, error } = useGetAllOrdersQuery({});
 
+  const orders = adminOrders?.orders || [];
+
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
     {
@@ -63,8 +65,8 @@ const AdminDashboardOrders = () => {
     // add other properties if needed
   }
 
-  if (adminOrders) {
-    adminOrders.forEach((item: AdminOrder) => {
+  if (orders) {
+    orders.forEach((item: AdminOrder) => {
       rows.push({
         id: item._id,
         itemsQty: item?.cart?.reduce((acc: number, cartItem: CartItem) => acc + cartItem.qty, 0),
