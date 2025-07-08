@@ -2,11 +2,12 @@ import { FC, useEffect, useState } from 'react';
 import styles from '../../styles/styles';
 import ProductCard from '../Route/ProductCard/ProductCard';
 import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
+import { Shop } from '../../types';
 
-interface Shop {
-  _id: string;
-  name: string;
-}
+// interface Shop {
+//   _id: string;
+//   name: string;
+// }
 
 interface Product {
   category: string;

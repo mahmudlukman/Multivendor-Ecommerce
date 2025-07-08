@@ -17,6 +17,7 @@ import couponCodeRouter from "./routes/couponCode.route";
 import conversationRouter from "./routes/conversation.route";
 import messageRouter from "./routes/message.route";
 import withdrawRouter from "./routes/withdraw.route";
+import paymentRouter from "./routes/payment.route";
 import config from "./config";
 
 export const app = express();
@@ -82,7 +83,8 @@ app.use(
   couponCodeRouter,
   conversationRouter,
   messageRouter,
-  withdrawRouter
+  withdrawRouter,
+  paymentRouter
 );
 
 // testing API

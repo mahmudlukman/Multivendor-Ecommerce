@@ -19,6 +19,9 @@ const config = {
   SMTP_SERVICE: process.env.SMTP_SERVICE!,
   SMTP_MAIL: process.env.SMTP_MAIL!,
   SMTP_PASSWORD: process.env.SMTP_PASSWORD!,
+  FLW_PUBLIC_KEY: process.env.FLW_PUBLIC_KEY!,
+  FLW_SECRET_KEY: process.env.FLW_SECRET_KEY!,
+  FLW_ENCRYPTION_KEY: process.env.FLW_ENCRYPTION_KEY!,
 };
 
 export default config;

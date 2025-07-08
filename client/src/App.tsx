@@ -159,6 +159,10 @@ const router = createBrowserRouter([
         path: "withdraw-request",
         element: <AdminDashboardWithdraw />,
       },
+      {
+        path: "profile",
+        element: <ProfilePage />,
+      },
     ],
   },
   // Seller Routes (Protected)

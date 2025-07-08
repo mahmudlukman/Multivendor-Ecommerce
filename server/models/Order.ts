@@ -9,10 +9,11 @@ interface PaymentInfo {
 export interface IOrder extends Document {
   cart: object[];
   shippingAddress: object;
-  user: object;
+  user: { type: Schema.Types.ObjectId; ref: "User" } | object;
   totalPrice: number;
   status?: string;
   paymentInfo?: PaymentInfo;
+  paymentId?: string;
   paidAt?: Date;
   deliveredAt?: Date;
   createdAt: Date;
@@ -51,6 +52,9 @@ const OrderSchema: Schema<IOrder> = new Schema(
         type: String,
       },
     },
+    paymentId: {
+    type: String,
+  },
     paidAt: {
       type: Date,
       default: Date.now,
