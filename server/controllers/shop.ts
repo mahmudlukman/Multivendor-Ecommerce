@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsyncError } from "../middleware/catchAsyncErrors";
-import Shop, { IShop } from "../models/Shop";
+import Shop, { IShop, WithdrawMethod } from "../models/Shop";
 import ErrorHandler from "../utils/errorHandler";
 import cloudinary from "cloudinary";
 import jwt, { Secret } from "jsonwebtoken";
@@ -517,7 +517,22 @@ export const deleteShop = catchAsyncError(
 export const updateWithdrawMethod = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { withdrawMethod } = req.body;
+      const { withdrawMethod }: { withdrawMethod: WithdrawMethod } = req.body;
+
+      // Validate withdrawMethod
+      if (
+        !withdrawMethod ||
+        !withdrawMethod.bankName ||
+        !withdrawMethod.bankCountry ||
+        !withdrawMethod.bankSwiftCode ||
+        !withdrawMethod.bankAccountNumber ||
+        !withdrawMethod.bankHolderName ||
+        !withdrawMethod.bankAddress
+      ) {
+        return next(
+          new ErrorHandler("All withdraw method fields are required", 400)
+        );
+      }
 
       const shop = await Shop.findByIdAndUpdate(
         req.seller?._id,
@@ -544,7 +559,7 @@ export const deleteWithdrawMethod = catchAsyncError(
       const shop = await Shop.findById(req.seller?._id);
 
       if (!shop) {
-        return next(new ErrorHandler("Shop not found with this id", 400));
+        return next(new ErrorHandler("Shop not found with this id", 404));
       }
 
       shop.withdrawMethod = null;

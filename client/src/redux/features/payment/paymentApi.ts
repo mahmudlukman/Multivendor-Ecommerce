@@ -20,7 +20,7 @@ interface VerifyPaymentRequest {
   transaction_id: string;
 }
 
-interface VerifyPaymentResponse {
+export interface VerifyPaymentResponse {
   success: boolean;
   orderId?: string;
   message?: string;

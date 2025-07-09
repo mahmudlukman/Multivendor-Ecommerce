@@ -4,11 +4,12 @@ import ErrorHandler from "../utils/errorHandler";
 import Order, { IOrder } from "../models/Order";
 import Product from "../models/Product";
 import Shop from "../models/Shop";
+import User from "../models/User";
 
 interface ICreateOrder {
   cart: IOrder["cart"];
   shippingAddress: IOrder["shippingAddress"];
-  user: IOrder["user"];
+  user: string;
   totalPrice: number;
   paymentInfo: IOrder["paymentInfo"];
 }
@@ -52,6 +53,13 @@ export const createOrder = catchAsyncError(
           status: "Processing",
           paidAt: new Date(),
         });
+        // Add order to user's orders array
+        await User.findByIdAndUpdate(
+          user,
+          { $push: { orders: order._id } },
+          { new: true }
+        );
+
         orders.push(order);
       }
 
@@ -109,15 +117,25 @@ export const createOrder = catchAsyncError(
 export const getAllUserOrders = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const orders = await Order.find({
-        "user._id": req.params.userId,
-      }).sort({
-        createdAt: -1,
+      const userId = req.user?._id;
+
+      if (!userId) {
+        return next(new ErrorHandler("User ID is required", 400));
+      }
+
+      // Get user with populated orders
+      const user = await User.findById(userId).populate({
+        path: "orders",
+        options: { sort: { createdAt: -1 } }, // Sort by newest first
       });
+
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
 
       res.status(200).json({
         success: true,
-        orders,
+        orders: user.orders,
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

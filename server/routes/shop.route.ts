@@ -44,7 +44,7 @@ shopRouter.delete(
   deleteShop
 );
 
-shopRouter.put("/update-payment-methods", isSeller, updateWithdrawMethod);
+shopRouter.put("/update-payment-method", isSeller, updateWithdrawMethod);
 
 shopRouter.delete("/delete-withdraw-method", isSeller, deleteWithdrawMethod);
 

@@ -24,6 +24,7 @@ export interface IUser extends Document {
     public_id: string;
     url: string;
   };
+  orders: mongoose.Types.ObjectId[];
   resetPasswordToken?: string;
   resetPasswordTime?: Date;
   getJwtToken(): string;
@@ -74,6 +75,12 @@ const UserSchema: Schema<IUser> = new Schema(
           type: String,
           required: [true, "Please provide an address type"],
         },
+      },
+    ],
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
       },
     ],
     role: {

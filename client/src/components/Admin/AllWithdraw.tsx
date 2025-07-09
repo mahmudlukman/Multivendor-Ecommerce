@@ -41,9 +41,7 @@ const AllWithdraw = () => {
   >("Processing");
 
   // RTK Query hooks
-  const { data: withdrawResponse, isLoading } = useGetAllWithdrawRequestQuery(
-    {}
-  );
+  const { data: withdrawResponse, isLoading } = useGetAllWithdrawRequestQuery({});
   const [updateWithdrawRequest, { isLoading: isUpdating }] =
     useUpdateWithdrawRequestMutation();
 
@@ -94,7 +92,8 @@ const AllWithdraw = () => {
     if (!withdrawData) return;
     try {
       await updateWithdrawRequest({
-        id: withdrawData.id,
+        withdrawId: withdrawData.id,
+        sellerId: withdrawData.shopId,
         status: withdrawStatus,
       }).unwrap();
       toast.success("Withdraw request updated successfully!");
@@ -116,7 +115,7 @@ const AllWithdraw = () => {
     id: item._id,
     shopId: item.seller._id,
     name: item.seller.name || "Unknown",
-    amount: `₦ ${item.amount}`,
+    amount: `₦${item.amount}`,
     status: item.status,
     createdAt: item.createdAt.slice(0, 10),
   }));
@@ -148,7 +147,10 @@ const AllWithdraw = () => {
             <div className="flex justify-end w-full">
               <RxCross1
                 size={25}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  setWithdrawData(null);
+                }}
                 className="cursor-pointer"
               />
             </div>
@@ -170,7 +172,10 @@ const AllWithdraw = () => {
             <div className="w-full flex items-center justify-center mt-5">
               <button
                 className={`${styles.button} text-white !h-[42px] mr-4 text-[18px]`}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  setWithdrawData(null);
+                }}
               >
                 Cancel
               </button>

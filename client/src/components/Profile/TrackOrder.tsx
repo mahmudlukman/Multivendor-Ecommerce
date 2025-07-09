@@ -14,6 +14,8 @@ const TrackOrder = () => {
     // add other fields if necessary
   };
 
+  console.log(user)
+
   // Use RTK Query hook to fetch user orders
   const { data: orders, isLoading, error } = useGetAllUserOrdersQuery(user?._id, {
     skip: !user?._id, // Skip the query if user ID is not available

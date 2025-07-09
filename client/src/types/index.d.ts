@@ -11,6 +11,7 @@ export interface User {
   email: string;
   phoneNumber: number;
   role: string;
+  orders: string;
   addresses: Address[];
 }
 

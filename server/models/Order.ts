@@ -1,5 +1,14 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
+interface CartItem {
+  _id: string; // Product ID
+  name: string;
+  qty: number;
+  price: number;
+  shopId: string; // Add shopId to the cart item
+  // Add other fields as needed (e.g., image, description)
+}
+
 interface PaymentInfo {
   id?: string;
   status?: string;
@@ -7,9 +16,9 @@ interface PaymentInfo {
 }
 
 export interface IOrder extends Document {
-  cart: object[];
+  cart: CartItem[];
   shippingAddress: object;
-  user: { type: Schema.Types.ObjectId; ref: "User" } | object;
+  user: mongoose.Types.ObjectId;
   totalPrice: number;
   status?: string;
   paymentInfo?: PaymentInfo;
@@ -30,7 +39,8 @@ const OrderSchema: Schema<IOrder> = new Schema(
       required: true,
     },
     user: {
-      type: Object,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     totalPrice: {

@@ -10,6 +10,15 @@ interface Transaction {
   updatedAt?: Date;
 }
 
+export interface WithdrawMethod {
+  bankName: string;
+  bankCountry: string;
+  bankSwiftCode: string;
+  bankAccountNumber: string;
+  bankHolderName: string;
+  bankAddress: string;
+}
+
 export interface IShop extends Document {
   name: string;
   email: string;
@@ -23,7 +32,7 @@ export interface IShop extends Document {
     url: string;
   };
   zipCode: number;
-  withdrawMethod?: object | null;
+  withdrawMethod?: WithdrawMethod | null;
   availableBalance: number;
   transactions: Transaction[];
   resetPasswordToken?: string;
@@ -41,7 +50,7 @@ const ShopSchema: Schema<IShop> = new Schema(
     email: {
       type: String,
       required: [true, "Please enter your shop email address"],
-       unique: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -77,7 +86,12 @@ const ShopSchema: Schema<IShop> = new Schema(
       required: true,
     },
     withdrawMethod: {
-      type: Object,
+      bankName: { type: String },
+      bankCountry: { type: String },
+      bankSwiftCode: { type: String },
+      bankAccountNumber: { type: String },
+      bankHolderName: { type: String },
+      bankAddress: { type: String },
     },
     availableBalance: {
       type: Number,

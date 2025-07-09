@@ -119,7 +119,7 @@ const router = createBrowserRouter([
     element: <FAQPage />,
   },
   {
-    path: "/order/success",
+    path: "/payment/callback",
     element: <OrderSuccessPage />,
   },
   {

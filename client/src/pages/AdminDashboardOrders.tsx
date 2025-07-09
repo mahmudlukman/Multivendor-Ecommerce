@@ -4,7 +4,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useGetAllOrdersQuery } from "../redux/features/order/orderApi";
 
 const AdminDashboardOrders = () => {
-  const { data: adminOrders, isLoading: adminOrderLoading, error } = useGetAllOrdersQuery({});
+  const {
+    data: adminOrders,
+    isLoading: adminOrderLoading,
+    error,
+  } = useGetAllOrdersQuery({});
 
   const orders = adminOrders?.orders || [];
 
@@ -16,9 +20,7 @@ const AdminDashboardOrders = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params: import("@mui/x-data-grid").GridCellParams) => {
-        return params.value === "Delivered"
-          ? "greenColor"
-          : "redColor";
+        return params.value === "Delivered" ? "greenColor" : "redColor";
       },
     },
     {
@@ -69,8 +71,11 @@ const AdminDashboardOrders = () => {
     orders.forEach((item: AdminOrder) => {
       rows.push({
         id: item._id,
-        itemsQty: item?.cart?.reduce((acc: number, cartItem: CartItem) => acc + cartItem.qty, 0),
-        total: item?.totalPrice + " $",
+        itemsQty: item?.cart?.reduce(
+          (acc: number, cartItem: CartItem) => acc + cartItem.qty,
+          0
+        ),
+        total: item?.totalPrice + " ₦",
         status: item?.status,
         createdAt: item?.createdAt.slice(0, 10),
       });

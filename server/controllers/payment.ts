@@ -6,6 +6,7 @@ import ErrorHandler from "../utils/errorHandler";
 import Order from "../models/Order";
 import User from "../models/User";
 import { v4 as uuidv4 } from "uuid";
+import Shop from "../models/Shop";
 
 const Flutterwave = require("flutterwave-node-v3");
 const flw = new Flutterwave(config.FLW_PUBLIC_KEY, config.FLW_SECRET_KEY);
@@ -119,6 +120,22 @@ export const initializePayment = catchAsyncError(
   }
 );
 
+// Helper function to update seller's availableBalance
+async function updateSellerInfo(shopId: string, amount: number) {
+  const seller = await Shop.findById(shopId);
+  if (seller) {
+    seller.availableBalance += amount; // Increment the balance
+    seller.transactions.push({
+      amount,
+      status: "Completed",
+      createdAt: new Date(),
+    });
+    await seller.save();
+  } else {
+    console.error(`Shop with ID ${shopId} not found`);
+  }
+}
+
 // VERIFY PAYMENT
 export const verifyPayment = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -155,6 +172,16 @@ export const verifyPayment = catchAsyncError(
 
           if (!order) {
             return next(new ErrorHandler("Order not found", 400));
+          }
+
+          // Update shop's availableBalance
+          const shopId = order.cart[0]?.shopId; // All items in this order belong to one shop
+          if (shopId) {
+            const serviceCharge = order.totalPrice * 0.1; // 10% service charge
+            const shopAmount = order.totalPrice - serviceCharge;
+            await updateSellerInfo(shopId, shopAmount);
+          } else {
+            console.error(`No shopId found for order ${orderId}`);
           }
 
           return res.status(200).json({
@@ -322,6 +349,14 @@ export const refundPayment = catchAsyncError(
           status: "refunded",
           "paymentInfo.status": "refunded",
         });
+
+        // Deduct refunded amount from shop's availableBalance
+        const shopId = order.cart[0]?.shopId;
+        if (shopId) {
+          const serviceCharge = refundData.amount * 0.1; // Recalculate service charge for refund
+          const shopDeduction = refundData.amount - serviceCharge;
+          await updateSellerInfo(shopId, -shopDeduction); // Subtract the refunded amount (after service charge)
+        }
 
         res.status(200).json({
           success: true,

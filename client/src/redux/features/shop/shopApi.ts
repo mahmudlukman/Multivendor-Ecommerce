@@ -66,9 +66,10 @@ export const shopApi = apiSlice.injectEndpoints({
       }),
     }),
     updateWithdrawMethod: builder.mutation({
-      query: () => ({
-        url: "update-payment-methods",
+      query: (data) => ({
+        url: "update-payment-method",
         method: "PUT",
+        body: data,
         credentials: "include" as const,
       }),
     }),

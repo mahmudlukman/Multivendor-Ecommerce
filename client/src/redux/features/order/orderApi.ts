@@ -25,8 +25,8 @@ export const orderApi = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: "Order", id: "LIST" }],
     }),
     getAllUserOrders: builder.query({
-      query: (userId) => ({
-        url: `user-orders/${userId}`,
+      query: () => ({
+        url: 'user-orders',
         method: "GET",
         credentials: "include" as const,
       }),

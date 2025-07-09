@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   useDeleteWithdrawMethodMutation,
-  useUpdateWithdrawMethodMutation
+  useUpdateWithdrawMethodMutation,
 } from "../../redux/features/shop/shopApi";
 import styles from "../../styles/styles";
 import { RxCross1 } from "react-icons/rx";
@@ -36,17 +36,32 @@ const WithdrawMoney = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = {
-      bankName: bankInfo.bankName,
-      bankCountry: bankInfo.bankCountry,
-      bankSwiftCode: bankInfo.bankSwiftCode,
-      bankAccountNumber: bankInfo.bankAccountNumber,
-      bankHolderName: bankInfo.bankHolderName,
-      bankAddress: bankInfo.bankAddress,
+    // Client-side validation
+    if (
+      !bankInfo.bankName ||
+      !bankInfo.bankCountry ||
+      !bankInfo.bankSwiftCode ||
+      !bankInfo.bankAccountNumber ||
+      !bankInfo.bankHolderName ||
+      !bankInfo.bankAddress
+    ) {
+      toast.error("All fields are required!");
+      return;
+    }
+
+    const withdrawMethodData = {
+      withdrawMethod: {
+        bankName: bankInfo.bankName,
+        bankCountry: bankInfo.bankCountry,
+        bankSwiftCode: bankInfo.bankSwiftCode,
+        bankAccountNumber: bankInfo.bankAccountNumber,
+        bankHolderName: bankInfo.bankHolderName,
+        bankAddress: bankInfo.bankAddress,
+      },
     };
 
     try {
-      await updateWithdrawMethod(data).unwrap();
+      await updateWithdrawMethod(withdrawMethodData).unwrap();
       toast.success("Withdraw method added successfully!");
       setWithdrawMethod(false);
       setBankInfo({
@@ -69,7 +84,7 @@ const WithdrawMoney = () => {
 
   const deleteHandler = async () => {
     try {
-      await deleteWithdrawMethod(seller?.withdrawMethod?._id).unwrap();
+      await deleteWithdrawMethod({}).unwrap(); // No need for ID since it uses req.seller._id
       toast.success("Withdraw method deleted successfully!");
     } catch (err: unknown) {
       const serverError = err as ServerError;
@@ -109,7 +124,7 @@ const WithdrawMoney = () => {
     <div className="w-full h-[90vh] p-8">
       <div className="w-full bg-white h-full rounded flex items-center justify-center flex-col">
         <h5 className="text-[20px] pb-4">
-          Available Balance:  ₦{availableBalance}
+          Available Balance: ₦{availableBalance}
         </h5>
         <div
           className={`${styles.button} text-white !h-[42px] !rounded`}
@@ -121,14 +136,17 @@ const WithdrawMoney = () => {
       {open && (
         <div className="w-full h-screen z-[9999] fixed top-0 left-0 flex items-center justify-center bg-[#0000004e]">
           <div
-            className={`w-[95%] 800px:w-[50%] bg-white shadow rounded ₦{
+            className={`w-[95%] 800px:w-[50%] bg-white shadow rounded ${
               withdrawMethod ? "h-[80vh] overflow-y-scroll" : "h-[unset]"
             } min-h-[40vh] p-3`}
           >
             <div className="w-full flex justify-end">
               <RxCross1
                 size={25}
-                onClick={() => { setOpen(false); setWithdrawMethod(false); }}
+                onClick={() => {
+                  setOpen(false);
+                  setWithdrawMethod(false);
+                }}
                 className="cursor-pointer"
               />
             </div>
@@ -144,13 +162,11 @@ const WithdrawMoney = () => {
                     </label>
                     <input
                       type="text"
-                      name=""
                       required
                       value={bankInfo.bankName}
                       onChange={(e) =>
                         setBankInfo({ ...bankInfo, bankName: e.target.value })
                       }
-                      id=""
                       placeholder="Enter your Bank name!"
                       className={`${styles.input} mt-2`}
                     />
@@ -161,7 +177,6 @@ const WithdrawMoney = () => {
                     </label>
                     <input
                       type="text"
-                      name=""
                       value={bankInfo.bankCountry}
                       onChange={(e) =>
                         setBankInfo({
@@ -169,7 +184,6 @@ const WithdrawMoney = () => {
                           bankCountry: e.target.value,
                         })
                       }
-                      id=""
                       required
                       placeholder="Enter your bank Country!"
                       className={`${styles.input} mt-2`}
@@ -181,8 +195,6 @@ const WithdrawMoney = () => {
                     </label>
                     <input
                       type="text"
-                      name=""
-                      id=""
                       required
                       value={bankInfo.bankSwiftCode}
                       onChange={(e) =>
@@ -195,16 +207,13 @@ const WithdrawMoney = () => {
                       className={`${styles.input} mt-2`}
                     />
                   </div>
-
                   <div className="pt-2">
                     <label>
                       Bank Account Number{" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="number"
-                      name=""
-                      id=""
+                      type="text" // Changed to text to handle alphanumeric account numbers
                       value={bankInfo.bankAccountNumber}
                       onChange={(e) =>
                         setBankInfo({
@@ -223,7 +232,6 @@ const WithdrawMoney = () => {
                     </label>
                     <input
                       type="text"
-                      name=""
                       required
                       value={bankInfo.bankHolderName}
                       onChange={(e) =>
@@ -232,21 +240,17 @@ const WithdrawMoney = () => {
                           bankHolderName: e.target.value,
                         })
                       }
-                      id=""
                       placeholder="Enter your bank Holder name!"
                       className={`${styles.input} mt-2`}
                     />
                   </div>
-
                   <div className="pt-2">
                     <label>
                       Bank Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      name=""
                       required
-                      id=""
                       value={bankInfo.bankAddress}
                       onChange={(e) =>
                         setBankInfo({
@@ -258,7 +262,6 @@ const WithdrawMoney = () => {
                       className={`${styles.input} mt-2`}
                     />
                   </div>
-
                   <button
                     type="submit"
                     disabled={isUpdatingPayment}
@@ -275,7 +278,6 @@ const WithdrawMoney = () => {
                 <h3 className="text-[22px] font-Poppins">
                   Available Withdraw Methods:
                 </h3>
-
                 {seller && seller?.withdrawMethod ? (
                   <div>
                     <div className="800px:flex w-full justify-between items-center">
@@ -302,7 +304,7 @@ const WithdrawMoney = () => {
                       </div>
                     </div>
                     <br />
-                    <h4>Available Balance: {availableBalance}$</h4>
+                    <h4>Available Balance: ₦{availableBalance}</h4>
                     <br />
                     <div className="800px:flex w-full items-center">
                       <input

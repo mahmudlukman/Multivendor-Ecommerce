@@ -183,22 +183,19 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
 };
 
 const AllOrders = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
-  const {
-    data: ordersData,
-    isLoading,
-    error,
-  } = useGetAllUserOrdersQuery(user?._id, {
-    skip: !user?._id,
-  });
+  // const { user } = useSelector((state: RootState) => state.auth);
+  const { data: allOrders, isLoading, error } = useGetAllUserOrdersQuery({});
 
-  const orders = ordersData?.orders || [];
+  // const orders = ordersData?.orders || [];
 
   useEffect(() => {
     if (error) {
       toast.error("Failed to load orders");
     }
   }, [error]);
+
+  // Safe access to orders
+  const orders = allOrders?.orders || [];
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -623,7 +620,6 @@ const Address = () => {
       toast.error(errorMessage);
     }
   };
-  
 
   const resetForm = () => {
     setCountry("");

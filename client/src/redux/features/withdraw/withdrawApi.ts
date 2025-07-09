@@ -3,10 +3,10 @@ import { apiSlice } from "../api/apiSlice";
 export const withdrawApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createWithdrawRequest: builder.mutation({
-      query: (data) => ({
+      query: (withdrawAmount) => ({
         url: "create-withdraw-request",
         method: "POST",
-        body: data,
+        body: { amount: withdrawAmount },
         credentials: "include" as const,
       }),
     }),
@@ -18,9 +18,10 @@ export const withdrawApi = apiSlice.injectEndpoints({
       }),
     }),
     updateWithdrawRequest: builder.mutation({
-      query: (sellerId) => ({
-        url: `update-withdraw-request/${sellerId}`,
+      query: ({ withdrawId, sellerId, status }) => ({
+        url: `update-withdraw-request/${withdrawId}`,
         method: "PUT",
+        body: { sellerId, status },
         credentials: "include" as const,
       }),
     }),

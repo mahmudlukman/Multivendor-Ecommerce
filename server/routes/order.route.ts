@@ -14,7 +14,7 @@ import {
 const orderRouter = express.Router();
 
 orderRouter.post('/create-order', createOrder);
-orderRouter.get('/user-orders/:userId', getAllUserOrders);
+orderRouter.get('/user-orders',isAuthenticated, getAllUserOrders);
 orderRouter.get('/seller-orders/:shopId', getAllSellerOrders);
 orderRouter.put('/update-order-status/:id', isSeller, updateOrderStatus);
 orderRouter.put('/order-refund/:id', orderRefundRequest);

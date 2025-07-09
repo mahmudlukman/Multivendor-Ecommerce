@@ -10,7 +10,6 @@ const withdrawRouter = express.Router();
 
 withdrawRouter.post(
   "/create-withdraw-request",
-  isAuthenticated,
   isSeller,
   createWithdrawRequest
 );
@@ -21,14 +20,13 @@ withdrawRouter.get(
   getAllWithdrawRequest
 );
 withdrawRouter.put(
-  "/update-withdraw-request/:sellerId",
+  "/update-withdraw-request/:id",
   isAuthenticated,
   authorizeRoles("admin"),
   updateWithdrawRequest
 );
 withdrawRouter.delete(
   "/delete-withdraw-request/:id",
-  isAuthenticated,
   isSeller,
   updateWithdrawRequest
 );

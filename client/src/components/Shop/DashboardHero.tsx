@@ -91,7 +91,7 @@ const DashboardHero = () => {
           (acc: number, cartItem: OrderCartItem) => acc + cartItem.qty,
           0
         ),
-        total: `NGN₦ ${item.totalPrice}`,
+        total: `₦ ${item.totalPrice}`,
         status: item.status,
       }))
     : [];
@@ -115,7 +115,7 @@ const DashboardHero = () => {
             </h3>
           </div>
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
-            ${availableBalance || "0.00"}
+            ₦{availableBalance || "0.00"}
           </h5>
           <Link to="/shop/withdraw-money">
             <h5 className="pt-4 pl-[2] text-[#077f9c]">Withdraw Money</h5>
