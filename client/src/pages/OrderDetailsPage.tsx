@@ -1,9 +1,15 @@
-import React from 'react'
+import Header from "../components/Layout/Header";
+import Footer from "../components/Layout/Footer";
+import UserOrderDetails from "../components/UserOrderDetails";
 
 const OrderDetailsPage = () => {
   return (
-    <div>OrderDetailsPage</div>
-  )
-}
+    <div>
+      <Header activeHeading={0} />
+      <UserOrderDetails />
+      <Footer />
+    </div>
+  );
+};
 
-export default OrderDetailsPage
+export default OrderDetailsPage;

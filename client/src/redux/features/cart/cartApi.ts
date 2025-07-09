@@ -1,6 +1,7 @@
 import { apiSlice } from '../api/apiSlice';
 
 interface CartItem {
+  shopId: any;
   _id: string;
   name: string;
   images: { url: string }[];

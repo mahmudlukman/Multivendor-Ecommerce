@@ -47,7 +47,6 @@ interface Seller {
   withdrawMethod?: WithdrawMethod;
   availableBalance?: number;
   transactions: Transaction[];
-  withdrawMethod?: WithdrawMethod;
 }
 
 export interface ServerError {
@@ -63,7 +62,7 @@ export interface Address {
   city: string;
   address1: string;
   address2: string;
-  zipCode: number;
+  zipCode: string;
   addressType: string;
   _id: string;
 }
@@ -112,7 +111,7 @@ export interface ProductData {
   stock: number;
   reviews: Review[];
   ratings: number;
-  wishlist: WishlistItem[];
+  wishlist: WishListItem[];
   category?: string;
   tags?: string[];
   createdAt?: string;
@@ -142,18 +141,51 @@ export interface CartItem {
   images: { url: string }[];
   discountPrice: number;
   qty: number;
+  shopId: string; // Added for coupon validation and backend compatibility
   isReviewed?: boolean;
+}
+
+export interface CouponCode {
+  _id: string;
+  name: string;
+  value: number;
+  shopId: string;
+}
+
+export interface PaymentInfo {
+  id?: string;
+  status?: string;
+  type?: string;
 }
 
 export interface Order {
   _id: string;
   cart: CartItem[];
-  shippingAddress: object;
+  shippingAddress: Address;
   user: User;
   totalPrice: number;
   status?: string;
   paymentInfo?: PaymentInfo;
   paidAt?: Date;
   deliveredAt?: Date;
+  createdAt: string;
+}
+
+export interface OrderData {
+  _id?: string;
+  cart: CartItem[];
+  totalPrice: number;
+  subTotalPrice: number;
+  shipping: number;
+  discountPrice: number | null;
+  shippingAddress: Address;
+  user: User | null;
+}
+
+export interface Transaction {
+  // Define based on your usage, e.g.:
+  _id: string;
+  amount: number;
+  status: string;
   createdAt: string;
 }

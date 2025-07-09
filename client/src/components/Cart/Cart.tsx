@@ -106,12 +106,12 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
             </div>
 
             <div className="px-5 mb-3">
-              <Link to="/checkout">
+              <Link to="/user/checkout">
                 <div
                   className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
                 >
                   <h1 className="text-[#fff] text-[18px] font-[600]">
-                    Checkout Now (NGN₦{totalPrice.toFixed(2)})
+                    Checkout Now (₦{totalPrice.toFixed(2)})
                   </h1>
                 </div>
               </Link>
@@ -184,7 +184,7 @@ const CartSingle: FC<CartSingleProps> = ({
             ₦{data.discountPrice.toFixed(2)} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            NGN₦{totalPrice.toFixed(2)}
+            ₦{totalPrice.toFixed(2)}
           </h4>
         </div>
         <RxCross1
