@@ -3,9 +3,14 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Loader from "../Layout/Loader";
-import { useGetAllSellerOrdersQuery } from "../../redux/features/order/orderApi";
+import {
+  useGetAllSellerOrdersQuery,
+  useOrderRefundSuccessMutation,
+} from "../../redux/features/order/orderApi";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { SellerState } from "../../types";
+import { SellerState, ServerError } from "../../types";
+import { ORDER_STATUSES } from "../../types/order";
+import { toast } from "react-hot-toast";
 
 const AllRefundOrders = () => {
   const { seller } = useSelector((state: SellerState) => state.sellerAuth);
@@ -18,9 +23,11 @@ const AllRefundOrders = () => {
     skip: !seller?._id,
   });
 
+  const [orderRefundSuccess, { isLoading: isUpdating }] =
+    useOrderRefundSuccessMutation();
+
   const orders = ordersData?.orders || [];
 
-  // Define the Order type if not already defined
   interface Order {
     _id: string;
     status: string;
@@ -32,8 +39,29 @@ const AllRefundOrders = () => {
   // Filter refund orders
   const refundOrders = (orders as Order[] | undefined)?.filter(
     (item: Order) =>
-      item.status === "Processing refund" || item.status === "Refund Success"
+      item.status === ORDER_STATUSES.PROCESSING_REFUND ||
+      item.status === ORDER_STATUSES.REFUND_SUCCESS
   );
+
+  const handleRefundSuccess = async (orderId: string) => {
+    try {
+      const result = await orderRefundSuccess({
+        id: orderId,
+        status: ORDER_STATUSES.REFUND_SUCCESS,
+      }).unwrap();
+
+      if (result.success) {
+        toast.success("Refund processed successfully!");
+      }
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to process refund!";
+      toast.error(errorMessage);
+    }
+  };
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -43,7 +71,9 @@ const AllRefundOrders = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params: GridCellParams) => {
-        return params.row.status === "Delivered" ? "greenColor" : "redColor";
+        return params.row.status === ORDER_STATUSES.REFUND_SUCCESS
+          ? "greenColor"
+          : "redColor";
       },
     },
     {
@@ -61,18 +91,32 @@ const AllRefundOrders = () => {
     {
       field: "actions",
       flex: 1,
-      minWidth: 150,
-      headerName: "",
+      minWidth: 200,
+      headerName: "Actions",
       sortable: false,
       renderCell: (params: GridCellParams) => {
+        const canProcessRefund =
+          params.row.status === ORDER_STATUSES.PROCESSING_REFUND;
+
         return (
-          <>
+          <div className="flex gap-2">
             <Link to={`/shop/order/${params.id}`}>
-              <Button>
+              <Button size="small">
                 <AiOutlineArrowRight size={20} />
               </Button>
             </Link>
-          </>
+            {canProcessRefund && (
+              <Button
+                size="small"
+                variant="contained"
+                color="success"
+                onClick={() => handleRefundSuccess(params.id as string)}
+                disabled={isUpdating}
+              >
+                {isUpdating ? "Processing..." : "Approve Refund"}
+              </Button>
+            )}
+          </div>
         );
       },
     },
@@ -84,6 +128,7 @@ const AllRefundOrders = () => {
     total: string;
     status: string;
   }[] = [];
+
   refundOrders?.forEach((item) => {
     rows.push({
       id: item._id,
@@ -93,7 +138,6 @@ const AllRefundOrders = () => {
     });
   });
 
-  // Handle error state
   if (error) {
     return (
       <div className="w-full mx-8 pt-1 mt-10 bg-white">

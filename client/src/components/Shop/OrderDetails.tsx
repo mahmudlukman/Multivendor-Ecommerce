@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../../styles/styles";
 import { BsFillBagFill } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -11,14 +11,13 @@ import {
 import toast from "react-hot-toast";
 import Loader from "../Layout/Loader";
 import { SellerState, ServerError } from "../../types";
+import { ORDER_STATUSES, OrderStatus } from "../../types/order";
 
 const OrderDetails = () => {
   const { seller } = useSelector((state: SellerState) => state.sellerAuth);
-  const [status, setStatus] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // Fetch all seller orders using RTK Query
   const {
     data: ordersData,
     isLoading,
@@ -27,14 +26,13 @@ const OrderDetails = () => {
     skip: !seller?._id,
   });
 
-  const orders = ordersData?.orders || [];
+  const orders = (ordersData?.orders as OrderItem[]) || [];
 
   const [updateOrderStatus, { isLoading: isUpdatingOrder }] =
     useUpdateOrderStatusMutation();
   const [updateRefundStatus, { isLoading: isUpdatingRefund }] =
     useOrderRefundSuccessMutation();
 
-  // Find the specific order
   interface OrderItem {
     _id: string;
     cart: {
@@ -57,10 +55,19 @@ const OrderDetails = () => {
     paymentInfo?: {
       status?: string;
     };
-    status: string;
+    status: OrderStatus;
   }
 
   const data = orders?.find((item: OrderItem) => item._id === id);
+  
+  const [status, setStatus] = useState<OrderStatus | "">(data?.status || "");
+
+  // Update status when data changes (after successful update)
+  useEffect(() => {
+    if (data?.status) {
+      setStatus(data.status);
+    }
+  }, [data?.status]);
 
   const orderUpdateHandler = async () => {
     if (!status) {
@@ -101,7 +108,6 @@ const OrderDetails = () => {
     }
   };
 
-  // Handle loading and error states
   if (isLoading) {
     return <Loader />;
   }
@@ -121,6 +127,37 @@ const OrderDetails = () => {
       </div>
     );
   }
+
+  // Get available statuses based on current status
+  const getAvailableStatuses = (): OrderStatus[] => {
+    // If current status is refund-related, only show refund options
+    if (data.status === ORDER_STATUSES.PROCESSING_REFUND) {
+      return [
+        ORDER_STATUSES.REFUND_SUCCESS,
+        ORDER_STATUSES.REFUND_REJECTED,
+      ];
+    }
+    
+    // If current status is already a final refund status, show no options
+    if (data.status === ORDER_STATUSES.REFUND_SUCCESS || 
+        data.status === ORDER_STATUSES.REFUND_REJECTED) {
+      return [];
+    }
+    
+    // For all other statuses, show all delivery-related statuses
+    return [
+      ORDER_STATUSES.PROCESSING,
+      ORDER_STATUSES.TRANSFERRED_TO_DELIVERY_PARTNER,
+      ORDER_STATUSES.SHIPPING,
+      ORDER_STATUSES.RECEIVED,
+      ORDER_STATUSES.ON_THE_WAY,
+      ORDER_STATUSES.DELIVERED,
+      ORDER_STATUSES.PROCESSING_REFUND, // Allow refund to be initiated from any delivery status
+    ];
+  };
+
+  // Include current status in the options so it appears as selected
+  const availableStatuses = getAvailableStatuses();
 
   return (
     <div className={`py-4 min-h-screen ${styles.section}`}>
@@ -147,39 +184,37 @@ const OrderDetails = () => {
         </h5>
       </div>
 
-      {/* order items */}
       <br />
       <br />
-      {data &&
-        data?.cart.map(
-          (
-            item: {
-              images: { url: string }[];
-              name: string;
-              discountPrice: number;
-              qty: number;
-            },
-            index: number
-          ) => (
-            <div key={index} className="w-full flex items-start mb-5">
-              <img
-                src={
-                  item.images && item.images.length > 0
-                    ? item.images[0].url
-                    : "https://placehold.co/600x400"
-                }
-                alt=""
-                className="w-[80x] h-[80px]"
-              />
-              <div className="w-full">
-                <h5 className="pl-3 text-[20px]">{item.name}</h5>
-                <h5 className="pl-3 text-[20px] text-[#00000091]">
-                  ₦{item.discountPrice} x {item.qty}
-                </h5>
-              </div>
+      {data?.cart.map(
+        (
+          item: {
+            images: { url: string }[];
+            name: string;
+            discountPrice: number;
+            qty: number;
+          },
+          index: number
+        ) => (
+          <div key={index} className="w-full flex items-start mb-5">
+            <img
+              src={
+                item.images && item.images.length > 0
+                  ? item.images[0].url
+                  : "https://placehold.co/600x400"
+              }
+              alt=""
+              className="w-[80px] h-[80px]"
+            />
+            <div className="w-full">
+              <h5 className="pl-3 text-[20px]">{item.name}</h5>
+              <h5 className="pl-3 text-[20px] text-[#00000091]">
+                ₦{item.discountPrice} x {item.qty}
+              </h5>
             </div>
-          )
-        )}
+          </div>
+        )
+      )}
 
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
@@ -193,12 +228,13 @@ const OrderDetails = () => {
           <h4 className="pt-3 text-[20px] font-[600]">Shipping Address:</h4>
           <h4 className="pt-3 text-[20px]">
             {data?.shippingAddress.address1 +
-              " " +
-              data?.shippingAddress.address2}
+              (data?.shippingAddress.address2
+                ? " " + data?.shippingAddress.address2
+                : "")}
           </h4>
-          <h4 className=" text-[20px]">{data?.shippingAddress.country}</h4>
-          <h4 className=" text-[20px]">{data?.shippingAddress.city}</h4>
-          <h4 className=" text-[20px]">{data?.user?.phoneNumber}</h4>
+          <h4 className="text-[20px]">{data?.shippingAddress.country}</h4>
+          <h4 className="text-[20px]">{data?.shippingAddress.city}</h4>
+          <h4 className="text-[20px]">{data?.user?.phoneNumber}</h4>
         </div>
         <div className="w-full 800px:w-[40%]">
           <h4 className="pt-3 text-[20px]">Payment Info:</h4>
@@ -211,57 +247,21 @@ const OrderDetails = () => {
       <br />
       <br />
       <h4 className="pt-3 text-[20px] font-[600]">Order Status:</h4>
-      {data?.status !== "Processing refund" &&
-        data?.status !== "Refund Success" && (
+      <div className="mt-2">
+        {availableStatuses.length > 0 && (
           <select
             value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="w-[200px] mt-2 border h-[35px] rounded-[5px]"
+            onChange={(e) => setStatus(e.target.value as OrderStatus)}
+            className="w-[200px] border h-[35px] rounded-[5px]"
           >
-            {[
-              "Processing",
-              "Transferred to delivery partner",
-              "Shipping",
-              "Received",
-              "On the way",
-              "Delivered",
-            ]
-              .slice(
-                [
-                  "Processing",
-                  "Transferred to delivery partner",
-                  "Shipping",
-                  "Received",
-                  "On the way",
-                  "Delivered",
-                ].indexOf(data?.status)
-              )
-              .map((option, index) => (
-                <option value={option} key={index}>
-                  {option}
-                </option>
-              ))}
-          </select>
-        )}
-      {data?.status === "Processing refund" ||
-      data?.status === "Refund Success" ? (
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-[200px] mt-2 border h-[35px] rounded-[5px]"
-        >
-          {["Processing refund", "Refund Success"]
-            .slice(
-              ["Processing refund", "Refund Success"].indexOf(data?.status)
-            )
-            .map((option, index) => (
-              <option value={option} key={index}>
+            {availableStatuses.map((option) => (
+              <option value={option} key={option}>
                 {option}
               </option>
             ))}
-        </select>
-      ) : null}
-
+          </select>
+        )}
+      </div>
       <div
         className={`${
           styles.button
@@ -273,9 +273,9 @@ const OrderDetails = () => {
         onClick={
           isUpdatingOrder || isUpdatingRefund
             ? undefined
-            : data?.status !== "Processing refund"
-            ? orderUpdateHandler
-            : refundOrderUpdateHandler
+            : data.status === ORDER_STATUSES.PROCESSING_REFUND
+            ? refundOrderUpdateHandler
+            : orderUpdateHandler
         }
       >
         {isUpdatingOrder || isUpdatingRefund ? "Updating..." : "Update Status"}

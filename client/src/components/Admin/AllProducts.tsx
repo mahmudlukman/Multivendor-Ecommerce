@@ -26,7 +26,7 @@ const AllProducts = () => {
       flex: 0.6,
     },
     {
-      field: "Stock",
+      field: "stock",
       headerName: "Stock",
       type: "number",
       minWidth: 80,

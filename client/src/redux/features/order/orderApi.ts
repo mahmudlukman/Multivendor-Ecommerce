@@ -1,15 +1,15 @@
 import { OrderData } from "../../../types";
 import { apiSlice } from "../api/apiSlice";
 
-interface CreateOrderResponse {
+interface OrderResponse {
   success: boolean;
-   orders?: OrderData[];
+  orders?: OrderData[];
   message?: string;
 }
 
 export const orderApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation<CreateOrderResponse, OrderData>({
+    createOrder: builder.mutation<OrderResponse, OrderData>({
       query: (orderData) => ({
         url: "create-order",
         method: "POST",
@@ -26,7 +26,7 @@ export const orderApi = apiSlice.injectEndpoints({
     }),
     getAllUserOrders: builder.query({
       query: () => ({
-        url: 'user-orders',
+        url: "user-orders",
         method: "GET",
         credentials: "include" as const,
       }),
@@ -39,23 +39,26 @@ export const orderApi = apiSlice.injectEndpoints({
       }),
     }),
     updateOrderStatus: builder.mutation({
-      query: ({ id }) => ({
+      query: ({ id, status }) => ({
         url: `update-order-status/${id}`,
         method: "PUT",
+        body: { id, status },
         credentials: "include" as const,
       }),
     }),
     orderRefundRequest: builder.mutation({
-      query: (id) => ({
+      query: ({ id, status }) => ({
         url: `order-refund/${id}`,
         method: "PUT",
+        body: { id, status },
         credentials: "include" as const,
       }),
     }),
     orderRefundSuccess: builder.mutation({
-      query: (id) => ({
+      query: ({ id, status }) => ({
         url: `order-refund-success/${id}`,
         method: "PUT",
+        body: { id, status },
         credentials: "include" as const,
       }),
     }),

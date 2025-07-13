@@ -1,4 +1,5 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Document, Schema, Model } from "mongoose";
+import { ORDER_STATUSES, OrderStatus } from "../utils/order";
 
 interface CartItem {
   _id: string; // Product ID
@@ -20,7 +21,7 @@ export interface IOrder extends Document {
   shippingAddress: object;
   user: mongoose.Types.ObjectId;
   totalPrice: number;
-  status?: string;
+  status: OrderStatus;
   paymentInfo?: PaymentInfo;
   paymentId?: string;
   paidAt?: Date;
@@ -40,7 +41,7 @@ const OrderSchema: Schema<IOrder> = new Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     totalPrice: {
@@ -49,7 +50,8 @@ const OrderSchema: Schema<IOrder> = new Schema(
     },
     status: {
       type: String,
-      default: 'Processing',
+      enum: Object.values(ORDER_STATUSES),
+      default: ORDER_STATUSES.PROCESSING,
     },
     paymentInfo: {
       id: {
@@ -63,8 +65,8 @@ const OrderSchema: Schema<IOrder> = new Schema(
       },
     },
     paymentId: {
-    type: String,
-  },
+      type: String,
+    },
     paidAt: {
       type: Date,
       default: Date.now,
@@ -76,6 +78,5 @@ const OrderSchema: Schema<IOrder> = new Schema(
   { timestamps: true }
 );
 
-
-const Order: Model<IOrder> = mongoose.model('Order', OrderSchema);
+const Order: Model<IOrder> = mongoose.model("Order", OrderSchema);
 export default Order;

@@ -3,6 +3,7 @@ import axios from "axios";
 import config from "../config";
 import { catchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/errorHandler";
+import { ORDER_STATUSES } from '../utils/order';
 import Order from "../models/Order";
 import User from "../models/User";
 import { v4 as uuidv4 } from "uuid";
@@ -95,7 +96,7 @@ export const initializePayment = catchAsyncError(
         // Update existing order with payment details
         await Order.findByIdAndUpdate(orderId, {
           paymentId: tx_ref,
-          status: "pending_payment",
+          status: ORDER_STATUSES.PENDING_PAYMENT,
           "paymentInfo.type": "flutterwave",
         });
 
@@ -161,7 +162,7 @@ export const verifyPayment = catchAsyncError(
           const order = await Order.findOneAndUpdate(
             { paymentId: tx_ref },
             {
-              status: "paid",
+              status: ORDER_STATUSES.PAID,
               "paymentInfo.id": transaction_id,
               "paymentInfo.status": "successful",
               "paymentInfo.type": "flutterwave",
@@ -353,9 +354,9 @@ export const refundPayment = catchAsyncError(
         // Deduct refunded amount from shop's availableBalance
         const shopId = order.cart[0]?.shopId;
         if (shopId) {
-          const serviceCharge = refundData.amount * 0.1; // Recalculate service charge for refund
+          const serviceCharge = refundData.amount * 0.1;
           const shopDeduction = refundData.amount - serviceCharge;
-          await updateSellerInfo(shopId, -shopDeduction); // Subtract the refunded amount (after service charge)
+          await updateSellerInfo(shopId, -shopDeduction);
         }
 
         res.status(200).json({

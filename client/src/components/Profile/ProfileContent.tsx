@@ -19,8 +19,15 @@ import {
   useDeleteUserAddressMutation,
   useUpdateUserAddressMutation,
 } from "../../redux/features/user/userApi";
-import { useGetAllUserOrdersQuery } from "../../redux/features/order/orderApi";
-import { RootState, ServerError } from "../../types";
+import {
+  useGetAllUserOrdersQuery,
+  useOrderRefundRequestMutation,
+} from "../../redux/features/order/orderApi";
+import {
+  RootState,
+  ServerError,
+} from "../../types";
+import { ORDER_STATUSES, OrderStatus } from "../../types/order";
 
 interface ProfileContentProps {
   active: number;
@@ -183,10 +190,9 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
 };
 
 const AllOrders = () => {
-  // const { user } = useSelector((state: RootState) => state.auth);
   const { data: allOrders, isLoading, error } = useGetAllUserOrdersQuery({});
-
-  // const orders = ordersData?.orders || [];
+  const [orderRefundRequest, { isLoading: isLoadingRefund }] =
+    useOrderRefundRequestMutation();
 
   useEffect(() => {
     if (error) {
@@ -194,8 +200,24 @@ const AllOrders = () => {
     }
   }, [error]);
 
-  // Safe access to orders
   const orders = allOrders?.orders || [];
+
+  const handleRefundRequest = async (id: string) => {
+    try {
+      await orderRefundRequest({
+        id,
+        status: ORDER_STATUSES.PROCESSING_REFUND,
+      }).unwrap();
+      toast.success("Refund requested successfully!");
+    } catch (err: unknown) {
+      const serverError = err as ServerError;
+      const errorMessage =
+        serverError.data?.message ||
+        serverError.message ||
+        "Failed to request refund";
+      toast.error(errorMessage);
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -204,9 +226,14 @@ const AllOrders = () => {
       headerName: "Status",
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
-      },
+      cellClassName: (params) =>
+        [
+          ORDER_STATUSES.DELIVERED,
+          ORDER_STATUSES.REFUND_SUCCESS,
+          ORDER_STATUSES.PAID,
+        ].includes(params.value)
+          ? "greenColor"
+          : "redColor",
     },
     {
       field: "itemsQty",
@@ -236,13 +263,43 @@ const AllOrders = () => {
         );
       },
     },
+    {
+      field: "refund",
+      headerName: "",
+      flex: 1,
+      minWidth: 150,
+      sortable: false,
+      renderCell: (params) => {
+        if (
+          [ORDER_STATUSES.PROCESSING, ORDER_STATUSES.PAID].includes(
+            params.row.status
+          )
+        ) {
+          return (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleRefundRequest(String(params.id))}
+              disabled={isLoadingRefund}
+              sx={{
+                backgroundColor: "#e94560",
+                "&:hover": { backgroundColor: "#d32f2f" },
+              }}
+            >
+              {isLoadingRefund ? "Requesting..." : "Request Refund"}
+            </Button>
+          );
+        }
+        return null;
+      },
+    },
   ];
 
   interface OrderItem {
     _id: string;
     cart?: { [key: string]: unknown }[];
     totalPrice: number;
-    status: string;
+    status: OrderStatus;
   }
 
   const rows =
@@ -295,12 +352,15 @@ const AllRefundOrders = () => {
     _id: string;
     cart?: { [key: string]: unknown }[];
     totalPrice: number;
-    status: string;
+    status: OrderStatus;
   }
 
   const eligibleOrders =
-    orders?.filter((item: OrderItem) => item.status === "Processing refund") ||
-    [];
+    orders?.filter(
+      (item: OrderItem) =>
+        item.status === ORDER_STATUSES.PROCESSING_REFUND ||
+        item.status === ORDER_STATUSES.REFUND_SUCCESS
+    ) || [];
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -309,9 +369,10 @@ const AllRefundOrders = () => {
       headerName: "Status",
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
-      },
+      cellClassName: (params) =>
+        params.value === ORDER_STATUSES.REFUND_SUCCESS
+          ? "greenColor"
+          : "redColor",
     },
     {
       field: "itemsQty",
@@ -333,7 +394,7 @@ const AllRefundOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`user/order/${params.id}`}>
+          <Link to={`/user/order/${params.id}`}>
             <Button>
               <AiOutlineArrowRight size={20} />
             </Button>
@@ -418,7 +479,7 @@ const TrackOrder = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`track/order/${params.id}`}>
+          <Link to={`/user/track/order/${params.id}`}>
             <Button>
               <MdTrackChanges size={20} />
             </Button>
