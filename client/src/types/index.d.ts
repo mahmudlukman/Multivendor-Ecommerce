@@ -120,19 +120,20 @@ export interface ProductData {
 }
 
 export interface EventData {
+  _id: string;
   name: string;
   description: string;
   category: string;
-  start_Date: Date;
-  Finish_Date: Date;
+  start_Date: string | Date; 
+  Finish_Date: string | Date;
   status?: string;
   tags?: string;
   originalPrice?: number;
   discountPrice: number;
   stock: number;
-  images: Image;
+  images: Image[];
   shopId: string;
-  shop: object;
+  shop: Shop;
   sold_out?: number;
 }
 
@@ -142,7 +143,9 @@ export interface CartItem {
   images: { url: string }[];
   discountPrice: number;
   qty: number;
-  shopId: string; // Added for coupon validation and backend compatibility
+  description?: string;
+  stock?: number;
+  shopId: string;
   isReviewed?: boolean;
 }
 
@@ -188,5 +191,20 @@ export interface Transaction {
   _id: string;
   amount: number;
   status: string;
+  createdAt: string;
+}
+
+interface Conversation {
+  _id: string;
+  members: string[];
+  lastMessage?: string;
+  lastMessageId?: string;
+}
+
+export interface Message {
+  _id: string;
+  conversationId: string;
+  senderId: string;
+  text: string;
   createdAt: string;
 }

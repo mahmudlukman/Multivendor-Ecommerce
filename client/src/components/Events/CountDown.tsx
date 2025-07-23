@@ -1,12 +1,8 @@
-import axios from "axios";
-import { useEffect, useState, FC } from "react";
-import { server } from "../../server";
+import { FC, useEffect, useState } from "react";
+import { EventData } from "../../types";
 
 interface Props {
-  data: {
-    _id: string;
-    Finish_Date: string;
-  };
+  data: EventData;
 }
 
 interface TimeLeft {
@@ -19,23 +15,12 @@ interface TimeLeft {
 const CountDown: FC<Props> = ({ data }) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    if (
-      typeof timeLeft.days === 'undefined' &&
-      typeof timeLeft.hours === 'undefined' &&
-      typeof timeLeft.minutes === 'undefined' &&
-      typeof timeLeft.seconds === 'undefined'
-    ) {
-      axios.delete(`${server}/event/delete-shop-event/${data._id}`);
-    }
-    return () => clearTimeout(timer);
-  });
-
   function calculateTimeLeft(): TimeLeft {
+    if (!data.Finish_Date || isNaN(new Date(data.Finish_Date).getTime())) {
+      console.warn(`Invalid Finish_Date for event ${data._id}:`, data.Finish_Date);
+      return {};
+    }
+
     const difference = +new Date(data.Finish_Date) - +new Date();
     let timeLeft: TimeLeft = {};
 
@@ -50,6 +35,14 @@ const CountDown: FC<Props> = ({ data }) => {
 
     return timeLeft;
   }
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [data._id, data.Finish_Date]);
 
   const timerComponents = Object.keys(timeLeft).map((interval) => {
     if (!timeLeft[interval as keyof TimeLeft]) {

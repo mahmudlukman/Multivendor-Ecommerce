@@ -2,7 +2,14 @@ import { app } from "./app";
 import { v2 as cloudinary } from "cloudinary";
 import connectDB from "./utils/db";
 import config from "./config";
-require("dotenv").config();
+import http from "http";
+import { deleteExpiredEvents } from "./utils/cron-jobs";
+import { initSocketServer } from "./socketServer";
+
+// Start cron jobs
+deleteExpiredEvents()
+
+const server = http.createServer(app);
 
 // cloudinary config
 cloudinary.config({
@@ -11,8 +18,10 @@ cloudinary.config({
   api_secret: config.CLOUDINARY_API_SECRET,
 });
 
+initSocketServer(server);
+
 // create server
-app.listen(config.PORT, () => {
+server.listen(config.PORT, () => {
   console.log(`Server is connected with port ${config.PORT}`);
   connectDB();
 });

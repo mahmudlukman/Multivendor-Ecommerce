@@ -82,7 +82,7 @@ const ProfileSidebar = ({ setActive, active }: ProfileSidebarProps) => {
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => {
           setActive(4);
-          navigate("/inbox");
+          navigate("/user/inbox");
         }}
       >
         <AiOutlineMessage size={20} color={active === 4 ? "red" : ""} />

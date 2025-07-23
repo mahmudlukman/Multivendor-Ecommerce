@@ -9,6 +9,7 @@ export const eventApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
+      invalidatesTags: ['Event'],
     }),
     getEvents: builder.query({
       query: () => ({
@@ -16,6 +17,7 @@ export const eventApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['Event'],
     }),
     getShopEvents: builder.query({
       query: (id) => ({
@@ -23,6 +25,7 @@ export const eventApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['Event'],
     }),
     getAllEvents: builder.query({
       query: () => ({
@@ -30,6 +33,7 @@ export const eventApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['Event'],
     }),
     deleteShopEvent: builder.mutation({
       query: (id) => ({
@@ -37,14 +41,15 @@ export const eventApi = apiSlice.injectEndpoints({
         method: 'DELETE',
         credentials: 'include' as const,
       }),
+      invalidatesTags: ['Event'],
     }),
   }),
 });
 
 export const {
- useCreateEventMutation,
- useDeleteShopEventMutation,
- useGetAllEventsQuery,
- useGetEventsQuery,
- useGetShopEventsQuery,
+  useCreateEventMutation,
+  useDeleteShopEventMutation,
+  useGetAllEventsQuery,
+  useGetEventsQuery,
+  useGetShopEventsQuery,
 } = eventApi;
