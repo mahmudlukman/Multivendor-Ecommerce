@@ -18,6 +18,7 @@ export const apiSlice = createApi({
     "Message",
     "Event",
     "WishList",
+    "Withdraw",
   ],
   endpoints: (builder) => ({
     loadUser: builder.query({

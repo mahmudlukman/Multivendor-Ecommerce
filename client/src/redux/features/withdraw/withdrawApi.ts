@@ -9,6 +9,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
         body: { amount: withdrawAmount },
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Withdraw', id: 'LIST'}],
     }),
     getAllWithdrawRequest: builder.query({
       query: () => ({
@@ -16,6 +17,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
+      providesTags: [{type:'Withdraw', id: 'LIST'}],
     }),
     updateWithdrawRequest: builder.mutation({
       query: ({ withdrawId, sellerId, status }) => ({
@@ -24,6 +26,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
         body: { sellerId, status },
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Withdraw', id: 'LIST'}],
     }),
   }),
 });

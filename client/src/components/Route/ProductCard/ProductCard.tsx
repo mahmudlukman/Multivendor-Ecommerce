@@ -6,8 +6,8 @@ import { ProductData } from "../../../types";
 
 interface Props {
   data: ProductData;
-  open: boolean;
-  setOpen: (isOpen: boolean) => void;
+  open?: boolean;
+  setOpen?: (isOpen: boolean) => void;
   isShop?: boolean;
   isEvent?: boolean;
 }

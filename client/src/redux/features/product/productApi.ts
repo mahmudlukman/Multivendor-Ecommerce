@@ -9,6 +9,7 @@ export const productApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'Product', id: 'LIST'}],
     }),
     getAllProductsInShop: builder.query({
       query: (id) => ({
@@ -16,6 +17,7 @@ export const productApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: [{type:'Product', id: 'LIST'}],
     }),
     getAllProducts: builder.query({
       query: () => ({
@@ -23,6 +25,7 @@ export const productApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: [{type:'Product', id: 'LIST'}],
     }),
     getProduct: builder.query({
       query: (id) => ({
@@ -30,6 +33,7 @@ export const productApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: [{type:'Product', id: 'LIST'}],
     }),
     reviewProduct: builder.mutation({
       query: (data) => ({
@@ -38,6 +42,7 @@ export const productApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'Product', id: 'LIST'}],
     }),
     deleteProductInShop: builder.mutation({
       query: (id) => ({
@@ -45,6 +50,7 @@ export const productApi = apiSlice.injectEndpoints({
         method: 'DELETE',
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'Product', id: 'LIST'}],
     }),
   }),
 });

@@ -9,6 +9,7 @@ export const conversationApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
+      invalidatesTags: ['Conversation'],
     }),
     getAllConversations: builder.query({
       query: (id) => ({
@@ -16,6 +17,7 @@ export const conversationApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['Conversation'],
     }),
     allUserConversations: builder.query({
       query: (id) => ({
@@ -23,6 +25,7 @@ export const conversationApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['Conversation'],
     }),
     updateLastMessage: builder.mutation({
       query: (id) => ({
@@ -30,6 +33,7 @@ export const conversationApi = apiSlice.injectEndpoints({
         method: 'PUT',
         credentials: 'include' as const,
       }),
+      invalidatesTags: ['Conversation'],
     }),
   }),
 });

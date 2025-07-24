@@ -11,6 +11,7 @@ export const userApi = apiSlice.injectEndpoints({
         },
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
     updateUserInfo: builder.mutation({
       query: ({ name, avatar, phoneNumber }) => ({
@@ -23,6 +24,7 @@ export const userApi = apiSlice.injectEndpoints({
         },
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
     updateUserPassword: builder.mutation({
       query: ({ oldPassword, newPassword }) => ({
@@ -34,6 +36,7 @@ export const userApi = apiSlice.injectEndpoints({
         },
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
     getAllUsers: builder.query({
       query: () => ({
@@ -41,6 +44,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: [{type:'User', id: 'LIST'}],
     }),
     getUser: builder.query({
       query: (id) => ({
@@ -48,6 +52,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: [{type:'User', id: 'LIST'}],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
@@ -55,6 +60,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: 'DELETE',
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
     deleteUserAddress: builder.mutation({
       query: (id) => ({
@@ -62,6 +68,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: 'DELETE',
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
     updateUserRole: builder.mutation({
       query: ({ data }) => ({
@@ -70,6 +77,7 @@ export const userApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
     updateUserAddress: builder.mutation({
       query: (addressData) => ({
@@ -78,6 +86,7 @@ export const userApi = apiSlice.injectEndpoints({
         body: addressData,
         credentials: 'include' as const,
       }),
+      invalidatesTags: [{type:'User', id: 'LIST'}],
     }),
   }),
 });

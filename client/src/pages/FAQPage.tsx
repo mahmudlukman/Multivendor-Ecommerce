@@ -16,7 +16,7 @@ const FAQPage = () => {
 const Faq = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const toggleTab = (tab: any) => {
+  const toggleTab = (tab: number) => {
     if (activeTab === tab) {
       setActiveTab(0);
     } else {

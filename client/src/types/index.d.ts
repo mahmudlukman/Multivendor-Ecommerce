@@ -145,7 +145,7 @@ export interface CartItem {
   qty: number;
   description?: string;
   stock?: number;
-  shopId: string;
+  shopId?: string;
   isReviewed?: boolean;
 }
 

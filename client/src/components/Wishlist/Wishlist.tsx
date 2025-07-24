@@ -5,15 +5,7 @@ import styles from "../../styles/styles";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useAddToCartMutation } from "../../redux/features/cart/cartApi";
 import { useGetWishListQuery, useRemoveFromWishListMutation } from "../../redux/features/wishlist/wishlistApi";
-
-interface WishlistItem {
-  _id: string;
-  name: string;
-  images: { url: string }[];
-  discountPrice: number;
-  qty: number;
-  stock: number;
-}
+import { WishListItem } from "../../types";
 
 interface WishlistProps {
   setOpenWishlist: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,8 +20,13 @@ const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
     removeFromWishlist(id);
   };
 
-  const addToCartHandler = (data: WishlistItem) => {
-    const newData = { ...data, qty: 1 };
+  const addToCartHandler = (data: WishListItem) => {
+    const shopId = data.productId || '';
+    const newData = { 
+      ...data, 
+      qty: 1, 
+      shopId: shopId
+    };  
     addToCart(newData);
     setOpenWishlist(false);
   };
@@ -73,7 +70,7 @@ const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
               <br />
               <div className="w-full border-t">
                 {wishlist &&
-                  wishlist.map((i: WishlistItem, index: number) => (
+                  wishlist.map((i: WishListItem, index: number) => (
                     <CartSingle
                       key={index}
                       data={i}
@@ -91,9 +88,9 @@ const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
 };
 
 interface CartSingleProps {
-  data: WishlistItem;
+  data: WishListItem;
   removeFromWishlistHandler: (id: string) => void;
-  addToCartHandler: (data: WishlistItem) => void;
+  addToCartHandler: (data: WishListItem) => void;
 }
 
 const CartSingle: React.FC<CartSingleProps> = ({

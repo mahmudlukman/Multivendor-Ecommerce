@@ -1,14 +1,5 @@
+import { CartItem } from '../../../types';
 import { apiSlice } from '../api/apiSlice';
-
-interface CartItem {
-  shopId: any;
-  _id: string;
-  name: string;
-  images: { url: string }[];
-  discountPrice: number;
-  qty: number;
-  stock: number;
-}
 
 const getLocalCart = (): CartItem[] => {
   return JSON.parse(localStorage.getItem('cartItems') || '[]');

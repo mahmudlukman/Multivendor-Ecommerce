@@ -1,33 +1,26 @@
-import { FC} from 'react';
+import { FC } from 'react';
 import styles from '../../styles/styles';
 import EventCard from './EventCard';
 import { useGetEventsQuery } from '../../redux/features/event/eventApi';
-
-interface Event {
-  _id: string;
-  name: string;
-  description: string;
-  images: { url: string }[];
-  originalPrice: number;
-  discountPrice: number;
-  sold_out: number;
-  stock: number;
-  Finish_Date: string;
-}
+import { EventData, ServerError } from '../../types';
+import { toast } from 'react-hot-toast';
 
 const Events: FC = () => {
   const { data: allEvents, isLoading, error } = useGetEventsQuery({});
 
   if (isLoading) {
-    return <div>Loading events...</div>;
+    return <div className={`${styles.section} text-center`}>Loading events...</div>;
   }
 
   if (error) {
-    return <div>Error loading events: {JSON.stringify(error)}</div>;
+    const serverError = error as ServerError;
+    const errorMessage = serverError.data?.message || serverError.message || 'Error loading events';
+    toast.error(errorMessage);
+    return <div className={`${styles.section} text-center`}>{errorMessage}</div>;
   }
 
-  if (!allEvents) {
-    return <div>No events data available.</div>;
+  if (!allEvents || !allEvents.events || allEvents.events.length === 0) {
+    return <div className={`${styles.section} text-center`}>No events available.</div>;
   }
 
   return (
@@ -37,7 +30,7 @@ const Events: FC = () => {
       </div>
 
       <div className="w-full grid">
-        {allEvents.events.map((event: Event) => (
+        {allEvents.events.map((event: EventData) => (
           <EventCard key={event._id} active={true} data={event} />
         ))}
       </div>

@@ -30,6 +30,7 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
+      providesTags: [{ type: "Order", id: "LIST" }],
     }),
     getAllSellerOrders: builder.query({
       query: (shopId) => ({
@@ -37,6 +38,7 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
+       providesTags: [{ type: "Order", id: "LIST" }],
     }),
     updateOrderStatus: builder.mutation({
       query: ({ id, status }) => ({
@@ -45,6 +47,7 @@ export const orderApi = apiSlice.injectEndpoints({
         body: { id, status },
         credentials: "include" as const,
       }),
+       invalidatesTags: [{ type: "Order", id: "LIST" }],
     }),
     orderRefundRequest: builder.mutation({
       query: ({ id, status }) => ({
@@ -53,6 +56,7 @@ export const orderApi = apiSlice.injectEndpoints({
         body: { id, status },
         credentials: "include" as const,
       }),
+       invalidatesTags: [{ type: "Order", id: "LIST" }],
     }),
     orderRefundSuccess: builder.mutation({
       query: ({ id, status }) => ({
@@ -61,6 +65,7 @@ export const orderApi = apiSlice.injectEndpoints({
         body: { id, status },
         credentials: "include" as const,
       }),
+       invalidatesTags: [{ type: "Order", id: "LIST" }],
     }),
     getAllOrders: builder.query({
       query: () => ({
@@ -68,6 +73,7 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
+       providesTags: [{ type: "Order", id: "LIST" }],
     }),
     deleteOrder: builder.mutation({
       query: (id) => ({
@@ -75,6 +81,7 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "DELETE",
         credentials: "include" as const,
       }),
+       invalidatesTags: [{ type: "Order", id: "LIST" }],
     }),
   }),
 });

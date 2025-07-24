@@ -25,6 +25,7 @@ export const shopApi = apiSlice.injectEndpoints({
         },
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Seller', id: 'LIST'}],
     }),
     updateShopPassword: builder.mutation({
       query: ({ oldPassword, newPassword }) => ({
@@ -36,6 +37,7 @@ export const shopApi = apiSlice.injectEndpoints({
         },
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Seller', id: 'LIST'}],
     }),
     getAllShops: builder.query({
       query: () => ({
@@ -43,6 +45,7 @@ export const shopApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
+      providesTags: [{type:'Seller', id: 'LIST'}],
     }),
     getShop: builder.query({
       query: (id) => ({
@@ -50,6 +53,7 @@ export const shopApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include" as const,
       }),
+      providesTags: [{type:'Seller', id: 'LIST'}],
     }),
     deleteShop: builder.mutation({
       query: (id) => ({
@@ -57,6 +61,7 @@ export const shopApi = apiSlice.injectEndpoints({
         method: "DELETE",
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Seller', id: 'LIST'}],
     }),
     deleteWithdrawMethod: builder.mutation({
       query: () => ({
@@ -64,6 +69,7 @@ export const shopApi = apiSlice.injectEndpoints({
         method: "DELETE",
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Seller', id: 'LIST'}],
     }),
     updateWithdrawMethod: builder.mutation({
       query: (data) => ({
@@ -72,6 +78,7 @@ export const shopApi = apiSlice.injectEndpoints({
         body: data,
         credentials: "include" as const,
       }),
+      invalidatesTags: [{type:'Seller', id: 'LIST'}],
     }),
   }),
 });

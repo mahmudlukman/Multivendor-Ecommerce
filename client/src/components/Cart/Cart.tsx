@@ -10,16 +10,8 @@ import {
   useRemoveFromCartMutation,
 } from "../../redux/features/cart/cartApi";
 import { toast } from "react-hot-toast";
-import { ServerError } from "../../types";
+import { CartItem, ServerError } from "../../types";
 
-interface CartItem {
-  _id: string;
-  name: string;
-  images: { url: string }[];
-  discountPrice: number;
-  qty: number;
-  stock: number;
-}
 
 interface CartProps {
   setOpenCart: (open: boolean) => void;
@@ -138,7 +130,7 @@ const CartSingle: FC<CartSingleProps> = ({
   const totalPrice = data.discountPrice * value;
 
   const increment = () => {
-    if (data.stock > value) {
+    if (data.stock !== undefined && data.stock > value) {
       setValue(value + 1);
       const updateCartData = { ...data, qty: value + 1 };
       quantityChangeHandler(updateCartData);

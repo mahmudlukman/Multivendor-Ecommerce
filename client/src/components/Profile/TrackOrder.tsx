@@ -71,6 +71,8 @@ const TrackOrder = () => {
     [ORDER_STATUSES.PROCESSING_REFUND]: "Your refund is being processed.",
     [ORDER_STATUSES.REFUND_SUCCESS]:
       "Your refund has been successfully processed!",
+    [ORDER_STATUSES.REFUND_REJECTED]:
+      "Your refund request was rejected. Please contact support if you have questions.",
   };
 
   return (

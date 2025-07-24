@@ -9,6 +9,7 @@ export const couponCodeApi = apiSlice.injectEndpoints({
         body: data,
         credentials: 'include' as const,
       }),
+      invalidatesTags: ['CouponCode'],
     }),
     getCoupon: builder.query({
       query: (id) => ({
@@ -16,6 +17,7 @@ export const couponCodeApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['CouponCode'],
     }),
     getCouponValue: builder.query({
       query: (name) => ({
@@ -23,6 +25,7 @@ export const couponCodeApi = apiSlice.injectEndpoints({
         method: 'GET',
         credentials: 'include' as const,
       }),
+      providesTags: ['CouponCode'],
     }),
     deleteCoupon: builder.mutation({
       query: (name) => ({
@@ -30,6 +33,7 @@ export const couponCodeApi = apiSlice.injectEndpoints({
         method: 'DELETE',
         credentials: 'include' as const,
       }),
+      invalidatesTags: ['CouponCode'],
     }),
   }),
 });

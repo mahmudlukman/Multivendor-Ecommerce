@@ -62,19 +62,31 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
 
   const removeFromWishlistHandler = (data: ProductData) => {
     setClick(!click);
-    removeFromWishList(data);
+    removeFromWishList(data._id);
   };
 
   const addToWishlistHandler = (data: ProductData) => {
     setClick(!click);
-    addToWishList(data);
+    addToWishList({
+      productId: data._id, qty: 1,
+      _id: '',
+      name: '',
+      images: [],
+      discountPrice: 0,
+      stock: 0
+    });
   };
 
   const addToCartHandler = (id: string) => {
     if (data.stock < 1) {
       toast.error('Product stock limited!');
     } else {
-      const cartData = { ...data, id, qty: count };
+      const cartData = { 
+        ...data, 
+        id, 
+        qty: count, 
+        shopId: data.shop._id
+      };
       addToCart(cartData)
         .unwrap()
         .then(() => toast.success('Item added to cart successfully!'))
@@ -97,7 +109,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
       (acc: number, product: ProductData) =>
         acc +
         product.reviews.reduce(
-          (sum: number, review: Review) => sum + review.rating,
+          (sum: number, review: { rating: number }) => sum + review.rating,
           0
         ),
       0

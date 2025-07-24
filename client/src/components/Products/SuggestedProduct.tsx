@@ -2,25 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styles from '../../styles/styles';
 import ProductCard from '../Route/ProductCard/ProductCard';
 import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
-import { Shop } from '../../types';
-
-// interface Shop {
-//   _id: string;
-//   name: string;
-// }
-
-interface Product {
-  category: string;
-  _id: string;
-  name: string;
-  description: string;
-  discountPrice: number;
-  originalPrice: number;
-  stock: number;
-  images: { url: string }[];
-  shop: Shop;
-  ratings: number;
-}
+import { ProductData} from '../../types';
 
 interface SuggestedProductProps {
   data: {
@@ -30,10 +12,11 @@ interface SuggestedProductProps {
 
 const SuggestedProduct: FC<SuggestedProductProps> = ({ data }) => {
   const { data: allProducts } = useGetAllProductsQuery({});
-  const [productData, setProductData] = useState<Product[] | undefined>();
+  const [productData, setProductData] = useState<ProductData[] | undefined>();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const d = allProducts && allProducts?.products.filter((i: Product) => i.category === data.category);
+    const d = allProducts && allProducts?.products.filter((i: ProductData) => i.category === data.category);
     setProductData(d);
   }, [allProducts, data.category]);
 
@@ -48,9 +31,15 @@ const SuggestedProduct: FC<SuggestedProductProps> = ({ data }) => {
           </h2>
           <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12">
             {productData &&
-              productData.map((i, index) => (
-                <ProductCard data={i} key={index} />
-              ))}
+              productData.map((item, idx) => (
+                <ProductCard
+                  data={item}
+                  key={item._id || idx}
+                  open={open}
+                  setOpen={setOpen}
+                />
+              ))
+            }
           </div>
         </div>
       ) : null}

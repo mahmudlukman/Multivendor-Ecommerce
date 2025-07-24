@@ -6,63 +6,7 @@ import ProductDetails from "../components/Products/ProductDetails";
 import SuggestedProduct from "../components/Products/SuggestedProduct";
 import { useGetEventsQuery } from "../redux/features/event/eventApi";
 import { useGetAllProductsQuery } from "../redux/features/product/productApi";
-
-interface Image {
-  public_id: string;
-  url: string;
-}
-
-interface Shop {
-  _id: string;
-  name: string;
-  avatar: Image;
-  description: string;
-  createdAt: string;
-}
-
-interface Review {
-  user: {
-    name: string;
-    avatar: Image;
-  };
-  rating: number;
-  comment: string;
-}
-
-interface WishlistItem {
-  _id: string;
-}
-
-interface ProductData {
-  _id: string;
-  name: string;
-  description: string;
-  images: Image[];
-  shop: Shop;
-  discountPrice: number;
-  originalPrice?: number;
-  stock: number;
-  reviews: Review[];
-  ratings: number;
-  wishlist: WishlistItem[];
-  category: string; // Add this line
-}
-
-interface EventData {
-  _id: string;
-  name: string;
-  description: string;
-  images: Image[];
-  shop: Shop;
-  reviews: Review[];
-  ratings: number;
-  price: number;
-  stock: number;
-  discountPrice: number;
-  start_Date: string;
-  Finish_Date: string;
-  wishlist: WishlistItem[];
-}
+import { EventData, ProductData } from "../types";
 
 type DetailData = ProductData | EventData;
 
@@ -90,8 +34,14 @@ const ProductDetailsPage: React.FC = () => {
   return (
     <div>
       <Header activeHeading={0} />
-      {data && <ProductDetails data={data} />}
-      {!eventData && data && <SuggestedProduct data={data as ProductData} />}
+      {data && !eventData && <ProductDetails data={data as ProductData} />}
+      {data && eventData && (
+        // You can create and use an EventDetails component if needed
+        <div>Event details rendering not implemented</div>
+      )}
+      {!eventData && data && (
+        <SuggestedProduct data={{ category: (data as ProductData).category ?? "" }} />
+      )}
       <Footer />
     </div>
   );
