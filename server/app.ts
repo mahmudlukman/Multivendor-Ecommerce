@@ -18,6 +18,7 @@ import conversationRouter from "./routes/conversation.route";
 import messageRouter from "./routes/message.route";
 import withdrawRouter from "./routes/withdraw.route";
 import paymentRouter from "./routes/payment.route";
+import analyticsRouter from "./routes/analytics.route";
 import config from "./config";
 
 export const app = express();
@@ -51,13 +52,6 @@ const corsOptions: CorsOptions = {
 
 // Apply CORS middleware
 app.use(cors({ ...corsOptions, credentials: true }));
-// app.use(
-//   cors({
-//     origin: ["http://localhost:5173"],
-//     credentials: true,
-//   })
-// );
-
 // Enable response compression to reduce payload size and improve performance
 app.use(
   compression({
@@ -84,7 +78,8 @@ app.use(
   conversationRouter,
   messageRouter,
   withdrawRouter,
-  paymentRouter
+  paymentRouter,
+  analyticsRouter
 );
 
 // testing API

@@ -28,8 +28,8 @@ export const couponCodeApi = apiSlice.injectEndpoints({
       providesTags: ['CouponCode'],
     }),
     deleteCoupon: builder.mutation({
-      query: (name) => ({
-        url: `get-coupon-value/${name}`,
+      query: (id) => ({
+        url: `delete-coupon/${id}`,
         method: 'DELETE',
         credentials: 'include' as const,
       }),
