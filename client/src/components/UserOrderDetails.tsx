@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BsFillBagFill } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styles from "../styles/styles";
 import {
   useGetAllUserOrdersQuery,
   useOrderRefundRequestMutation,
@@ -124,7 +123,7 @@ const UserOrderDetails = () => {
 
   if (isLoading) {
     return (
-      <div className={`py-4 min-h-screen ${styles.section}`}>
+      <div className='py-4 min-h-screen w-11/12 mx-auto'>
         <div className="w-full flex items-center justify-center">
           <h1 className="text-[20px]">Loading order details...</h1>
         </div>
@@ -134,7 +133,7 @@ const UserOrderDetails = () => {
 
   if (error) {
     return (
-      <div className={`py-4 min-h-screen ${styles.section}`}>
+      <div className='py-4 min-h-screen w-11/12 mx-auto'>
         <div className="w-full flex items-center justify-center">
           <h1 className="text-[20px] text-red-500">
             Error loading order details
@@ -146,7 +145,7 @@ const UserOrderDetails = () => {
 
   if (!data) {
     return (
-      <div className={`py-4 min-h-screen ${styles.section}`}>
+      <div className='py-4 min-h-screen w-11/12 mx-auto'>
         <div className="w-full flex items-center justify-center">
           <h1 className="text-[20px]">Order not found</h1>
         </div>
@@ -155,7 +154,7 @@ const UserOrderDetails = () => {
   }
 
   return (
-    <div className={`py-4 min-h-screen ${styles.section}`}>
+    <div className='py-4 min-h-screen w-11/12 mx-auto'>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
           <BsFillBagFill size={30} color="crimson" />
@@ -190,7 +189,7 @@ const UserOrderDetails = () => {
           </div>
           {!item.isReviewed && data.status === ORDER_STATUSES.DELIVERED ? (
             <div
-              className={`${styles.button} text-[#fff]`}
+              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]'
               onClick={() => {
                 setOpen(true);
                 setSelectedItem(item);
@@ -278,7 +277,7 @@ const UserOrderDetails = () => {
               />
             </div>
             <div
-              className={`${styles.button} text-white text-[20px] ml-3 ${
+              className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white text-[20px] ml-3 ${
                 isReviewLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={rating > 0 && !isReviewLoading ? reviewHandler : () => {}}
@@ -320,7 +319,7 @@ const UserOrderDetails = () => {
             data.status
           ) && (
             <div
-              className={`${styles.button} text-white ${
+              className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white ${
                 isRefundLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={isRefundLoading ? undefined : refundHandler}
@@ -332,7 +331,7 @@ const UserOrderDetails = () => {
       </div>
       <br />
       <Link to="/">
-        <div className={`${styles.button} text-white`}>Send Message</div>
+        <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white'>Send Message</div>
       </Link>
       <br />
       <br />

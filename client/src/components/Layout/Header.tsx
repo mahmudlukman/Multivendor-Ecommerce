@@ -1,6 +1,5 @@
 import { useState, ChangeEvent, FC } from "react";
 import { Link } from "react-router-dom";
-import styles from "../../styles/styles";
 import { categoriesData } from "../../static/data";
 import {
   AiOutlineHeart,
@@ -86,7 +85,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
 
   return (
     <>
-      <div className={`${styles.section}`}>
+      <div className='w-11/12 mx-auto'>
         <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
           <div>
             <Link to="/">
@@ -128,7 +127,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
             ) : null}
           </div>
 
-          <div className={`${styles.button}`}>
+          <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer'>
             <Link to={seller ? "/shop/dashboard" : "/create-shop"}>
               <h1 className="text-[#fff] flex items-center">
                 {seller ? "Go Dashboard" : "Become Seller"}
@@ -144,7 +143,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
         } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
       >
         <div
-          className={`${styles.section} relative ${styles.noramlFlex} justify-between`}
+          className='w-11/12 mx-auto relative flex items-center w-full justify-between'
         >
           {/* categories */}
           <div onClick={() => setDropDown(!dropDown)}>
@@ -169,12 +168,12 @@ const Header: FC<Props> = ({ activeHeading }) => {
             </div>
           </div>
           {/* navItems */}
-          <div className={`${styles.noramlFlex}`}>
+          <div className='flex items-center w-full'>
             <Navbar active={activeHeading} />
           </div>
 
           <div className="flex">
-            <div className={`${styles.noramlFlex}`}>
+            <div className='flex items-center w-full'>
               <div
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenWishlist(true)}
@@ -186,7 +185,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
               </div>
             </div>
 
-            <div className={`${styles.noramlFlex}`}>
+            <div className='flex items-center w-full'>
               <div
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenCart(true)}
@@ -201,7 +200,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
               </div>
             </div>
 
-            <div className={`${styles.noramlFlex}`}>
+            <div className='flex items-center w-full'>
               <div className="relative cursor-pointer mr-[15px]">
                 <Link to={getProfileRedirectPath()}>
                   {user && user.avatar?.url ? (
@@ -311,7 +310,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
                 ) : null}
               </div>
               <Navbar active={activeHeading} />
-              <div className={`${styles.button} ml-4 !rounded-[4px]`}>
+              <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer ml-4 !rounded-[4px]'>
                 <Link to={seller ? "/seller/dashboard" : "/shop-create"}>
                   <h1 className="text-[#fff] flex items-center">
                     {seller ? "Go Dashboard" : "Become Seller"}

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { navItems } from '../../static/data';
-import styles from '../../styles/styles';
+
 
 interface NavItem {
   title: string;
@@ -14,7 +14,7 @@ interface Props {
 
 const Navbar: FC<Props> = ({ active }) => {
   return (
-    <div className={`block 800px:${styles.noramlFlex}`}>
+    <div className="flex justify-center items-center w-full py-4">
       {navItems &&
         navItems.map((item: NavItem, index: number) => (
           <div className="flex" key={index}>

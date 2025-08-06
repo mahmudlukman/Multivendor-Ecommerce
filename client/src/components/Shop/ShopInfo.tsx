@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetShopQuery } from "../../redux/features/shop/shopApi";
 import { useGetAllProductsInShopQuery } from "../../redux/features/product/productApi";
 import { useSellerLogoutMutation } from "../../redux/features/sellerAuth/sellerAuthApi";
-import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
 import { ProductData, ServerError, Shop } from "../../types";
 import toast from "react-hot-toast";
@@ -133,15 +132,13 @@ const ShopInfo: FC<ShopInfoProps> = ({ isOwner, shop }) => {
         <div className="py-3 px-4">
           <Link to="/shop/settings">
             <div
-              className={`${styles.button} !w-full !h-[42px] !rounded-[5px]`}
+              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-full !h-[42px] !rounded-[5px]'
             >
               <span className="text-white">Edit Shop</span>
             </div>
           </Link>
           <div
-            className={`${
-              styles.button
-            } !w-full !h-[42px] !rounded-[5px] cursor-pointer ${
+            className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-full !h-[42px] !rounded-[5px] cursor-pointer ${
               isLogoutLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={isLogoutLoading ? undefined : logoutHandler}

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
-import styles from "../../styles/styles";
 import { RxCross1 } from "react-icons/rx";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -177,15 +176,13 @@ const AllSellers = () => {
               </h3>
               <div className="w-full flex items-center justify-center">
                 <div
-                  className={`${styles.button} text-white text-[18px] !h-[42px] mr-4`}
+                  className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white text-[18px] !h-[42px] mr-4'
                   onClick={() => setOpen(false)}
                 >
                   cancel
                 </div>
                 <div
-                  className={`${
-                    styles.button
-                  } text-white text-[18px] !h-[42px] ml-4 ${
+                  className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white text-[18px] !h-[42px] ml-4 ${
                     isDeleting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   onClick={() => !isDeleting && handleDelete(userId)}

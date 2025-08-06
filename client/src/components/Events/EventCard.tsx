@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import styles from '../../styles/styles';
 import CountDown from './CountDown';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -68,7 +67,7 @@ const EventCard: FC<EventCardProps> = ({ active, data }) => {
         />
       </div>
       <div className="w-full lg:w-[50%] flex flex-col justify-center">
-        <h2 className={`${styles.productTitle}`}>{data.name}</h2>
+        <h2 className='text-[25px] font-[600] font-Roboto text-[#333]'>{data.name}</h2>
         <p>{data.description.slice(0, 100)}...</p>
         <div className="flex py-2 justify-between">
           <div className="flex">
@@ -89,10 +88,10 @@ const EventCard: FC<EventCardProps> = ({ active, data }) => {
         <br />
         <div className="flex items-center">
           <Link to={`/event/${data._id}?isEvent=true`}>
-            <div className={`${styles.button} text-[#fff]`}>See Details</div>
+            <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]'>See Details</div>
           </Link>
           <div
-            className={`${styles.button} text-[#fff] ml-5`}
+            className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] ml-5'
             onClick={() => addToCartHandler(data)}
             role="button"
             aria-label={`Add ${data.name} to cart`}

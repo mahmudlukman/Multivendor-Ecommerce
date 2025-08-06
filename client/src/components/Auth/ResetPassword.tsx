@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../../styles/styles";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useResetPasswordMutation } from "../../redux/features/auth/authApi";
@@ -102,7 +101,7 @@ const ResetPassword = () => {
                 {isLoading ? <BeatLoader color="white" /> : "Submit"}
               </button>
             </div>
-            <div className={`${styles.noramlFlex} w-full`}>
+            <div className='flex items-center w-full w-full'>
               <h4>Go back to login</h4>
               <Link to="/login" className="text-blue-600 pl-2">
                 Login

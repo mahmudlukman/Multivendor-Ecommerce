@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "../../../styles/styles";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
@@ -65,7 +64,7 @@ const ShopForgotPassword = () => {
                 {isLoading ? <BeatLoader color="white" /> : "Send Reset Link"}
               </button>
             </div>
-            <div className={`${styles.noramlFlex} w-full`}>
+            <div className='flex items-center w-full w-full'>
               <h4>Go back to login</h4>
               <Link to="/login-shop" className="text-blue-600 pl-2">
                 Login

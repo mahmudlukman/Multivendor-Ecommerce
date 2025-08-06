@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import styles from '../../styles/styles';
 import ProductCard from '../Route/ProductCard/ProductCard';
 import { useGetAllProductsQuery } from '../../redux/features/product/productApi';
 import { ProductData} from '../../types';
@@ -23,9 +22,9 @@ const SuggestedProduct: FC<SuggestedProductProps> = ({ data }) => {
   return (
     <div>
       {data ? (
-        <div className={`p-4 ${styles.section}`}>
+        <div className='w-11/12 mx-auto'>
           <h2
-            className={`${styles.heading} text-[25px] font-[500] border-b mb-5`}
+            className='text-[27px] text-center md:text-start font-[600] font-Roboto pb-[20px] text-[25px] font-[500] border-b mb-5'
           >
             Related Product
           </h2>

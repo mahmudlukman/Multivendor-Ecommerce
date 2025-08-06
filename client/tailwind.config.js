@@ -18,6 +18,10 @@ export default {
         "1300px": "1300px",
         "400px":"400px"
       },
+      colors: {
+      primary: '#6443d1',
+      secondary: '#d55b45',
+    },
     },
   },
   plugins: [],

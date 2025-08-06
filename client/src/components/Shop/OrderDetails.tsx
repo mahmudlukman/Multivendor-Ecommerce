@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import styles from "../../styles/styles";
 import { BsFillBagFill } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -114,7 +113,7 @@ const OrderDetails = () => {
 
   if (error) {
     return (
-      <div className={`py-4 min-h-screen ${styles.section}`}>
+      <div className='py-4 min-h-screen w-11/12 mx-auto'>
         <div className="text-red-500 text-center p-4">Error loading order</div>
       </div>
     );
@@ -122,7 +121,7 @@ const OrderDetails = () => {
 
   if (!data) {
     return (
-      <div className={`py-4 min-h-screen ${styles.section}`}>
+      <div className='py-4 min-h-screen w-11/12 mx-auto'>
         <div className="text-center p-4">Order not found</div>
       </div>
     );
@@ -160,7 +159,7 @@ const OrderDetails = () => {
   const availableStatuses = getAvailableStatuses();
 
   return (
-    <div className={`py-4 min-h-screen ${styles.section}`}>
+    <div className='py-4 min-h-screen w-11/12 mx-auto'>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
           <BsFillBagFill size={30} color="crimson" />
@@ -168,7 +167,7 @@ const OrderDetails = () => {
         </div>
         <Link to="/shop/orders">
           <div
-            className={`${styles.button} !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]`}
+            className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]'
           >
             Order List
           </div>
@@ -263,9 +262,7 @@ const OrderDetails = () => {
         )}
       </div>
       <div
-        className={`${
-          styles.button
-        } mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px] ${
+        className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px] ${
           isUpdatingOrder || isUpdatingRefund
             ? "opacity-50 cursor-not-allowed"
             : "cursor-pointer"

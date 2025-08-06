@@ -7,7 +7,6 @@ import {
   useGetAllWithdrawRequestQuery,
   useUpdateWithdrawRequestMutation,
 } from "../../redux/features/withdraw/withdrawApi";
-import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
 import { ServerError } from "../../types";
 
@@ -171,7 +170,7 @@ const AllWithdraw = () => {
             </div>
             <div className="w-full flex items-center justify-center mt-5">
               <button
-                className={`${styles.button} text-white !h-[42px] mr-4 text-[18px]`}
+                className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white !h-[42px] mr-4 text-[18px]'
                 onClick={() => {
                   setOpen(false);
                   setWithdrawData(null);
@@ -180,9 +179,7 @@ const AllWithdraw = () => {
                 Cancel
               </button>
               <button
-                className={`${
-                  styles.button
-                } text-white !h-[42px] ml-4 text-[18px] ${
+                className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white !h-[42px] ml-4 text-[18px] ${
                   isUpdating ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={handleSubmit}

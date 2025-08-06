@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../styles/styles';
 
 interface Category {
   title: string;
@@ -27,7 +26,7 @@ const DropDown: FC<Props> = ({ categoriesData, setDropDown }) => {
         categoriesData.map((category, index) => (
           <div
             key={index}
-            className={`${styles.noramlFlex}`}
+            className='flex items-center w-full'
             onClick={() => submitHandle(category)}
           >
             <img

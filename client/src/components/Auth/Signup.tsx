@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { RxAvatar } from "react-icons/rx";
@@ -178,7 +177,7 @@ const SingUp = () => {
                 {isLoading ? <BeatLoader color="white" /> : "Submit"}
               </button>
             </div>
-            <div className={`${styles.noramlFlex} w-full`}>
+            <div className='flex items-center w-full w-full'>
               <h4>Already have an account?</h4>
               <Link to="/login" className="text-blue-600 pl-2">
                 Sign In

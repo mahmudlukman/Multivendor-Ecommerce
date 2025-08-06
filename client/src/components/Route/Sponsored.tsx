@@ -1,9 +1,7 @@
-import styles from '../../styles/styles';
-
 const Sponsored = () => {
   return (
     <div
-      className={`${styles.section} hidden sm:block bg-white py-10 px-5 mb-12 cursor-pointer rounded-xl`}
+      className='w-11/12 mx-auto hidden sm:block bg-white py-10 px-5 mb-12 cursor-pointer rounded-xl'
     >
       <div className="flex justify-between w-full">
         <div className="flex items-start">

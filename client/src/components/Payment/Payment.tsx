@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../../styles/styles";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
@@ -195,7 +194,7 @@ const PaymentInfo: React.FC<PaymentInfoProps> = ({
       <div className="w-full flex border-b mt-4">
         <button
           className={`
-            ${styles.button}
+            w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer
             !bg-[#f63b60] text-[#fff] h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]
             ${isLoading || isCreatingOrder ? "opacity-50 cursor-not-allowed" : ""}
           `}

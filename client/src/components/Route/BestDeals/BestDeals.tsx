@@ -1,10 +1,7 @@
 import { useEffect, useState, FC } from 'react';
 import { useGetAllProductsQuery } from '../../../redux/features/product/productApi';
-import styles from '../../../styles/styles';
 import ProductCard from '../ProductCard/ProductCard';
 import { ProductData } from '../../../types';
-
-// Remove Props interface as it's not used here
 
 const BestDeals: FC = () => {
   const [data, setData] = useState<ProductData[]>([]);
@@ -32,8 +29,8 @@ const BestDeals: FC = () => {
 
   return (
     <div>
-      <div className={`${styles.section}`}>
-        <div className={`${styles.heading}`}>
+      <div className='w-11/12 mx-auto'>
+        <div className='text-[27px] text-center md:text-start font-[600] font-Roboto pb-[20px]'>
           <h1>Best Deals</h1>
         </div>
         <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 border-0">

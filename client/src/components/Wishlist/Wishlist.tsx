@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { BsCartPlus } from "react-icons/bs";
-import styles from "../../styles/styles";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useAddToCartMutation } from "../../redux/features/cart/cartApi";
 import { useGetWishListQuery, useRemoveFromWishListMutation } from "../../redux/features/wishlist/wishlistApi";
@@ -59,7 +58,7 @@ const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
                 />
               </div>
               {/* Item length */}
-              <div className={`${styles.noramlFlex} p-4`}>
+              <div className='flex items-center w-full p-4'>
                 <AiOutlineHeart size={25} />
                 <h5 className="pl-2 text-[20px] font-[500]">
                   {wishlist && wishlist.length} items

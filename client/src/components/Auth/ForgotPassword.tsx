@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { useForgotPasswordMutation } from "../../redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
@@ -65,7 +64,7 @@ const ForgotPassword = () => {
                 {isLoading ? <BeatLoader color="white" /> : "Send Reset Link"}
               </button>
             </div>
-            <div className={`${styles.noramlFlex} w-full`}>
+            <div className="flex items-center w-full">
               <h4>Go back to login</h4>
               <Link to="/login" className="text-blue-600 pl-2">
                 Login

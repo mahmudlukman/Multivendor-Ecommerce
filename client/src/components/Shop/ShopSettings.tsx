@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AiOutlineCamera } from "react-icons/ai";
-import styles from "../../styles/styles";
 import toast from "react-hot-toast";
 import { useUpdateShopInfoMutation } from "../../redux/features/shop/shopApi";
 import { SellerState, ServerError } from "../../types";
@@ -101,7 +100,7 @@ const ShopSettings = () => {
               placeholder={`${seller?.name}`}
               value={name || ""}
               onChange={(e) => setName(e.target.value)}
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
@@ -119,7 +118,7 @@ const ShopSettings = () => {
               }`}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
               disabled={isUpdatingInfo}
             />
           </div>
@@ -132,7 +131,7 @@ const ShopSettings = () => {
               placeholder={seller?.address}
               value={address || ""}
               onChange={(e) => setAddress(e.target.value)}
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
@@ -155,7 +154,7 @@ const ShopSettings = () => {
                   e.target.value === "" ? null : Number(e.target.value)
                 )
               }
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
@@ -176,7 +175,7 @@ const ShopSettings = () => {
                   e.target.value === "" ? null : Number(e.target.value)
                 )
               }
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
@@ -186,7 +185,7 @@ const ShopSettings = () => {
             <input
               type="submit"
               value={isUpdatingInfo ? "Updating..." : "Update Shop"}
-              className={`${styles.input} !w-[95%] mb-4 800px:mb-0 ${
+              className={`w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0 ${
                 isUpdatingInfo ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={isUpdatingInfo}

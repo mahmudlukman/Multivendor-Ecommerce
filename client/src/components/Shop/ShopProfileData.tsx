@@ -2,7 +2,6 @@ import { useState, FC } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useGetAllProductsInShopQuery } from "../../redux/features/product/productApi";
 import { useGetShopEventsQuery } from "../../redux/features/event/eventApi";
-import styles from "../../styles/styles";
 import ProductCard from "../Route/ProductCard/ProductCard";
 import Ratings from "../Products/Ratings";
 import Loader from "../Layout/Loader";
@@ -84,7 +83,7 @@ const ShopProfileData: FC<ShopInfoProps> = ({ isOwner }) => {
           {isOwner && (
             <div>
               <Link to="/shop/dashboard">
-                <div className={`${styles.button} !rounded-[4px] h-[42px]`}>
+                <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !rounded-[4px] h-[42px]'>
                   <span className="text-[#fff]">Go Dashboard</span>
                 </div>
               </Link>

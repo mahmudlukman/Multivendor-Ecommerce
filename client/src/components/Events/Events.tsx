@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import styles from '../../styles/styles';
 import EventCard from './EventCard';
 import { useGetEventsQuery } from '../../redux/features/event/eventApi';
 import { EventData, ServerError } from '../../types';
@@ -9,23 +8,23 @@ const Events: FC = () => {
   const { data: allEvents, isLoading, error } = useGetEventsQuery({});
 
   if (isLoading) {
-    return <div className={`${styles.section} text-center`}>Loading events...</div>;
+    return <div className='w-11/12 mx-auto text-center'>Loading events...</div>;
   }
 
   if (error) {
     const serverError = error as ServerError;
     const errorMessage = serverError.data?.message || serverError.message || 'Error loading events';
     toast.error(errorMessage);
-    return <div className={`${styles.section} text-center`}>{errorMessage}</div>;
+    return <div className='w-11/12 mx-auto text-center'>{errorMessage}</div>;
   }
 
   if (!allEvents || !allEvents.events || allEvents.events.length === 0) {
-    return <div className={`${styles.section} text-center`}>No events available.</div>;
+    return <div className='w-11/12 mx-auto text-center'>No events available.</div>;
   }
 
   return (
-    <div className={`${styles.section}`}>
-      <div className={`${styles.heading}`}>
+    <div className='w-11/12 mx-auto'>
+      <div className='text-[27px] text-center md:text-start font-[600] font-Roboto pb-[20px]'>
         <h1>Popular Events</h1>
       </div>
 

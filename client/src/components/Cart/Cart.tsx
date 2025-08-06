@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi";
-import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import {
   useGetCartQuery,
@@ -77,7 +76,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                   onClick={() => setOpenCart(false)}
                 />
               </div>
-              <div className={`${styles.noramlFlex} p-4`}>
+              <div className='flex items-center w-full p-4'>
                 <IoBagHandleOutline size={25} />
                 <h5 className="pl-2 text-[20px] font-[500]">
                   {cart.length} items
@@ -152,7 +151,7 @@ const CartSingle: FC<CartSingleProps> = ({
       <div className="w-full flex items-center">
         <div>
           <div
-            className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] ${styles.noramlFlex} justify-center cursor-pointer`}
+            className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] flex items-center w-full justify-center cursor-pointer`}
             onClick={increment}
           >
             <HiPlus size={18} color="#fff" />

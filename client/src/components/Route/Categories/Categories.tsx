@@ -1,18 +1,19 @@
-import {FC} from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { brandingData, categoriesData } from "../../../static/data";
-import styles from "../../../styles/styles";
 
 // Define types for branding data and category data
 interface BrandingItem {
-  icon: React.ReactNode;
+  id: number;
   title: string;
-  Description: string;
+  description: string;
+  icon: FC<React.SVGProps<SVGSVGElement>>;
 }
 
 interface CategoryItem {
-  id: string;
+  id: number;
   title: string;
+  subTitle: string;
   image_Url: string;
 }
 
@@ -26,25 +27,28 @@ const Categories: FC = () => {
 
   return (
     <>
-      <div className={`${styles.section} hidden sm:block`}>
+      <div className='w-11/12 mx-auto hidden sm:block'>
         <div
           className={`branding my-12 flex justify-between w-full shadow-sm bg-white p-5 rounded-md`}
         >
           {brandingData &&
-            brandingData.map((item: BrandingItem, index: number) => (
-              <div className="flex items-start" key={index}>
-                {item.icon}
-                <div className="px-3">
-                  <h3 className="font-bold text-sm md:text-base">{item.title}</h3>
-                  <p className="text-xs md:text-sm">{item.Description}</p>
+            brandingData.map((item: BrandingItem, index: number) => {
+              const IconComponent = item.icon;
+              return (
+                <div className="flex items-start" key={index}>
+                  <IconComponent />
+                  <div className="px-3">
+                    <h3 className="font-bold text-sm md:text-base">{item.title}</h3>
+                    <p className="text-xs md:text-sm">{item.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </div>
 
       <div
-        className={`${styles.section} bg-white p-6 rounded-lg mb-12`}
+        className='w-11/12 mx-auto bg-white p-6 rounded-lg mb-12'
         id="categories"
       >
         <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]">

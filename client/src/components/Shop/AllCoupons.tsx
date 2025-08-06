@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
-import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
 import toast from "react-hot-toast";
 import {
@@ -169,7 +168,7 @@ const AllCoupons = () => {
     <div className="w-full mx-8 pt-1 mt-10 bg-white">
       <div className="w-full flex justify-end">
         <div
-          className={`${styles.button} !w-max !h-[45px] px-3 !rounded-[5px] mr-3 mb-3`}
+          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-max !h-[45px] px-3 !rounded-[5px] mr-3 mb-3'
           onClick={() => setOpen(true)}
         >
           <span className="text-white">Create Coupon Code</span>

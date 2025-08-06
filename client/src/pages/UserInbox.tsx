@@ -5,7 +5,6 @@ import socketIO from "socket.io-client";
 import { format } from "timeago.js";
 import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
-import styles from "../styles/styles";
 import { useNavigate } from "react-router-dom";
 import {
   useCreateNewMessageMutation,
@@ -462,7 +461,7 @@ const SellerInbox = ({
             placeholder="Enter your message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            className={`${styles.input}`}
+            className='w-full border p-1 rounded-[5px]'
           />
           <input type="submit" value="Send" className="hidden" id="send" />
           <label htmlFor="send">

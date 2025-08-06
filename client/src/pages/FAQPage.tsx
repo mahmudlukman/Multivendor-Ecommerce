@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Footer from "../components/Layout/Footer";
 import Header from "../components/Layout/Header";
-import styles from "../styles/styles";
 
 const FAQPage = () => {
   return (
@@ -25,7 +24,7 @@ const Faq = () => {
   };
 
   return (
-    <div className={`${styles.section} my-8`}>
+    <div className='w-11/12 mx-auto my-8'>
       <h2 className="text-3xl font-bold text-gray-900 mb-8">FAQ</h2>
       <div className="mx-auto space-y-4">
         {/* single Faq */}

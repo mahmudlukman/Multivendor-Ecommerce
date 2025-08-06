@@ -1,5 +1,4 @@
 import { AiOutlineArrowRight, AiOutlineMoneyCollect } from "react-icons/ai";
-import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { MdBorderClear } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -108,7 +107,7 @@ const DashboardHero = () => {
               fill="#00000085"
             />
             <h3
-              className={`${styles.productTitle} !text-[18px] leading-5 !font-[400] text-[#00000085]`}
+              className='text-[25px] font-[600] font-Roboto text-[#333] !text-[18px] leading-5 !font-[400] text-[#00000085]'
             >
               Account Balance{" "}
               <span className="text-[16px]">(with 10% service charge)</span>
@@ -126,7 +125,7 @@ const DashboardHero = () => {
           <div className="flex items-center">
             <MdBorderClear size={30} className="mr-2" fill="#00000085" />
             <h3
-              className={`${styles.productTitle} !text-[18px] leading-5 !font-[400] text-[#00000085]`}
+              className='text-[25px] font-[600] font-Roboto text-[#333] !text-[18px] leading-5 !font-[400] text-[#00000085]'
             >
               All Orders
             </h3>
@@ -147,7 +146,7 @@ const DashboardHero = () => {
               fill="#00000085"
             />
             <h3
-              className={`${styles.productTitle} !text-[18px] leading-5 !font-[400] text-[#00000085]`}
+              className='text-[25px] font-[600] font-Roboto text-[#333] !text-[18px] leading-5 !font-[400] text-[#00000085]'
             >
               All Products
             </h3>
