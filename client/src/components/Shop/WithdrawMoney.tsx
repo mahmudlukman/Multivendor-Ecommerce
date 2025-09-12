@@ -121,19 +121,19 @@ const WithdrawMoney = () => {
 
   return (
     <div className="w-full h-[90vh] p-8">
-      <div className="w-full bg-white h-full rounded flex items-center justify-center flex-col">
+      <div className="w-full bg-white h-full rounded-sm flex items-center justify-center flex-col">
         <h5 className="text-[20px] pb-4">
           Available Balance: ₦{availableBalance}
         </h5>
         <div
-          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white !h-[42px] !rounded'
+          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white h-[42px]! rounded-sm!'
           onClick={() => (availableBalance < 50 ? error() : setOpen(true))}
         >
           Withdraw
         </div>
       </div>
       {open && (
-        <div className="w-full h-screen z-[9999] fixed top-0 left-0 flex items-center justify-center bg-[#0000004e]">
+        <div className="w-full h-screen z-9999 fixed top-0 left-0 flex items-center justify-center bg-[#0000004e]">
           <div
             className={`w-[95%] 800px:w-[50%] bg-white shadow rounded ${
               withdrawMethod ? "h-[80vh] overflow-y-scroll" : "h-[unset]"
@@ -151,7 +151,7 @@ const WithdrawMoney = () => {
             </div>
             {withdrawMethod ? (
               <div>
-                <h3 className="text-[22px] font-Poppins text-center font-[600]">
+                <h3 className="text-[22px] font-Poppins text-center font-semibold">
                   Add new Withdraw Method:
                 </h3>
                 <form onSubmit={handleSubmit}>
@@ -311,10 +311,10 @@ const WithdrawMoney = () => {
                         placeholder="Amount..."
                         value={withdrawAmount}
                         onChange={(e) => setWithdrawAmount(Number(e.target.value))}
-                        className="800px:w-[100px] w-[full] border 800px:mr-3 p-1 rounded"
+                        className="800px:w-[100px] w-[full] border 800px:mr-3 p-1 rounded-sm"
                       />
                       <div
-                        className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !h-[42px] text-white ${
+                        className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer h-[42px]! text-white ${
                           isCreatingWithdraw
                             ? "opacity-50 cursor-not-allowed"
                             : ""
@@ -332,7 +332,7 @@ const WithdrawMoney = () => {
                     </p>
                     <div className="w-full flex items-center">
                       <div
-                        className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] text-[18px] mt-4'
+                        className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white text-[18px] mt-4'
                         onClick={() => setWithdrawMethod(true)}
                       >
                         Add new

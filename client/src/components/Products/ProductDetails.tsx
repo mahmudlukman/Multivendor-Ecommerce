@@ -174,13 +174,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
                 </div>
               </div>
               <div className="w-full 800px:w-[50%] pt-5">
-                <h1 className='text-[25px] font-[600] font-Roboto text-[#333]'>{data.name}</h1>
+                <h1 className='text-[25px] font-semibold font-Roboto text-[#333]'>{data.name}</h1>
                 <p>{data.description}</p>
                 <div className="flex pt-3">
                   <h4 className='font-bold text-[18px] text-[#333] font-Roboto'>
                     {data.discountPrice}₦
                   </h4>
-                  <h3 className='font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through'>
+                  <h3 className='font-medium text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through'>
                     {data.originalPrice ? data.originalPrice + '₦' : null}
                   </h3>
                 </div>
@@ -188,7 +188,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
                 <div className="flex items-center mt-12 justify-between pr-3">
                   <div>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                      className="bg-linear-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                       onClick={decrementCount}
                     >
                       -
@@ -197,7 +197,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
                       {count}
                     </span>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                      className="bg-linear-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                       onClick={incrementCount}
                     >
                       +
@@ -224,7 +224,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
                   </div>
                 </div>
                 <div
-                  className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !mt-6 !rounded !h-11 flex items-center'
+                  className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer mt-6! rounded-sm! h-11! flex items-center'
                   onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
@@ -250,7 +250,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ data }) => {
                     </h5>
                   </div>
                   <div
-                    className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer bg-[#6443d1] mt-4 !rounded !h-11'
+                    className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer bg-primary mt-4 rounded-sm! h-11!'
                     onClick={handleMessageSubmit}
                   >
                     <span className="text-white flex items-center">
@@ -291,12 +291,12 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded">
+    <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded-sm">
       <div className="w-full flex justify-between border-b pt-10 pb-2">
         <div className="relative">
           <h5
             className={
-              'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
+              'text-black text-[18px] px-1 leading-5 font-semibold cursor-pointer 800px:text-[20px]'
             }
             onClick={() => setActive(1)}
           >
@@ -309,7 +309,7 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
         <div className="relative">
           <h5
             className={
-              'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
+              'text-black text-[18px] px-1 leading-5 font-semibold cursor-pointer 800px:text-[20px]'
             }
             onClick={() => setActive(2)}
           >
@@ -322,7 +322,7 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
         <div className="relative">
           <h5
             className={
-              'text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]'
+              'text-black text-[18px] px-1 leading-5 font-semibold cursor-pointer 800px:text-[20px]'
             }
             onClick={() => setActive(3)}
           >
@@ -353,7 +353,7 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
                 />
                 <div className="pl-2 ">
                   <div className="w-full flex items-center">
-                    <h1 className="font-[500] mr-3">{item.user.name}</h1>
+                    <h1 className="font-medium mr-3">{item.user.name}</h1>
                     <Ratings rating={data?.ratings} />
                   </div>
                   <p>{item.comment}</p>
@@ -391,23 +391,23 @@ const ProductDetailsInfo: React.FC<ProductDetailsInfoProps> = ({
           </div>
           <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
             <div className="text-left">
-              <h5 className="font-[600]">
+              <h5 className="font-semibold">
                 Joined on:{' '}
-                <span className="font-[500]">
+                <span className="font-medium">
                   {data.shop?.createdAt?.slice(0, 10)}
                 </span>
               </h5>
-              <h5 className="font-[600] pt-3">
+              <h5 className="font-semibold pt-3">
                 Total Products:{' '}
-                <span className="font-[500]">{shopProducts.length}</span>
+                <span className="font-medium">{shopProducts.length}</span>
               </h5>
-              <h5 className="font-[600] pt-3">
+              <h5 className="font-semibold pt-3">
                 Total Reviews:{' '}
-                <span className="font-[500]">{totalReviewsLength}</span>
+                <span className="font-medium">{totalReviewsLength}</span>
               </h5>
               <Link to="/">
                 <div
-                  className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !rounded-[4px] !h-[39.5px] mt-3'
+                  className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer rounded-[4px]! h-[39.5px]! mt-3'
                 >
                   <h4 className="text-white">Visit Shop</h4>
                 </div>

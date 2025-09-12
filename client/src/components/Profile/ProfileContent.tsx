@@ -106,21 +106,21 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
           <div className="w-full px-5">
             <form onSubmit={handleSubmit}>
               <div className="w-full 800px:flex block pb-3">
-                <div className="w-[100%] 800px:w-[50%]">
+                <div className="w-full 800px:w-[50%]">
                   <label className="block pb-2">Full Name</label>
                   <input
                     type="text"
-                    className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+                    className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div className="w-[100%] 800px:w-[50%]">
+                <div className="w-full 800px:w-[50%]">
                   <label className="block pb-2">Phone Number</label>
                   <input
                     type="tel"
-                    className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+                    className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
                     required
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
@@ -129,11 +129,11 @@ const ProfileContent = ({ active }: ProfileContentProps) => {
               </div>
 
               {/* <div className="w-full 800px:flex block pb-3">
-                <div className="w-[100%] 800px:w-[50%]">
+                <div className="w-full 800px:w-[50%]">
                   <label className="block pb-2">Phone Number</label>
                   <input
                     type="tel"
-                    className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                    className={`${styles.input} w-[95%]! mb-4 800px:mb-0`}
                     required
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
@@ -559,7 +559,7 @@ const ChangePassword = () => {
 
   return (
     <div className="w-full px-5">
-      <h1 className="block text-[25px] text-center font-[600] text-[#000000ba] pb-2">
+      <h1 className="block text-[25px] text-center font-semibold text-[#000000ba] pb-2">
         Change Password
       </h1>
       <div className="w-full">
@@ -567,31 +567,31 @@ const ChangePassword = () => {
           onSubmit={passwordChangeHandler}
           className="flex flex-col items-center"
         >
-          <div className="w-[100%] 800px:w-[50%] mt-5">
+          <div className="w-full 800px:w-[50%] mt-5">
             <label className="block pb-2">Enter your old password</label>
             <input
               type="password"
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
             />
           </div>
-          <div className="w-[100%] 800px:w-[50%] mt-2">
+          <div className="w-full 800px:w-[50%] mt-2">
             <label className="block pb-2">Enter your new password</label>
             <input
               type="password"
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
           </div>
-          <div className="w-[100%] 800px:w-[50%] mt-2">
+          <div className="w-full 800px:w-[50%] mt-2">
             <label className="block pb-2">Confirm your new password</label>
             <input
               type="password"
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -720,7 +720,7 @@ const Address = () => {
     <div className="w-full px-5">
       {open && (
         <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center z-50">
-          <div className="w-[35%] h-[80vh] bg-white rounded shadow relative overflow-y-scroll">
+          <div className="w-[35%] h-[80vh] bg-white rounded-sm shadow-sm relative overflow-y-scroll">
             <div className="w-full flex justify-end p-3">
               <RxCross1
                 size={30}
@@ -840,25 +840,25 @@ const Address = () => {
       )}
 
       <div className="flex w-full items-center justify-between">
-        <h1 className="text-[25px] font-[600] text-[#000000ba] pb-2">
+        <h1 className="text-[25px] font-semibold text-[#000000ba] pb-2">
           My Addresses
         </h1>
         <div
-          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !rounded-md'
+          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer rounded-md!'
           onClick={() => setOpen(true)}
         >
-          <span className="text-[#fff]">Add New</span>
+          <span className="text-white">Add New</span>
         </div>
       </div>
       <br />
 
       {user?.addresses?.map((item, index) => (
         <div
-          className="w-full bg-white h-min 800px:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
+          className="w-full bg-white h-min 800px:h-[70px] rounded-[4px] flex items-center px-3 shadow-sm justify-between pr-10 mb-5"
           key={index}
         >
           <div className="flex items-center">
-            <h5 className="pl-5 font-[600]">{item.addressType || "N/A"}</h5>
+            <h5 className="pl-5 font-semibold">{item.addressType || "N/A"}</h5>
           </div>
           <div className="pl-8 flex items-center">
             <h6 className="text-[12px] 800px:text-[unset]">

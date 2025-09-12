@@ -52,7 +52,7 @@ const ShopProfileData: FC<ShopInfoProps> = ({ isOwner }) => {
         <div className="w-full flex">
           <div className="flex items-center" onClick={() => setActive(1)}>
             <h5
-              className={`font-[600] text-[20px] ${
+              className={`font-semibold text-[20px] ${
                 active === 1 ? "text-red-500" : "text-[#333]"
               } cursor-pointer pr-[20px]`}
             >
@@ -61,7 +61,7 @@ const ShopProfileData: FC<ShopInfoProps> = ({ isOwner }) => {
           </div>
           <div className="flex items-center" onClick={() => setActive(2)}>
             <h5
-              className={`font-[600] text-[20px] ${
+              className={`font-semibold text-[20px] ${
                 active === 2 ? "text-red-500" : "text-[#333]"
               } cursor-pointer pr-[20px]`}
             >
@@ -71,7 +71,7 @@ const ShopProfileData: FC<ShopInfoProps> = ({ isOwner }) => {
 
           <div className="flex items-center" onClick={() => setActive(3)}>
             <h5
-              className={`font-[600] text-[20px] ${
+              className={`font-semibold text-[20px] ${
                 active === 3 ? "text-red-500" : "text-[#333]"
               } cursor-pointer pr-[20px]`}
             >
@@ -83,8 +83,8 @@ const ShopProfileData: FC<ShopInfoProps> = ({ isOwner }) => {
           {isOwner && (
             <div>
               <Link to="/shop/dashboard">
-                <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !rounded-[4px] h-[42px]'>
-                  <span className="text-[#fff]">Go Dashboard</span>
+                <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer rounded-[4px]! h-[42px]'>
+                  <span className="text-white">Go Dashboard</span>
                 </div>
               </Link>
             </div>
@@ -175,10 +175,10 @@ const ShopProfileData: FC<ShopInfoProps> = ({ isOwner }) => {
                 />
                 <div className="pl-2">
                   <div className="flex w-full items-center">
-                    <h1 className="font-[600] pr-2">{item.user.name}</h1>
+                    <h1 className="font-semibold pr-2">{item.user.name}</h1>
                     <Ratings rating={item.rating} />
                   </div>
-                  <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
+                  <p className="font-normal text-[#000000a7]">{item?.comment}</p>
                   <p className="text-[#000000a7] text-[14px]">
                     {item.createdAt
                       ? new Date(item.createdAt).toLocaleDateString()

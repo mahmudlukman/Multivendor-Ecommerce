@@ -189,7 +189,7 @@ const UserOrderDetails = () => {
           </div>
           {!item.isReviewed && data.status === ORDER_STATUSES.DELIVERED ? (
             <div
-              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]'
+              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white'
               onClick={() => {
                 setOpen(true);
                 setSelectedItem(item);
@@ -204,7 +204,7 @@ const UserOrderDetails = () => {
       {/* Review popup */}
       {open && selectedItem && (
         <div className="w-full fixed top-0 left-0 h-screen bg-[#0005] z-50 flex items-center justify-center">
-          <div className="w-[50%] h-min bg-[#fff] shadow rounded-md p-3">
+          <div className="w-[50%] h-min bg-white shadow-sm rounded-md p-3">
             <div className="w-full flex justify-end p-3">
               <RxCross1
                 size={30}
@@ -212,7 +212,7 @@ const UserOrderDetails = () => {
                 className="cursor-pointer"
               />
             </div>
-            <h2 className="text-[30px] font-[500] font-Poppins text-center">
+            <h2 className="text-[30px] font-medium font-Poppins text-center">
               Give a Review
             </h2>
             <br />
@@ -234,7 +234,7 @@ const UserOrderDetails = () => {
             <br />
 
             {/* Ratings */}
-            <h5 className="pl-3 text-[20px] font-[500]">
+            <h5 className="pl-3 text-[20px] font-medium">
               Give a Rating <span className="text-red-500">*</span>
             </h5>
             <div className="flex w-full ml-2 pt-1">
@@ -260,9 +260,9 @@ const UserOrderDetails = () => {
             </div>
             <br />
             <div className="w-full ml-3">
-              <label className="block text-[20px] font-[500]">
+              <label className="block text-[20px] font-medium">
                 Write a comment
-                <span className="ml-1 font-[400] text-[16px] text-[#00000052]">
+                <span className="ml-1 font-normal text-[16px] text-[#00000052]">
                   (optional)
                 </span>
               </label>
@@ -273,7 +273,7 @@ const UserOrderDetails = () => {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="How was your product? Write your expression about it!"
-                className="mt-2 w-[95%] border p-2 outline-none"
+                className="mt-2 w-[95%] border p-2 outline-hidden"
               />
             </div>
             <div
@@ -297,7 +297,7 @@ const UserOrderDetails = () => {
       <br />
       <div className="w-full 800px:flex items-center">
         <div className="w-full 800px:w-[60%]">
-          <h4 className="pt-3 text-[20px] font-[600]">Shipping Address:</h4>
+          <h4 className="pt-3 text-[20px] font-semibold">Shipping Address:</h4>
           <h4 className="pt-3 text-[20px]">
             {data.shippingAddress.address1 +
               (data.shippingAddress.address2

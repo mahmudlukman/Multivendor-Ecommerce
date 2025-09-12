@@ -127,7 +127,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
 
   return (
     <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-      <div className="w-[90%] 800px:w-[60%] h-[90vh] overflow-y-scroll 800px:h-[75vh] bg-white rounded-md shadow-sm relative p-4">
+      <div className="w-[90%] 800px:w-[60%] h-[90vh] overflow-y-scroll 800px:h-[75vh] bg-white rounded-md shadow-xs relative p-4">
         <RxCross1
           size={30}
           className="absolute right-3 top-3 z-50 cursor-pointer"
@@ -151,10 +151,10 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
               </Link>
             </div>
             <div
-              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer bg-[#000] mt-4 rounded-[4px] h-11'
+              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer bg-black mt-4 rounded-[4px] h-11'
               onClick={handleMessageSubmit}
             >
-              <span className="text-[#fff] flex items-center">
+              <span className="text-white flex items-center">
                 Send Message <AiOutlineMessage className="ml-1" />
               </span>
             </div>
@@ -162,7 +162,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
           </div>
 
           <div className="w-full 800px:w-[50%] pt-5 pl-[5px] pr-[5px]">
-            <h1 className='text-[25px] font-[600] font-Roboto text-[#333] text-[20px]'>
+            <h1 className='text-[25px] font-semibold font-Roboto text-[#333] text-[20px]'>
               {data.name}
             </h1>
             <p>{data.description}</p>
@@ -171,14 +171,14 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
               <h4 className='font-bold text-[18px] text-[#333] font-Roboto'>
                 {data.discountPrice}₦
               </h4>
-              <h3 className='font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through'>
+              <h3 className='font-medium text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through'>
                 {data.originalPrice ? data.originalPrice + "₦" : null}
               </h3>
             </div>
             <div className="flex items-center mt-12 justify-between pr-3">
               <div>
                 <button
-                  className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                  className="bg-linear-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                   onClick={decrementCount}
                 >
                   -
@@ -187,7 +187,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
                   {count}
                 </span>
                 <button
-                  className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                  className="bg-linear-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                   onClick={incrementCount}
                 >
                   +
@@ -216,7 +216,7 @@ const ProductDetailsCard: FC<Props> = ({ setOpen, open, data }) => {
               className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer mt-6 rounded-[4px] h-11 flex items-center'
               onClick={() => addToCartHandler(data._id)}
             >
-              <span className="text-[#fff] flex items-center">
+              <span className="text-white flex items-center">
                 Add to cart <AiOutlineShoppingCart className="ml-1" />
               </span>
             </div>

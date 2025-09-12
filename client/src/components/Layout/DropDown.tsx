@@ -21,7 +21,7 @@ const DropDown: FC<Props> = ({ categoriesData, setDropDown }) => {
   };
 
   return (
-    <div className="pb-4 w-[270px] bg-[#fff] absolute z-30 rounded-b-md shadow-sm">
+    <div className="pb-4 w-[270px] bg-white absolute z-30 rounded-b-md shadow-xs">
       {categoriesData &&
         categoriesData.map((category, index) => (
           <div

@@ -20,7 +20,7 @@ const ProductCard: FC<Props> = ({ data }) => {
 
   return (
     <>
-      <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
+      <div className="w-full h-[370px] bg-white rounded-lg shadow-xs p-3 relative cursor-pointer">
         <div className="flex justify-end"></div>
         <Link to={`/product/${data._id}`}>
           <img
@@ -33,7 +33,7 @@ const ProductCard: FC<Props> = ({ data }) => {
           <h5 className='pt-3 text-[15px] text-blue-400 pb-3'>{data.shop.name}</h5>
         </Link>
         <Link to={`/product/${data._id}`}>
-          <h4 className="pb-3 font-[500]">
+          <h4 className="pb-3 font-medium">
             {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
           </h4>
 
@@ -44,7 +44,7 @@ const ProductCard: FC<Props> = ({ data }) => {
                 : data.discountPrice}
               ₦
             </h5>
-            <h4 className='font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through'>
+            <h4 className='font-medium text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through'>
               {data.originalPrice ? data.originalPrice + " ₦" : null}
             </h4>
           </div>
@@ -52,7 +52,7 @@ const ProductCard: FC<Props> = ({ data }) => {
 
         <button
           onClick={handleProductClick}
-          className="absolute bottom-2 right-2 bg-black text-white px-2 py-1 rounded"
+          className="absolute bottom-2 right-2 bg-black text-white px-2 py-1 rounded-sm"
         >
           View Details
         </button>

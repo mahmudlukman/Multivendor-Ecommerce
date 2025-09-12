@@ -24,7 +24,7 @@ const SuggestedProduct: FC<SuggestedProductProps> = ({ data }) => {
       {data ? (
         <div className='w-11/12 mx-auto'>
           <h2
-            className='text-[27px] text-center md:text-start font-[600] font-Roboto pb-[20px] text-[25px] font-[500] border-b mb-5'
+            className='text-[27px] text-center md:text-start font-semibold font-Roboto pb-[20px] text-[25px] font-medium border-b mb-5'
           >
             Related Product
           </h2>

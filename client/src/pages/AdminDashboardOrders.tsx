@@ -91,7 +91,7 @@ const AdminDashboardOrders = () => {
             <div className="w-[80px] 800px:w-[330px]">
               <AdminSideBar active={2} />
             </div>
-            <div className="w-full min-h-[45vh] pt-5 rounded flex justify-center items-center">
+            <div className="w-full min-h-[45vh] pt-5 rounded-sm flex justify-center items-center">
               <div>Loading orders...</div>
             </div>
           </div>
@@ -109,7 +109,7 @@ const AdminDashboardOrders = () => {
             <div className="w-[80px] 800px:w-[330px]">
               <AdminSideBar active={2} />
             </div>
-            <div className="w-full min-h-[45vh] pt-5 rounded flex justify-center items-center">
+            <div className="w-full min-h-[45vh] pt-5 rounded-sm flex justify-center items-center">
               <div>Error loading orders</div>
             </div>
           </div>
@@ -126,7 +126,7 @@ const AdminDashboardOrders = () => {
           <div className="w-[80px] 800px:w-[330px]">
             <AdminSideBar active={2} />
           </div>
-          <div className="w-full min-h-[45vh] pt-5 rounded flex justify-center">
+          <div className="w-full min-h-[45vh] pt-5 rounded-sm flex justify-center">
             <div className="w-[97%] flex justify-center">
               <DataGrid
                 rows={rows}

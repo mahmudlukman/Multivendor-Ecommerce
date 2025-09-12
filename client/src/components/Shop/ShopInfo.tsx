@@ -95,32 +95,32 @@ const ShopInfo: FC<ShopInfoProps> = ({ isOwner, shop }) => {
       </div>
 
       <div className="p-3">
-        <h5 className="font-[600]">Description</h5>
+        <h5 className="font-semibold">Description</h5>
         <h4 className="text-[#000000a6]">{currentShop?.description}</h4>
       </div>
 
       <div className="p-3">
-        <h5 className="font-[600]">Address</h5>
+        <h5 className="font-semibold">Address</h5>
         <h4 className="text-[#000000a6]">{currentShop?.address}</h4>
       </div>
 
       <div className="p-3">
-        <h5 className="font-[600]">Phone Number</h5>
+        <h5 className="font-semibold">Phone Number</h5>
         <h4 className="text-[#000000a6]">{currentShop?.phoneNumber}</h4>
       </div>
 
       <div className="p-3">
-        <h5 className="font-[600]">Total Products</h5>
+        <h5 className="font-semibold">Total Products</h5>
         <h4 className="text-[#000000a6]">{products?.length || 0}</h4>
       </div>
 
       <div className="p-3">
-        <h5 className="font-[600]">Shop Ratings</h5>
+        <h5 className="font-semibold">Shop Ratings</h5>
         <h4 className="text-[#000000b0]">{averageRating}/5</h4>
       </div>
 
       <div className="p-3">
-        <h5 className="font-[600]">Joined On</h5>
+        <h5 className="font-semibold">Joined On</h5>
         <h4 className="text-[#000000b0]">
           {currentShop?.createdAt
             ? new Date(currentShop.createdAt).toLocaleDateString()
@@ -132,13 +132,13 @@ const ShopInfo: FC<ShopInfoProps> = ({ isOwner, shop }) => {
         <div className="py-3 px-4">
           <Link to="/shop/settings">
             <div
-              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-full !h-[42px] !rounded-[5px]'
+              className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer w-full! h-[42px]! rounded-[5px]!'
             >
               <span className="text-white">Edit Shop</span>
             </div>
           </Link>
           <div
-            className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-full !h-[42px] !rounded-[5px] cursor-pointer ${
+            className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer w-full! h-[42px]! rounded-[5px]! cursor-pointer ${
               isLogoutLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={isLogoutLoading ? undefined : logoutHandler}

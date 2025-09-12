@@ -168,7 +168,7 @@ const AllCoupons = () => {
     <div className="w-full mx-8 pt-1 mt-10 bg-white">
       <div className="w-full flex justify-end">
         <div
-          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-max !h-[45px] px-3 !rounded-[5px] mr-3 mb-3'
+          className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer w-max! h-[45px]! px-3 rounded-[5px]! mr-3 mb-3'
           onClick={() => setOpen(true)}
         >
           <span className="text-white">Create Coupon Code</span>
@@ -187,8 +187,8 @@ const AllCoupons = () => {
         autoHeight
       />
       {open && (
-        <div className="fixed top-0 left-0 w-full h-screen bg-[#00000062] z-[20000] flex items-center justify-center">
-          <div className="w-[90%] 800px:w-[40%] h-[80vh] bg-white rounded-md shadow p-4">
+        <div className="fixed top-0 left-0 w-full h-screen bg-[#00000062] z-20000 flex items-center justify-center">
+          <div className="w-[90%] 800px:w-[40%] h-[80vh] bg-white rounded-md shadow-sm p-4">
             <div className="w-full flex justify-end">
               <RxCross1
                 size={30}
@@ -211,7 +211,7 @@ const AllCoupons = () => {
                   name="name"
                   required
                   value={name}
-                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-hidden focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter your coupon code name..."
                 />
@@ -226,7 +226,7 @@ const AllCoupons = () => {
                   name="value"
                   value={value}
                   required
-                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-hidden focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   onChange={(e) => setValue(e.target.value)}
                   placeholder="Enter your coupon code value..."
                 />
@@ -238,7 +238,7 @@ const AllCoupons = () => {
                   type="number"
                   name="minAmount"
                   value={minAmount}
-                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-hidden focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   onChange={(e) => setMinAmount(e.target.value)}
                   placeholder="Enter your coupon code min amount..."
                 />
@@ -250,7 +250,7 @@ const AllCoupons = () => {
                   type="number"
                   name="maxAmount"
                   value={maxAmount}
-                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-hidden focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   onChange={(e) => setMaxAmount(e.target.value)}
                   placeholder="Enter your coupon code max amount..."
                 />
@@ -278,7 +278,7 @@ const AllCoupons = () => {
                   type="submit"
                   value={isCreating ? "Creating..." : "Create"}
                   disabled={isCreating}
-                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm cursor-pointer disabled:opacity-50"
+                  className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-hidden focus:ring-blue-500 focus:border-blue-500 sm:text-sm cursor-pointer disabled:opacity-50"
                 />
               </div>
             </form>

@@ -167,7 +167,7 @@ const OrderDetails = () => {
         </div>
         <Link to="/shop/orders">
           <div
-            className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]'
+            className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer bg-[#fce1e6]! rounded-[4px]! text-[#e94560] font-semibold h-[45px]! text-[18px]'
           >
             Order List
           </div>
@@ -224,7 +224,7 @@ const OrderDetails = () => {
       <br />
       <div className="w-full 800px:flex items-center">
         <div className="w-full 800px:w-[60%]">
-          <h4 className="pt-3 text-[20px] font-[600]">Shipping Address:</h4>
+          <h4 className="pt-3 text-[20px] font-semibold">Shipping Address:</h4>
           <h4 className="pt-3 text-[20px]">
             {data?.shippingAddress.address1 +
               (data?.shippingAddress.address2
@@ -245,7 +245,7 @@ const OrderDetails = () => {
       </div>
       <br />
       <br />
-      <h4 className="pt-3 text-[20px] font-[600]">Order Status:</h4>
+      <h4 className="pt-3 text-[20px] font-semibold">Order Status:</h4>
       <div className="mt-2">
         {availableStatuses.length > 0 && (
           <select
@@ -262,7 +262,7 @@ const OrderDetails = () => {
         )}
       </div>
       <div
-        className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px] ${
+        className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer mt-5 bg-[#FCE1E6]! rounded-[4px]! text-[#E94560] font-semibold h-[45px]! text-[18px] ${
           isUpdatingOrder || isUpdatingRefund
             ? "opacity-50 cursor-not-allowed"
             : "cursor-pointer"

@@ -141,8 +141,8 @@ const AllWithdraw = () => {
         />
       </div>
       {open && withdrawData && (
-        <div className="w-full fixed h-screen top-0 left-0 bg-[#00000031] z-[9999] flex items-center justify-center">
-          <div className="w-[95%] 800px:w-[50%] min-h-[40vh] bg-white rounded shadow p-4">
+        <div className="w-full fixed h-screen top-0 left-0 bg-[#00000031] z-9999 flex items-center justify-center">
+          <div className="w-[95%] 800px:w-[50%] min-h-[40vh] bg-white rounded-sm shadow-sm p-4">
             <div className="flex justify-end w-full">
               <RxCross1
                 size={25}
@@ -162,7 +162,7 @@ const AllWithdraw = () => {
                 onChange={(e) =>
                   setWithdrawStatus(e.target.value as "Processing" | "Succeed")
                 }
-                className="w-[200px] h-[35px] border rounded"
+                className="w-[200px] h-[35px] border rounded-sm"
               >
                 <option value="Processing">Processing</option>
                 <option value="Succeed">Succeed</option>
@@ -170,7 +170,7 @@ const AllWithdraw = () => {
             </div>
             <div className="w-full flex items-center justify-center mt-5">
               <button
-                className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white !h-[42px] mr-4 text-[18px]'
+                className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white h-[42px]! mr-4 text-[18px]'
                 onClick={() => {
                   setOpen(false);
                   setWithdrawData(null);
@@ -179,7 +179,7 @@ const AllWithdraw = () => {
                 Cancel
               </button>
               <button
-                className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white !h-[42px] ml-4 text-[18px] ${
+                className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white h-[42px]! ml-4 text-[18px] ${
                   isUpdating ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={handleSubmit}

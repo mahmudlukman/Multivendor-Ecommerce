@@ -112,7 +112,7 @@ const AdminDashboardMain: React.FC = () => {
     <div className="w-full p-4">
       <h3 className="text-[22px] font-Poppins pb-2">Overview</h3>
       <div className="w-full block 800px:flex items-center justify-between">
-        <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded px-2 py-5">
+        <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow-sm rounded-sm px-2 py-5">
           <div className="flex items-center">
             <AiOutlineMoneyCollect
               size={30}
@@ -120,26 +120,26 @@ const AdminDashboardMain: React.FC = () => {
               fill="#00000085"
             />
             <h3
-              className='text-[25px] font-[600] font-Roboto text-[#333] !text-[18px] leading-5 !font-[400] text-[#00000085]'
+              className='text-[25px] font-semibold font-Roboto text-[#333] text-[18px]! leading-5 font-normal! text-[#00000085]'
             >
               Total Earning
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
+          <h5 className="pt-2 pl-[36px] text-[22px] font-medium">
             ₦ {adminBalance}
           </h5>
         </div>
 
-        <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded px-2 py-5">
+        <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow-sm rounded-sm px-2 py-5">
           <div className="flex items-center">
             <MdBorderClear size={30} className="mr-2" fill="#00000085" />
             <h3
-              className='text-[25px] font-[600] font-Roboto text-[#333] !text-[18px] leading-5 !font-[400] text-[#00000085]'
+              className='text-[25px] font-semibold font-Roboto text-[#333] text-[18px]! leading-5 font-normal! text-[#00000085]'
             >
               All Sellers
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
+          <h5 className="pt-2 pl-[36px] text-[22px] font-medium">
             {sellers?.length || 0}
           </h5>
           <Link to="/admin/sellers">
@@ -147,7 +147,7 @@ const AdminDashboardMain: React.FC = () => {
           </Link>
         </div>
 
-        <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded px-2 py-5">
+        <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow-sm rounded-sm px-2 py-5">
           <div className="flex items-center">
             <AiOutlineMoneyCollect
               size={30}
@@ -155,12 +155,12 @@ const AdminDashboardMain: React.FC = () => {
               fill="#00000085"
             />
             <h3
-              className='text-[25px] font-[600] font-Roboto text-[#333] !text-[18px] leading-5 !font-[400] text-[#00000085]'
+              className='text-[25px] font-semibold font-Roboto text-[#333] text-[18px]! leading-5 font-normal! text-[#00000085]'
             >
               All Orders
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
+          <h5 className="pt-2 pl-[36px] text-[22px] font-medium">
             {adminOrders?.length || 0}
           </h5>
           <Link to="/orders">
@@ -171,7 +171,7 @@ const AdminDashboardMain: React.FC = () => {
 
       <br />
       <h3 className="text-[22px] font-Poppins pb-2">Latest Orders</h3>
-      <div className="w-full min-h-[45vh] bg-white rounded">
+      <div className="w-full min-h-[45vh] bg-white rounded-sm">
         <DataGrid
           rows={rows}
           columns={columns}

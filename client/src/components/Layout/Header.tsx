@@ -102,14 +102,14 @@ const Header: FC<Props> = ({ activeHeading }) => {
               placeholder="Search Product..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+              className="h-[40px] w-full px-2 border-[#3957db] border-2 rounded-md"
             />
             <AiOutlineSearch
               size={30}
               className="absolute right-2 top-1.5 cursor-pointer"
             />
             {searchData && searchData.length !== 0 ? (
-              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-9 p-4">
                 {searchData &&
                   searchData.map((product: Product) => (
                     <Link to={`/product/${product._id}`} key={product._id}>
@@ -129,7 +129,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
 
           <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer'>
             <Link to={seller ? "/shop/dashboard" : "/create-shop"}>
-              <h1 className="text-[#fff] flex items-center">
+              <h1 className="text-white flex items-center">
                 {seller ? "Go Dashboard" : "Become Seller"}
                 <IoIosArrowForward className="ml-1" />
               </h1>
@@ -139,7 +139,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
       </div>
       <div
         className={`${
-          active ? "shadow-sm fixed top-0 left-0 z-10" : ""
+          active ? "shadow-xs fixed top-0 left-0 z-10" : ""
         } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
       >
         <div
@@ -150,7 +150,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
             <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
               <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
               <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
+                className={`h-full w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-medium select-none rounded-t-md`}
               >
                 All Categories
               </button>
@@ -228,8 +228,8 @@ const Header: FC<Props> = ({ activeHeading }) => {
       {/* mobile header */}
       <div
         className={`${
-          active ? "shadow-sm fixed top-0 left-0 z-10" : ""
-        } w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
+          active ? "shadow-xs fixed top-0 left-0 z-10" : ""
+        } w-full h-[60px] bg-white z-50 top-0 left-0 shadow-xs 800px:hidden`}
       >
         <div className="w-full flex items-center justify-between">
           <div>
@@ -259,7 +259,7 @@ const Header: FC<Props> = ({ activeHeading }) => {
         {/* header sidebar */}
         {open ? (
           <div className="fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0">
-            <div className="fixed w-[60%] bg-[#fff] h-screen top-0 left-0 z-10">
+            <div className="fixed w-[60%] bg-white h-screen top-0 left-0 z-10">
               <div className="w-full justify-between flex pr-3">
                 <div>
                   <div
@@ -285,14 +285,14 @@ const Header: FC<Props> = ({ activeHeading }) => {
                   placeholder="Search Product..."
                   value={searchTerm}
                   onChange={handleSearchChange}
-                  className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+                  className="h-[40px] w-full px-2 border-[#3957db] border-2 rounded-md"
                 />
                 <AiOutlineSearch
                   size={30}
                   className="absolute right-2 top-1.5 cursor-pointer"
                 />
                 {searchData && searchData.length !== 0 ? (
-                  <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+                  <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-9 p-4">
                     {searchData &&
                       searchData.map((product: Product) => (
                         <Link to={`/product/${product._id}`} key={product._id}>
@@ -310,9 +310,9 @@ const Header: FC<Props> = ({ activeHeading }) => {
                 ) : null}
               </div>
               <Navbar active={activeHeading} />
-              <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer ml-4 !rounded-[4px]'>
+              <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer ml-4 rounded-[4px]!'>
                 <Link to={seller ? "/seller/dashboard" : "/shop-create"}>
-                  <h1 className="text-[#fff] flex items-center">
+                  <h1 className="text-white flex items-center">
                     {seller ? "Go Dashboard" : "Become Seller"}
                     <IoIosArrowForward className="ml-1" />
                   </h1>

@@ -67,12 +67,12 @@ const EventCard: FC<EventCardProps> = ({ active, data }) => {
         />
       </div>
       <div className="w-full lg:w-[50%] flex flex-col justify-center">
-        <h2 className='text-[25px] font-[600] font-Roboto text-[#333]'>{data.name}</h2>
+        <h2 className='text-[25px] font-semibold font-Roboto text-[#333]'>{data.name}</h2>
         <p>{data.description.slice(0, 100)}...</p>
         <div className="flex py-2 justify-between">
           <div className="flex">
             {data.originalPrice !== undefined ? (
-              <h5 className="font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
+              <h5 className="font-medium text-[18px] text-[#d55b45] pr-3 line-through">
                 ₦{data.originalPrice.toFixed(2)}
               </h5>
             ) : null}
@@ -80,7 +80,7 @@ const EventCard: FC<EventCardProps> = ({ active, data }) => {
               ₦{data.discountPrice.toFixed(2)}
             </h5>
           </div>
-          <span className="pr-3 font-[400] text-[17px] text-[#44a55e]">
+          <span className="pr-3 font-normal text-[17px] text-[#44a55e]">
             {data.sold_out || 0} sold
           </span>
         </div>
@@ -88,10 +88,10 @@ const EventCard: FC<EventCardProps> = ({ active, data }) => {
         <br />
         <div className="flex items-center">
           <Link to={`/event/${data._id}?isEvent=true`}>
-            <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]'>See Details</div>
+            <div className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white'>See Details</div>
           </Link>
           <div
-            className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] ml-5'
+            className='w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-white ml-5'
             onClick={() => addToCartHandler(data)}
             role="button"
             aria-label={`Add ${data.name} to cart`}

@@ -91,7 +91,7 @@ const ShopSettings = () => {
           className="flex flex-col items-center"
           onSubmit={updateShop}
         >
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-full flex items-center flex-col 800px:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
               <label className="block pb-2">Shop Name</label>
             </div>
@@ -100,12 +100,12 @@ const ShopSettings = () => {
               placeholder={`${seller?.name}`}
               value={name || ""}
               onChange={(e) => setName(e.target.value)}
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
           </div>
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-full flex items-center flex-col 800px:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
               <label className="block pb-2">Shop description</label>
             </div>
@@ -118,11 +118,11 @@ const ShopSettings = () => {
               }`}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               disabled={isUpdatingInfo}
             />
           </div>
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-full flex items-center flex-col 800px:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
               <label className="block pb-2">Shop Address</label>
             </div>
@@ -131,13 +131,13 @@ const ShopSettings = () => {
               placeholder={seller?.address}
               value={address || ""}
               onChange={(e) => setAddress(e.target.value)}
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
           </div>
 
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-full flex items-center flex-col 800px:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
               <label className="block pb-2">Shop Phone Number</label>
             </div>
@@ -154,13 +154,13 @@ const ShopSettings = () => {
                   e.target.value === "" ? null : Number(e.target.value)
                 )
               }
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
           </div>
 
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-full flex items-center flex-col 800px:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
               <label className="block pb-2">Shop Zip Code</label>
             </div>
@@ -175,17 +175,17 @@ const ShopSettings = () => {
                   e.target.value === "" ? null : Number(e.target.value)
                 )
               }
-              className='w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0'
+              className='w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0'
               required
               disabled={isUpdatingInfo}
             />
           </div>
 
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-full flex items-center flex-col 800px:w-[50%] mt-5">
             <input
               type="submit"
               value={isUpdatingInfo ? "Updating..." : "Update Shop"}
-              className={`w-full border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0 ${
+              className={`w-full border p-1 rounded-[5px] w-[95%]! mb-4 800px:mb-0 ${
                 isUpdatingInfo ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={isUpdatingInfo}

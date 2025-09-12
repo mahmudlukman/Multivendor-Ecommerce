@@ -1,19 +1,20 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { brandingData, categoriesData } from "../../../static/data";
+import styles from "../../../styles/styles";
 
 // Define types for branding data and category data
 interface BrandingItem {
   id: number;
   title: string;
-  description: string;
-  icon: FC<React.SVGProps<SVGSVGElement>>;
+  description: string; // Fixed: changed from 'Description' to 'description' to match data structure
+  icon: FC<React.SVGProps<SVGSVGElement>> | string; // Handle both React components and string URLs
 }
 
 interface CategoryItem {
-  id: number;
+  id: number; // Fixed: changed from string to number to match data structure
   title: string;
-  subTitle: string;
+  subTitle: string; // Added missing property from data structure
   image_Url: string;
 }
 
@@ -36,7 +37,17 @@ const Categories: FC = () => {
               const IconComponent = item.icon;
               return (
                 <div className="flex items-start" key={index}>
-                  <IconComponent />
+                  {typeof IconComponent === 'string' ? (
+                    // Handle string URLs (fallback for when ?react doesn't work)
+                    <img 
+                      src={IconComponent} 
+                      alt={item.title}
+                      className="w-8 h-8 flex-shrink-0"
+                    />
+                  ) : (
+                    // Handle React components
+                    <IconComponent className="w-8 h-8 flex-shrink-0" />
+                  )}
                   <div className="px-3">
                     <h3 className="font-bold text-sm md:text-base">{item.title}</h3>
                     <p className="text-xs md:text-sm">{item.description}</p>
@@ -48,7 +59,7 @@ const Categories: FC = () => {
       </div>
 
       <div
-        className='w-11/12 mx-auto bg-white p-6 rounded-lg mb-12'
+        className={`${styles.section} bg-white p-6 rounded-lg mb-12`}
         id="categories"
       >
         <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]">

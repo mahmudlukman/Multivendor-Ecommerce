@@ -187,15 +187,15 @@ const PaymentInfo: React.FC<PaymentInfoProps> = ({
   };
 
   return (
-    <div className="w-full 800px:w-[95%] bg-[#fff] rounded-md p-5 pb-8">
-      <h5 className="text-[18px] font-[600] text-[#000000b1]">
+    <div className="w-full 800px:w-[95%] bg-white rounded-md p-5 pb-8">
+      <h5 className="text-[18px] font-semibold text-[#000000b1]">
         Pay with Flutterwave
       </h5>
       <div className="w-full flex border-b mt-4">
         <button
           className={`
             w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer
-            !bg-[#f63b60] text-[#fff] h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]
+            bg-[#f63b60]! text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-semibold
             ${isLoading || isCreatingOrder ? "opacity-50 cursor-not-allowed" : ""}
           `}
           onClick={handlePayment}
@@ -206,14 +206,14 @@ const PaymentInfo: React.FC<PaymentInfoProps> = ({
       </div>
       {orderData && (
         <div className="mt-4">
-          <p className="text-[16px] font-[400] text-[#000000a4]">
+          <p className="text-[16px] font-normal text-[#000000a4]">
             Payment for Order: ₦{formatPrice(orderData.totalPrice)}
           </p>
-          <p className="text-[16px] font-[400] text-[#000000a4]">
+          <p className="text-[16px] font-normal text-[#000000a4]">
             Shipping to: {orderData.shippingAddress.address1},{" "}
             {orderData.shippingAddress.city}
           </p>
-          <p className="text-[16px] font-[400] text-[#000000a4]">
+          <p className="text-[16px] font-normal text-[#000000a4]">
             Customer: {user?.name || "Guest"}
           </p>
         </div>
@@ -233,30 +233,30 @@ const CartData: React.FC<CartDataProps> = ({ orderData }) => {
   };
 
   return (
-    <div className="w-full bg-[#fff] rounded-md p-5 pb-8">
+    <div className="w-full bg-white rounded-md p-5 pb-8">
       <div className="flex justify-between">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">Subtotal:</h3>
-        <h5 className="text-[18px] font-[600]">
+        <h3 className="text-[16px] font-normal text-[#000000a4]">Subtotal:</h3>
+        <h5 className="text-[18px] font-semibold">
           ₦{formatPrice(orderData?.subTotalPrice)}
         </h5>
       </div>
       <br />
       <div className="flex justify-between">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">Shipping:</h3>
-        <h5 className="text-[18px] font-[600]">
+        <h3 className="text-[16px] font-normal text-[#000000a4]">Shipping:</h3>
+        <h5 className="text-[18px] font-semibold">
           ₦{formatPrice(orderData?.shipping)}
         </h5>
       </div>
       <br />
       <div className="flex justify-between border-b pb-3">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">Discount:</h3>
-        <h5 className="text-[18px] font-[600]">
+        <h3 className="text-[16px] font-normal text-[#000000a4]">Discount:</h3>
+        <h5 className="text-[18px] font-semibold">
           {orderData?.discountPrice
             ? `₦${formatPrice(orderData.discountPrice)}`
             : "-"}
         </h5>
       </div>
-      <h5 className="text-[18px] font-[600] text-end pt-3">
+      <h5 className="text-[18px] font-semibold text-end pt-3">
         ₦{formatPrice(orderData?.totalPrice)}
       </h5>
     </div>

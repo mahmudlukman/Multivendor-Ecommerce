@@ -104,8 +104,8 @@ const PaymentContent: FC<PaymentContentProps> = ({ isLoading, isMounted, status,
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] py-8">
         <div className="animate-pulse">
-          <div className="w-[300px] h-[300px] bg-gray-200 rounded mb-4"></div>
-          <div className="h-6 bg-gray-200 rounded w-48 mx-auto"></div>
+          <div className="w-[300px] h-[300px] bg-gray-200 rounded-sm mb-4"></div>
+          <div className="h-6 bg-gray-200 rounded-sm w-48 mx-auto"></div>
         </div>
         <p className="text-center text-[16px] text-[#000000a1] mt-4">
           Initializing payment verification...
@@ -179,8 +179,8 @@ const PaymentContent: FC<PaymentContentProps> = ({ isLoading, isMounted, status,
   return (
     <div className="flex flex-col items-center justify-center min-h-[400px] py-8">
       <div className="animate-pulse">
-        <div className="w-[300px] h-[300px] bg-gray-200 rounded mb-4"></div>
-        <div className="h-6 bg-gray-200 rounded w-48 mx-auto"></div>
+        <div className="w-[300px] h-[300px] bg-gray-200 rounded-sm mb-4"></div>
+        <div className="h-6 bg-gray-200 rounded-sm w-48 mx-auto"></div>
       </div>
     </div>
   );

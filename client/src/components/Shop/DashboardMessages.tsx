@@ -217,7 +217,7 @@ const DashboardMessages = () => {
   }, [messages]);
 
   return (
-    <div className="w-[90%] bg-white m-5 h-[85vh] overflow-y-scroll rounded">
+    <div className="w-[90%] bg-white m-5 h-[85vh] overflow-y-scroll rounded-sm">
       {!open && (
         <>
           <h1 className="text-center text-[30px] py-3 font-Poppins">All Messages</h1>
@@ -380,7 +380,7 @@ const SellerInbox = ({
             className="w-[60px] h-[60px] rounded-full"
           />
           <div className="pl-3">
-            <h1 className="text-[18px] font-[600]">{userData.name}</h1>
+            <h1 className="text-[18px] font-semibold">{userData.name}</h1>
             <h1>{activeStatus ? "Active Now" : ""}</h1>
           </div>
         </div>
@@ -418,8 +418,8 @@ const SellerInbox = ({
               <div>
                 <div
                   className={`w-max p-2 rounded ${
-                    item.sender === sellerId ? "bg-[#000]" : "bg-[#38c776]"
-                  } text-[#fff] h-min`}
+                    item.sender === sellerId ? "bg-black" : "bg-[#38c776]"
+                  } text-white h-min`}
                 >
                   <p>{item.text}</p>
                 </div>

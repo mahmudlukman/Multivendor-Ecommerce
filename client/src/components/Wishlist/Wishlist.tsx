@@ -35,7 +35,7 @@ const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
-      <div className="fixed top-0 right-0 h-full w-[80%] overflow-y-scroll 800px:w-[25%] bg-white flex flex-col justify-between shadow-sm">
+      <div className="fixed top-0 right-0 h-full w-[80%] overflow-y-scroll 800px:w-[25%] bg-white flex flex-col justify-between shadow-xs">
         {wishlist && wishlist.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
@@ -60,7 +60,7 @@ const Wishlist: FC<WishlistProps> = ({ setOpenWishlist }) => {
               {/* Item length */}
               <div className='flex items-center w-full p-4'>
                 <AiOutlineHeart size={25} />
-                <h5 className="pl-2 text-[20px] font-[500]">
+                <h5 className="pl-2 text-[20px] font-medium">
                   {wishlist && wishlist.length} items
                 </h5>
               </div>
@@ -115,7 +115,7 @@ const CartSingle: React.FC<CartSingleProps> = ({
 
         <div className="pl-[5px]">
           <h1>{data.name}</h1>
-          <h4 className="font-[600] pt-3 800px:pt-[3px] text-[17px] text-[#d02222] font-Roboto">
+          <h4 className="font-semibold pt-3 800px:pt-[3px] text-[17px] text-[#d02222] font-Roboto">
             ₦{totalPrice}
           </h4>
         </div>
